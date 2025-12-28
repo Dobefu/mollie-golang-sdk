@@ -1,0 +1,117 @@
+meta {
+  name: Get primary balance
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/balances/primary
+  body: none
+  auth: oauth2
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve the primary balance. This is the balance of your account's primary currency, where all payments are settled to by default.
+  
+  This endpoint is a convenient alias of the [Get balance](get-balance) endpoint.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **balances.read**](/reference/authentication)
+}
+
+example {
+  name: Get primary balance
+  
+  request: {
+    url: {{baseUrl}}/balances/primary
+    method: GET
+    mode: none
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "balance",
+          "id": "bal_CKjKwQdjCwCSArXFAJNFH",
+          "mode": "live",
+          "createdAt": "2019-12-06T10:09:32+00:00",
+          "description": "Primary balance",
+          "currency": "EUR",
+          "availableAmount": {
+            "value": "3.82",
+            "currency": "EUR"
+          },
+          "pendingAmount": {
+            "value": "5.41",
+            "currency": "EUR"
+          },
+          "status": "active",
+          "transferFrequency": "daily",
+          "transferThreshold": {
+            "value": "5.00",
+            "currency": "EUR"
+          },
+          "transferReference": null,
+          "transferDestination": {
+            "type": "bank-account",
+            "beneficiaryName": "John Doe",
+            "bankAccount": "NL55INGB0000000000"
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

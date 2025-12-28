@@ -1,0 +1,167 @@
+meta {
+  name: Get payment link
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/payment-links/:paymentLinkId?testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single payment link by its ID.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payment-links.read**](/reference/authentication)
+}
+
+example {
+  name: The payment link object
+  
+  request: {
+    url: {{baseUrl}}/payment-links/:paymentLinkId?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment-link",
+          "id": "pl_4Y0eZitmBnQ6IDoMqZQKh",
+          "mode": "live",
+          "description": "Bicycle tires",
+          "amount": {
+            "currency": "EUR",
+            "value": "24.95"
+          },
+          "archived": false,
+          "redirectUrl": "https://webshop.example.org/thanks",
+          "webhookUrl": "https://webshop.example.org/payment-links/webhook",
+          "profileId": "pfl_QkEhN94Ba",
+          "createdAt": "2021-03-20T09:29:56+00:00",
+          "paidAt": "2022-03-20T09:29:56+00:00",
+          "expiresAt": "2023-06-06T11:00:00+00:00",
+          "reusable": false,
+          "allowedMethods": [
+            "ideal"
+          ],
+          "sequenceType": "oneoff",
+          "customerId": null,
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "paymentLink": {
+              "href": "https://payment-links.mollie.com/payment/4Y0eZitmBnQ6IDoMqZQKh",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payment-links/:paymentLinkId?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

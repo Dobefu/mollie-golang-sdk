@@ -1,0 +1,407 @@
+meta {
+  name: Get client
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v2/clients/:id?embed=organization
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  embed: organization
+}
+
+params:path {
+  id: org_12345678
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single client by its ID.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **clients.read**](/reference/authentication)
+}
+
+example {
+  name: The client object
+  
+  request: {
+    url: {{baseUrl}}/v2/clients/:id?embed=organization
+    method: GET
+    mode: none
+    params:query: {
+      embed: organization
+    }
+  
+    params:path: {
+      id: org_12345678
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "client",
+          "id": "org_12345678",
+          "organizationCreatedAt": "2023-04-06 13:10:19+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "organization": {
+              "href": "https://api.mollie.com/v2/organizations/org_12345678",
+              "type": "application/hal+json"
+            },
+            "onboarding": {
+              "href": "https://api.mollie.com/v2/onboarding/org_12345678",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get client
+  
+  request: {
+    url: {{baseUrl}}/v2/clients/:id?embed=onboarding
+    method: GET
+    mode: none
+    params:query: {
+      embed: onboarding
+    }
+  
+    params:path: {
+      id: org_12345678
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "client",
+          "id": "org_7049691",
+          "organizationCreatedAt": "2019-12-06T10:09:32+00:00",
+          "_links": {
+            "self": {
+              "href": "https://api.mollie.com/v2/clients/org_7049691",
+              "type": "application/hal+json"
+            },
+            "onboarding": {
+              "href": "https://api.mollie.com/v2/onboarding/org_7049691",
+              "type": "application/hal+json"
+            },
+            "organization": {
+              "href": "https://api.mollie.com/v2/organization/org_7049691",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "https://docs.mollie.com/reference/v2/partners-api/get-client",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get client with organization embedded
+  
+  request: {
+    url: {{baseUrl}}/v2/clients/:id?embed=organization&embed=onboarding
+    method: GET
+    mode: none
+    params:query: {
+      embed: organization
+      embed: onboarding
+    }
+  
+    params:path: {
+      id: org_12345678
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "client",
+          "id": "org_7049691",
+          "organizationCreatedAt": "2019-12-06T10:09:32+00:00",
+          "_embedded": {
+            "organization": {
+              "resource": "organization",
+              "id": "org_7049691",
+              "name": "Hugo's eenzame zaak",
+              "email": "[[redacted]]",
+              "locale": "en_US",
+              "address": {
+                "streetAndNumber": "[[redacted]]",
+                "postalCode": "[[redacted]]",
+                "city": "[[redacted]]",
+                "country": "[[redacted]]"
+              },
+              "registrationNumber": "[[redacted]]",
+              "vatNumber": "",
+              "vatRegulation": "dutch",
+              "verifiedAt": "2020-10-19T11:45:36+00:00",
+              "_links": {
+                "self": {
+                  "href": "https://api.mollie.com/v2/organization/org_7049691",
+                  "type": "application/hal+json"
+                },
+                "dashboard": {
+                  "href": "https://www.mollie.com/dashboard/org_7049691/",
+                  "type": "text/html"
+                }
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.mollie.com/v2/clients/org_7049691",
+              "type": "application/hal+json"
+            },
+            "onboarding": {
+              "href": "https://api.mollie.com/v2/onboarding/org_7049691",
+              "type": "application/hal+json"
+            },
+            "organization": {
+              "href": "https://api.mollie.com/v2/organization/org_7049691",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "https://docs.mollie.com/reference/v2/partners-api/get-client",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get client with onboarding status embedded
+  
+  request: {
+    url: {{baseUrl}}/v2/clients/:id?embed=onboarding&embed=organization
+    method: GET
+    mode: none
+    params:query: {
+      embed: onboarding
+      embed: organization
+    }
+  
+    params:path: {
+      id: org_12345678
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "client",
+          "id": "org_7049691",
+          "organizationCreatedAt": "2019-12-06T10:09:32+00:00",
+          "_embedded": {
+            "onboarding": {
+              "resource": "onboarding",
+              "name": "Hugo's eenzame zaak",
+              "signedUpAt": "2019-12-06T10:09:32+00:00",
+              "status": "completed",
+              "canReceivePayments": true,
+              "canReceiveSettlements": true,
+              "_links": {
+                "self": {
+                  "href": "https://api.mollie.com/v2/onboarding/me",
+                  "type": "application/hal+json"
+                },
+                "dashboard": {
+                  "href": "https://www.mollie.com/dashboard/onboarding",
+                  "type": "text/html"
+                },
+                "organization": {
+                  "href": "https://api.mollie.com/v2/organization/org_7049691",
+                  "type": "application/hal+json"
+                }
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.mollie.com/v2/clients/org_7049691",
+              "type": "application/hal+json"
+            },
+            "onboarding": {
+              "href": "https://api.mollie.com/v2/onboarding/org_7049691",
+              "type": "application/hal+json"
+            },
+            "organization": {
+              "href": "https://api.mollie.com/v2/organization/org_7049691",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "https://docs.mollie.com/reference/v2/partners-api/get-client",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/v2/clients/:id?embed=organization
+    method: GET
+    mode: none
+    params:query: {
+      embed: organization
+    }
+  
+    params:path: {
+      id: org_12345678
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

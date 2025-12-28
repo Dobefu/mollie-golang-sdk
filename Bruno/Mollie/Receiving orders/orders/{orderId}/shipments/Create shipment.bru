@@ -1,0 +1,713 @@
+meta {
+  name: Create shipment
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/orders/:orderId/shipments
+  body: json
+  auth: bearer
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "id": "shp_5x4xQJDWGNcY3tKGL7X5J",
+    "orderId": "ord_5B8cwPMGnU",
+    "tracking": {
+      "carrier": "PostNL",
+      "code": "3SKABA000000000",
+      "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+    },
+    "lines": [
+      {
+        "id": "odl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "name": "Chess Board",
+        "sku": "string",
+        "type": "physical",
+        "status": "created",
+        "metadata": "string",
+        "isCancelable": false,
+        "quantity": 1,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "21.00",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "createdAt": "2025-03-28T16:42:12+00:00",
+        "quantityShipped": 0,
+        "amountShipped": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityRefunded": 0,
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityCanceled": 0,
+        "amountCanceled": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "shippableQuantity": 0,
+        "refundableQuantity": 0,
+        "cancelableQuantity": 0,
+        "discountedAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        }
+      },
+      {
+        "id": "odl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "name": "Chess Board",
+        "sku": null,
+        "type": "physical",
+        "status": "created",
+        "metadata": "string",
+        "isCancelable": false,
+        "quantity": 1,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "21.00",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "createdAt": "2025-03-28T16:42:12+00:00",
+        "quantityShipped": 0,
+        "amountShipped": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityRefunded": 0,
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityCanceled": 0,
+        "amountCanceled": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "shippableQuantity": 0,
+        "refundableQuantity": 0,
+        "cancelableQuantity": 0,
+        "discountedAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        }
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Create a shipment for specific order lines of an order.
+  
+  When using Klarna, using this endpoint is mandatory for the order amount to be captured. A [capture](get-capture) will automatically be created for the shipment.
+  
+  The word 'shipment' is used in the figurative sense here. It can also mean that a service was provided or digital content was delivered.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **shipments.write**](/reference/authentication)
+}
+
+example {
+  name: The shipment object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "orderId": "ord_5B8cwPMGnU",
+        "tracking": {
+          "carrier": "PostNL",
+          "code": "3SKABA000000000",
+          "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+        },
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": "string",
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ]
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "shipment",
+          "id": "shp_gNapNy9qQTUFZYnCrCF7J",
+          "mode": "live",
+          "orderId": "ord_pbjz8x",
+          "tracking": {
+            "carrier": "PostNL",
+            "code": "3SKABA000000000",
+            "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+          },
+          "createdAt": "2023-08-09T14:33:54+00:00",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_dgtxyl",
+              "type": "physical",
+              "name": "LEGO 42083 Bugatti Chiron",
+              "quantity": 1,
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "399.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "399.00"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "69.24"
+              },
+              "sku": "5702016116977",
+              "status": "shipping",
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00"
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_jp31jz",
+              "type": "physical",
+              "name": "LEGO 42056 Porsche 911 GT3 RS",
+              "quantity": 1,
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "329.99"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "329.99"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "57.27"
+              },
+              "sku": "5702015594028",
+              "status": "completed",
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "order": {
+              "href": "https://api.mollie.com/v2/orders/ord_pbjz8x",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "orderId": "ord_5B8cwPMGnU",
+        "tracking": {
+          "carrier": "PostNL",
+          "code": "3SKABA000000000",
+          "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+        },
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": "string",
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ]
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if an order line ID is missing.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "orderId": "ord_5B8cwPMGnU",
+        "tracking": {
+          "carrier": "PostNL",
+          "code": "3SKABA000000000",
+          "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+        },
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": "string",
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ]
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "Cannot create a shipment or cancelation for these lines, as none of the\nlines can be shipped or canceled.",
+          "field": "lines",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

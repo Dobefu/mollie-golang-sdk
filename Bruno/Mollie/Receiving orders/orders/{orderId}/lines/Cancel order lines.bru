@@ -1,0 +1,277 @@
+meta {
+  name: Cancel order lines
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/orders/:orderId/lines
+  body: json
+  auth: bearer
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "lines": [
+      {
+        "id": "odl_5B8cwPMGnU",
+        "quantity": 1,
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        }
+      },
+      {
+        "id": "odl_5B8cwPMGnU",
+        "quantity": 1,
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        }
+      }
+    ],
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  Cancel one or more order lines that were previously authorized. To cancel the entire order, please refer to the [Cancel order](cancel-order) endpoint instead.
+  
+  Canceling or partially canceling an order line will immediately release the authorization held for that amount. You should cancel an order line if you do not intend to (fully) ship it.
+  
+  If the order line was already authorized, the authorization will be released.
+  
+  For an order line with status `shipping`, the authorization for the quantity that is still pending will be released.
+  
+  Afterwards, the order line will be marked `completed`.
+  
+  If the order line is `paid` or already `completed`, you can create a refund using the [Create order refund](create-order-refund) endpoint instead.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **orders.write**](/reference/authentication)
+}
+
+example {
+  name: An empty response.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/lines
+    method: DELETE
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "quantity": 1,
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "quantity": 1,
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ],
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: No Content
+      text: 204
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {}
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/lines
+    method: DELETE
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "quantity": 1,
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "quantity": 1,
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ],
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if you are trying to cancel an order line that can no longer be canceled.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/lines
+    method: DELETE
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "quantity": 1,
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "quantity": 1,
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ],
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "Update authorization not allowed",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,366 @@
+meta {
+  name: Get payment
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/payments/:paymentId?include=details.qrCode&embed=captures&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  include: details.qrCode
+  embed: captures
+  testmode: false
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single payment object by its payment ID.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.read**](/reference/authentication)
+}
+
+example {
+  name: The payment object
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId?include=details.qrCode&embed=captures&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      include: details.qrCode
+      embed: captures
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+          "mode": "live",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "Order #12345",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://webshop.example.org/order/12345/",
+          "webhookUrl": "https://webshop.example.org/payments/webhook/",
+          "metadata": "{\"order_id\":12345}",
+          "profileId": "pfl_QkEhN94Ba",
+          "status": "open",
+          "isCancelable": false,
+          "createdAt": "2024-03-20T09:13:37+00:00",
+          "expiresAt": "2024-03-20T09:28:37+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_12345678/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get QR-code image URL for iDeal payment
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId?include=details.qrCode
+    method: GET
+    mode: none
+    params:query: {
+      include: details.qrCode
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_hSW7aK9NJA",
+          "mode": "test",
+          "createdAt": "2022-01-14T14:57:33+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description of the payment",
+          "method": "ideal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-14T15:12:33+00:00",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "details": {
+            "qrCode": {
+              "src": "https://example.com/ideal-qr/qr/get/e9b52d78-9af9-4b4c-b7f7-f63499525d22",
+              "width": 180,
+              "height": 180
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-issuer/ideal/hSW7aK9NJA",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/payments/tr_hSW7aK9NJA",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get partially captured card payment
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId?testmode=true
+    method: GET
+    mode: none
+    params:query: {
+      testmode: true
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_oWpmDXm6sT",
+          "mode": "test",
+          "createdAt": "2023-06-05T13:06:22+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description",
+          "method": "creditcard",
+          "metadata": null,
+          "status": "paid",
+          "paidAt": "2023-06-05T13:07:12+00:00",
+          "amountRefunded": {
+            "value": "0.00",
+            "currency": "EUR"
+          },
+          "amountRemaining": {
+            "value": "8.00",
+            "currency": "EUR"
+          },
+          "amountCaptured": {
+            "value": "8.00",
+            "currency": "EUR"
+          },
+          "locale": "nl_NL",
+          "countryCode": "NL",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "captureMode": "manual",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "settlementAmount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "details": {
+            "cardToken": "tkn_KPz5vAtest",
+            "cardNumber": "4444",
+            "cardHolder": "T. TEST",
+            "cardAudience": "consumer",
+            "cardLabel": "Mastercard",
+            "cardCountryCode": "NL",
+            "cardSecurity": "3dsecure",
+            "feeRegion": "other"
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://my.mollie.com/dashboard/org_7049691/payments/tr_oWpmDXm6sT",
+              "type": "text/html"
+            },
+            "changePaymentState": {
+              "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=5.tvtgvi",
+              "type": "text/html"
+            },
+            "captures": {
+              "href": "https://api.mollie.com/v2/payments/tr_oWpmDXm6sT/captures",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId?include=details.qrCode&embed=captures&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      include: details.qrCode
+      embed: captures
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

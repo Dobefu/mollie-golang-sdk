@@ -1,0 +1,180 @@
+meta {
+  name: List profiles
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v2/profiles?from=pfl_QkEhN94Ba&limit=50
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  from: pfl_QkEhN94Ba
+  limit: 50
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all of your profiles.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **profiles.read**](/reference/authentication)
+}
+
+example {
+  name: A list of profile objects
+  
+  request: {
+    url: {{baseUrl}}/v2/profiles?from=pfl_QkEhN94Ba&limit=50
+    method: GET
+    mode: none
+    params:query: {
+      from: pfl_QkEhN94Ba
+      limit: 50
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "profiles": [
+              {
+                "resource": "profile",
+                "id": "pfl_QkEhN94Ba",
+                "mode": "live",
+                "name": "My website name",
+                "website": "https://shop.example.org",
+                "email": "info@example.org",
+                "phone": "+31208202070",
+                "businessCategory": "OTHER_MERCHANDISE",
+                "status": "verified",
+                "review": {
+                  "status": "pending"
+                },
+                "createdAt": "2023-03-20T09:28:37+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/profiles?from=pfl_v9hTwCvYqw&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/v2/profiles?from=pfl_QkEhN94Ba&limit=50
+    method: GET
+    mode: none
+    params:query: {
+      from: pfl_QkEhN94Ba
+      limit: 50
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

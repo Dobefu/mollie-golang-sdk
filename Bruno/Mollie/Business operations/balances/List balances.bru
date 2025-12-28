@@ -1,0 +1,373 @@
+meta {
+  name: List balances
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/balances?currency=EUR&from=bal_gVMhHKqSSRYJyPsuoPNFH&limit=50&testmode=false
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  currency: EUR
+  from: bal_gVMhHKqSSRYJyPsuoPNFH
+  limit: 50
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of the organization's balances, including the primary balance.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **balances.read**](/reference/authentication)
+}
+
+example {
+  name: A list of balance objects
+  
+  request: {
+    url: {{baseUrl}}/balances?currency=EUR&from=bal_gVMhHKqSSRYJyPsuoPNFH&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      currency: EUR
+      from: bal_gVMhHKqSSRYJyPsuoPNFH
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "balances": [
+              {
+                "resource": "balance",
+                "id": "bal_gVMhHKqSSRYJyPsuoPNFH",
+                "mode": "live",
+                "createdAt": "2022-07-12T09:50:21+00:00",
+                "currency": "EUR",
+                "description": "Primary balance",
+                "availableAmount": {
+                  "currency": "EUR",
+                  "value": "905.25"
+                },
+                "pendingAmount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                },
+                "transferFrequency": "daily",
+                "transferThreshold": {
+                  "currency": "EUR",
+                  "value": "5.00"
+                },
+                "transferReference": "RF12-3456-7890-1234",
+                "transferDestination": {
+                  "type": "bank-account",
+                  "beneficiaryName": "John Doe",
+                  "bankAccount": "NL55INGB0000000000"
+                },
+                "status": "active",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/balances?from=bal_gVMhHKqSSRYJyPsuoPABC&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List balances
+  
+  request: {
+    url: {{baseUrl}}/balances?currency=EUR&from=bal_gVMhHKqSSRYJyPsuoPNFH&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      currency: EUR
+      from: bal_gVMhHKqSSRYJyPsuoPNFH
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "balances": [
+              {
+                "resource": "balance",
+                "id": "bal_xRc8rYKTwJeENdvKouVJH",
+                "mode": "live",
+                "createdAt": "2022-07-12T09:50:21+00:00",
+                "description": "Balance 1",
+                "currency": "CHF",
+                "availableAmount": {
+                  "value": "0.00",
+                  "currency": "CHF"
+                },
+                "pendingAmount": {
+                  "value": "0.00",
+                  "currency": "CHF"
+                },
+                "status": "active",
+                "transferFrequency": "monthly",
+                "transferThreshold": {
+                  "value": "50.00",
+                  "currency": "CHF"
+                },
+                "transferReference": null,
+                "transferDestination": {
+                  "type": "bank-account",
+                  "beneficiaryName": "John Doe",
+                  "bankAccount": "NL55INGB0000000000"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "balance",
+                "id": "bal_CKjKwQdjCwCSArXFAJNFH",
+                "mode": "live",
+                "createdAt": "2019-12-06T10:09:32+00:00",
+                "description": "Balance 2",
+                "currency": "EUR",
+                "availableAmount": {
+                  "value": "3.82",
+                  "currency": "EUR"
+                },
+                "pendingAmount": {
+                  "value": "5.41",
+                  "currency": "EUR"
+                },
+                "status": "active",
+                "transferFrequency": "daily",
+                "transferThreshold": {
+                  "value": "5.00",
+                  "currency": "EUR"
+                },
+                "transferReference": null,
+                "transferDestination": {
+                  "type": "bank-account",
+                  "beneficiaryName": "John Doe",
+                  "bankAccount": "***"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 2,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/balances?currency=EUR&from=bal_gVMhHKqSSRYJyPsuoPNFH&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      currency: EUR
+      from: bal_gVMhHKqSSRYJyPsuoPNFH
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/balances?currency=EUR&from=bal_gVMhHKqSSRYJyPsuoPNFH&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      currency: EUR
+      from: bal_gVMhHKqSSRYJyPsuoPNFH
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

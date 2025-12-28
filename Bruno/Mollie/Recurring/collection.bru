@@ -1,0 +1,15 @@
+meta {
+  name: Recurring
+}
+
+auth {
+  mode: bearer
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+vars:pre-request {
+  baseUrl: https://api.mollie.com/v2
+}

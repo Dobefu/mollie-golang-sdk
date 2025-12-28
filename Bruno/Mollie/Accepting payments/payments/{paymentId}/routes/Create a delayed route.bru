@@ -1,0 +1,196 @@
+meta {
+  name: Create a delayed route
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/payments/:paymentId/routes
+  body: json
+  auth: bearer
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
+    "paymentId": "tr_5B8cwPMGnU",
+    "amount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "description": "Payment for Order #12345",
+    "destination": {
+      "type": "organization",
+      "organizationId": "org_1234567"
+    },
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Create a route for a specific payment. The routed amount is credited to the account of your customer.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.write**](/reference/authentication)
+}
+
+example {
+  name: The newly created route object
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/routes
+    method: POST
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
+        "paymentId": "tr_5B8cwPMGnU",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "description": "Payment for Order #12345",
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_1234567"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "route",
+          "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
+          "paymentId": "tr_sva3o24VKn",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "Payment for Order #12345",
+          "destination": {
+            "type": "organization",
+            "organizationId": "org_123"
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/routes
+    method: POST
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
+        "paymentId": "tr_5B8cwPMGnU",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "description": "Payment for Order #12345",
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_1234567"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,589 @@
+meta {
+  name: Get order
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/orders/:orderId?embed=payments&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  embed: payments
+  testmode: false
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  Retrieve a single order object by its ID.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **orders.read**](/reference/authentication)
+}
+
+example {
+  name: The order object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId?embed=payments&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payments
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_pbjz8x",
+          "mode": "live",
+          "orderNumber": "34629",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_dgtxyl",
+              "type": "physical",
+              "name": "LEGO 42083 Bugatti Chiron",
+              "quantity": 2,
+              "vatRate": "21.00",
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "399.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "698.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "100.00"
+              },
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "121.14"
+              },
+              "sku": "5702016116977",
+              "status": "created",
+              "isCancelable": false,
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00",
+              "_links": {
+                "productUrl": {
+                  "href": "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
+                  "type": "text/html"
+                },
+                "imageUrl": {
+                  "href": "https://sh-s7-live-s.legocdn.com/is/image/LEGO/42083",
+                  "type": "text/html"
+                }
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_jp31jz",
+              "type": "physical",
+              "name": "LEGO 42056 Porsche 911 GT3 RS",
+              "quantity": 1,
+              "vatRate": "21.00",
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "329.99"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "329.99"
+              },
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "57.27"
+              },
+              "sku": "5702015594028",
+              "status": "created",
+              "isCancelable": false,
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00",
+              "_links": {
+                "productUrl": {
+                  "href": "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056",
+                  "type": "text/html"
+                },
+                "imageUrl": {
+                  "href": "https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056",
+                  "type": "text/html"
+                }
+              }
+            }
+          ],
+          "amount": {
+            "currency": "EUR",
+            "value": "1027.99"
+          },
+          "billingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "postalCode": "1234AB",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "piet@example.org",
+            "phone": "+31309202070"
+          },
+          "redirectUrl": "https://example.org/redirect",
+          "webhookUrl": "https://example.org/webhook",
+          "profileId": "pfl_URR55HPMGx",
+          "status": "created",
+          "isCancelable": true,
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "expiresAt": "2023-08-30T09:29:56+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_123456789/orders/ord_pbjz8x",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get order with embedded payments
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId?embed=payments
+    method: GET
+    mode: none
+    params:query: {
+      embed: payments
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_efu0tw",
+          "profileId": "pfl_85dxyKqNHa",
+          "method": "ideal",
+          "amount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "status": "shipping",
+          "isCancelable": false,
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2021-12-30T13:38:46+00:00",
+          "mode": "test",
+          "locale": "en_US",
+          "billingAddress": {
+            "streetAndNumber": "corrected address",
+            "postalCode": "corrected ",
+            "city": "corrected city",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "test@mollie.com",
+            "phone": "+3130920207"
+          },
+          "shopperCountryMustMatchBillingCountry": false,
+          "consumerDateOfBirth": "1958-01-31",
+          "orderNumber": "1337",
+          "shippingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "streetAdditional": "4th floor",
+            "postalCode": "5678AB",
+            "city": "Haarlem",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Mr.",
+            "givenName": "Chuck",
+            "familyName": "Norris",
+            "email": "test@mollie.com"
+          },
+          "amountCaptured": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "paidAt": "2022-01-04T16:34:03+00:00",
+          "redirectUrl": "https://example.com/landing_page",
+          "webhookUrl": "https://example.com/redirect",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.q28flc",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 1",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "shipping",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 2,
+              "quantityShipped": 1,
+              "amountShipped": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 1,
+              "refundableQuantity": 2,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "29.16",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "168.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00",
+              "discountAmount": {
+                "value": "10.00",
+                "currency": "EUR"
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_1.w48z1e",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 2",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "completed",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 1,
+              "amountShipped": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 1,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "21.00",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00"
+            }
+          ],
+          "_embedded": {
+            "payments": [
+              {
+                "resource": "payment",
+                "id": "tr_yA4jAc2TzH",
+                "mode": "test",
+                "createdAt": "2021-12-30T13:38:46+00:00",
+                "amount": {
+                  "value": "289.00",
+                  "currency": "EUR"
+                },
+                "description": "Order 1337",
+                "method": "ideal",
+                "metadata": null,
+                "status": "expired",
+                "expiredAt": "2021-12-30T13:55:02+00:00",
+                "locale": "en_US",
+                "profileId": "pfl_85dxyKqNHa",
+                "orderId": "ord_efu0tw",
+                "sequenceType": "oneoff",
+                "redirectUrl": "https://example.com/landing_page",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "dashboard": {
+                    "href": "https://my.mollie.com/dashboard/org_13514547/payments/tr_yA4jAc2TzH",
+                    "type": "text/html"
+                  },
+                  "order": {
+                    "href": "https://api.mollie.com/v2/orders/ord_efu0tw",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "payment",
+                "id": "tr_Qj7rE6fJVB",
+                "mode": "test",
+                "createdAt": "2021-12-30T14:53:53+00:00",
+                "amount": {
+                  "value": "289.00",
+                  "currency": "EUR"
+                },
+                "description": "Order 1337",
+                "method": "ideal",
+                "metadata": null,
+                "status": "expired",
+                "expiredAt": "2021-12-30T15:10:03+00:00",
+                "locale": "en_US",
+                "countryCode": "NL",
+                "profileId": "pfl_85dxyKqNHa",
+                "orderId": "ord_efu0tw",
+                "sequenceType": "oneoff",
+                "redirectUrl": "https://example.com/landing_page",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "dashboard": {
+                    "href": "https://my.mollie.com/dashboard/org_13514547/payments/tr_Qj7rE6fJVB",
+                    "type": "text/html"
+                  },
+                  "order": {
+                    "href": "https://api.mollie.com/v2/orders/ord_efu0tw",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "payment",
+                "id": "tr_KP3rG8k8xd",
+                "mode": "test",
+                "createdAt": "2022-01-04T16:33:31+00:00",
+                "amount": {
+                  "value": "289.00",
+                  "currency": "EUR"
+                },
+                "description": "Order 1337",
+                "method": "ideal",
+                "metadata": null,
+                "status": "paid",
+                "paidAt": "2022-01-04T16:34:03+00:00",
+                "amountRefunded": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                },
+                "amountRemaining": {
+                  "value": "289.00",
+                  "currency": "EUR"
+                },
+                "locale": "en_US",
+                "countryCode": "NL",
+                "profileId": "pfl_85dxyKqNHa",
+                "orderId": "ord_efu0tw",
+                "sequenceType": "oneoff",
+                "redirectUrl": "https://example.com/landing_page",
+                "settlementAmount": {
+                  "value": "289.00",
+                  "currency": "EUR"
+                },
+                "details": {
+                  "consumerName": "T. TEST",
+                  "consumerAccount": "NL56RABO0597193515",
+                  "consumerBic": "RABONL2U"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "dashboard": {
+                    "href": "https://my.mollie.com/dashboard/org_13514547/payments/tr_KP3rG8k8xd",
+                    "type": "text/html"
+                  },
+                  "changePaymentState": {
+                    "href": "https://www.mollie.com/checkout/test-mode?method=ideal&token=3.hq6ok",
+                    "type": "text/html"
+                  },
+                  "order": {
+                    "href": "https://api.mollie.com/v2/orders/ord_efu0tw",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://my.mollie.com/dashboard/org_13514547/orders/ord_efu0tw",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId?embed=payments&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payments
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

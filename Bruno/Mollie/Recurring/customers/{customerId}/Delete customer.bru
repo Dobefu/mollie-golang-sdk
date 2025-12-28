@@ -1,0 +1,138 @@
+meta {
+  name: Delete customer
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/customers/:customerId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  customerId: cst_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Delete a customer. All mandates and subscriptions created for this customer will be canceled as well.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+}
+
+example {
+  name: An empty response.
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId
+    method: DELETE
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: No Content
+      text: 204
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {}
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId
+    method: DELETE
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

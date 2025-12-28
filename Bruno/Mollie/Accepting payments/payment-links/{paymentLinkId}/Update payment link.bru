@@ -1,0 +1,629 @@
+meta {
+  name: Update payment link
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/payment-links/:paymentLinkId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "description": "Chess Board",
+    "minimumAmount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "archived": false,
+    "allowedMethods": [
+      "ideal",
+      "ideal"
+    ],
+    "lines": [
+      {
+        "description": "LEGO 4440 Forest Police Station",
+        "quantity": 1,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "type": "physical",
+        "quantityUnit": "pcs",
+        "discountAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "21.00",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "sku": "9780241661628",
+        "categories": [
+          "meal",
+          "eco"
+        ],
+        "imageUrl": "https://...",
+        "productUrl": "https://..."
+      },
+      {
+        "description": "LEGO 4440 Forest Police Station",
+        "quantity": 1,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "type": "physical",
+        "quantityUnit": "pcs",
+        "discountAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "21.00",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "sku": "9780241661628",
+        "categories": [
+          "meal",
+          "eco"
+        ],
+        "imageUrl": "https://...",
+        "productUrl": "https://..."
+      }
+    ],
+    "billingAddress": {
+      "title": "Mr.",
+      "givenName": "Piet",
+      "familyName": "Mondriaan",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "Apt. 1",
+      "postalCode": "1234AB",
+      "email": "piet@example.org",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "shippingAddress": {
+      "title": "Mr.",
+      "givenName": "Piet",
+      "familyName": "Mondriaan",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "Apt. 1",
+      "postalCode": "1234AB",
+      "email": "piet@example.org",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Certain details of an existing payment link can be updated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payment-links.write**](/reference/authentication)
+}
+
+example {
+  name: The payment link object
+  
+  request: {
+    url: {{baseUrl}}/payment-links/:paymentLinkId
+    method: PATCH
+    mode: json
+    params:path: {
+      paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "description": "Chess Board",
+        "minimumAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "archived": false,
+        "allowedMethods": [
+          "ideal",
+          "ideal"
+        ],
+        "lines": [
+          {
+            "description": "LEGO 4440 Forest Police Station",
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "type": "physical",
+            "quantityUnit": "pcs",
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "9780241661628",
+            "categories": [
+              "meal",
+              "eco"
+            ],
+            "imageUrl": "https://...",
+            "productUrl": "https://..."
+          },
+          {
+            "description": "LEGO 4440 Forest Police Station",
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "type": "physical",
+            "quantityUnit": "pcs",
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "9780241661628",
+            "categories": [
+              "meal",
+              "eco"
+            ],
+            "imageUrl": "https://...",
+            "productUrl": "https://..."
+          }
+        ],
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment-link",
+          "id": "pl_4Y0eZitmBnQ6IDoMqZQKh",
+          "mode": "live",
+          "description": "Bicycle tires",
+          "amount": {
+            "currency": "EUR",
+            "value": "24.95"
+          },
+          "archived": true,
+          "redirectUrl": "https://webshop.example.org/thanks",
+          "webhookUrl": "https://webshop.example.org/payment-links/webhook",
+          "profileId": "pfl_QkEhN94Ba",
+          "createdAt": "2021-03-20T09:29:56+00:00",
+          "paidAt": "2022-03-20T09:29:56+00:00",
+          "expiresAt": "2023-06-06T11:00:00+00:00",
+          "reusable": false,
+          "allowedMethods": [
+            "creditcard"
+          ],
+          "sequenceType": "oneoff",
+          "customerId": null,
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "paymentLink": {
+              "href": "https://payment-links.mollie.com/payment/4Y0eZitmBnQ6IDoMqZQKh",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payment-links/:paymentLinkId
+    method: PATCH
+    mode: json
+    params:path: {
+      paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "description": "Chess Board",
+        "minimumAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "archived": false,
+        "allowedMethods": [
+          "ideal",
+          "ideal"
+        ],
+        "lines": [
+          {
+            "description": "LEGO 4440 Forest Police Station",
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "type": "physical",
+            "quantityUnit": "pcs",
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "9780241661628",
+            "categories": [
+              "meal",
+              "eco"
+            ],
+            "imageUrl": "https://...",
+            "productUrl": "https://..."
+          },
+          {
+            "description": "LEGO 4440 Forest Police Station",
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "type": "physical",
+            "quantityUnit": "pcs",
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "9780241661628",
+            "categories": [
+              "meal",
+              "eco"
+            ],
+            "imageUrl": "https://...",
+            "productUrl": "https://..."
+          }
+        ],
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if no parameters are provided.
+  
+  request: {
+    url: {{baseUrl}}/payment-links/:paymentLinkId
+    method: PATCH
+    mode: json
+    params:path: {
+      paymentLinkId: pl_d9fQur83kFdhH8hIhaZfq
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "description": "Chess Board",
+        "minimumAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "archived": false,
+        "allowedMethods": [
+          "ideal",
+          "ideal"
+        ],
+        "lines": [
+          {
+            "description": "LEGO 4440 Forest Police Station",
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "type": "physical",
+            "quantityUnit": "pcs",
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "9780241661628",
+            "categories": [
+              "meal",
+              "eco"
+            ],
+            "imageUrl": "https://...",
+            "productUrl": "https://..."
+          },
+          {
+            "description": "LEGO 4440 Forest Police Station",
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "type": "physical",
+            "quantityUnit": "pcs",
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "9780241661628",
+            "categories": [
+              "meal",
+              "eco"
+            ],
+            "imageUrl": "https://...",
+            "productUrl": "https://..."
+          }
+        ],
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "At least one body parameter must be provided",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

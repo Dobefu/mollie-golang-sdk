@@ -1,0 +1,714 @@
+meta {
+  name: Create order refund
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/orders/:orderId/refunds
+  body: json
+  auth: bearer
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "lines": [
+      {
+        "id": "odl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "name": "Chess Board",
+        "sku": null,
+        "type": "physical",
+        "status": "created",
+        "metadata": "string",
+        "isCancelable": false,
+        "quantity": 1,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "21.00",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "createdAt": "2025-03-28T16:42:12+00:00",
+        "quantityShipped": 0,
+        "amountShipped": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityRefunded": 0,
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityCanceled": 0,
+        "amountCanceled": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "shippableQuantity": 0,
+        "refundableQuantity": 0,
+        "cancelableQuantity": 0,
+        "discountedAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        }
+      },
+      {
+        "id": "odl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "name": "Chess Board",
+        "sku": null,
+        "type": "physical",
+        "status": "created",
+        "metadata": "string",
+        "isCancelable": false,
+        "quantity": 1,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "21.00",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "createdAt": "2025-03-28T16:42:12+00:00",
+        "quantityShipped": 0,
+        "amountShipped": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityRefunded": 0,
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityCanceled": 0,
+        "amountCanceled": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "shippableQuantity": 0,
+        "refundableQuantity": 0,
+        "cancelableQuantity": 0,
+        "discountedAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        }
+      }
+    ],
+    "id": "re_5B8cwPMGnU",
+    "description": "Refunding a Chess Board",
+    "amount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "settlementAmount": null,
+    "metadata": "string",
+    "orderId": "ord_5B8cwPMGnU",
+    "settlementId": "stl_5B8cwPMGnU",
+    "status": "queued",
+    "externalReference": {
+      "type": "acquirer-reference",
+      "id": "string"
+    },
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  When using the Orders API, refunds should be made for a specific order.
+  
+  If you want to refund arbitrary amounts, however, you can also use the [Create payment refund endpoint](create-refund) by creating a refund on the payment itself.
+  
+  If an order line is still in the `authorized` state, it cannot be refunded. You should cancel it instead. Order lines that are `paid`, `shipping` or `completed` can be refunded.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **refunds.write**](/reference/authentication)
+}
+
+example {
+  name: The newly created refund object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/refunds
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ],
+        "id": "re_5B8cwPMGnU",
+        "description": "Refunding a Chess Board",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": null,
+        "metadata": "string",
+        "orderId": "ord_5B8cwPMGnU",
+        "settlementId": "stl_5B8cwPMGnU",
+        "status": "queued",
+        "externalReference": {
+          "type": "acquirer-reference",
+          "id": "string"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "refund",
+          "id": "re_4qqhO89gsT",
+          "description": "Required quantity not in stock, refunding one photo book.",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_dgtxyl",
+              "orderId": "ord_stTC2WHAuS",
+              "quantity": 1,
+              "unitPrice": {
+                "value": "9.95",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "9.95",
+                "currency": "EUR"
+              }
+            }
+          ],
+          "status": "pending",
+          "metadata": "{\"bookkeeping_id\":12345}",
+          "orderId": "ord_stTC2WHAuS",
+          "createdAt": "2023-03-14T17:09:02+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "order": {
+              "href": "https://api.mollie.com/v2/orders/ord_stTC2WHAuS",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/refunds
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ],
+        "id": "re_5B8cwPMGnU",
+        "description": "Refunding a Chess Board",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": null,
+        "metadata": "string",
+        "orderId": "ord_5B8cwPMGnU",
+        "settlementId": "stl_5B8cwPMGnU",
+        "status": "queued",
+        "externalReference": {
+          "type": "acquirer-reference",
+          "id": "string"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the refund amount is missing.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/refunds
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "lines": [
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          },
+          {
+            "id": "odl_5B8cwPMGnU",
+            "orderId": "ord_5B8cwPMGnU",
+            "name": "Chess Board",
+            "sku": null,
+            "type": "physical",
+            "status": "created",
+            "metadata": "string",
+            "isCancelable": false,
+            "quantity": 1,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "21.00",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "createdAt": "2025-03-28T16:42:12+00:00",
+            "quantityShipped": 0,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 0,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 0,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 0,
+            "refundableQuantity": 0,
+            "cancelableQuantity": 0,
+            "discountedAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            }
+          }
+        ],
+        "id": "re_5B8cwPMGnU",
+        "description": "Refunding a Chess Board",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": null,
+        "metadata": "string",
+        "orderId": "ord_5B8cwPMGnU",
+        "settlementId": "stl_5B8cwPMGnU",
+        "status": "queued",
+        "externalReference": {
+          "type": "acquirer-reference",
+          "id": "string"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The 'amount' field is missing",
+          "field": "amount",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

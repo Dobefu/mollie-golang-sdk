@@ -1,0 +1,335 @@
+meta {
+  name: List payment links
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/payment-links?from=pl_d9fQur83kFdhH8hIhaZfq&limit=50&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: pl_d9fQur83kFdhH8hIhaZfq
+  limit: 50
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all payment links.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payment-links.read**](/reference/authentication)
+}
+
+example {
+  name: A list of payment link objects
+  
+  request: {
+    url: {{baseUrl}}/payment-links?from=pl_d9fQur83kFdhH8hIhaZfq&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: pl_d9fQur83kFdhH8hIhaZfq
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "payment_links": [
+              {
+                "resource": "payment-link",
+                "id": "pl_4Y0eZitmBnQ6IDoMqZQKh",
+                "mode": "live",
+                "description": "Bicycle tires",
+                "amount": {
+                  "currency": "EUR",
+                  "value": "24.95"
+                },
+                "archived": false,
+                "redirectUrl": "https://webshop.example.org/thanks",
+                "webhookUrl": "https://webshop.example.org/payment-links/webhook",
+                "profileId": "pfl_QkEhN94Ba",
+                "createdAt": "2021-03-20T09:29:56+00:00",
+                "paidAt": "2022-03-20T09:29:56+00:00",
+                "expiresAt": "2023-06-06T11:00:00+00:00",
+                "reusable": false,
+                "allowedMethods": [
+                  "ideal"
+                ],
+                "sequenceType": "oneoff",
+                "customerId": null,
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "paymentLink": {
+                    "href": "https://payment-links.mollie.com/payment/4Y0eZitmBnQ6IDoMqZQKh",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/payment-links?from=pl_ayGNzD4TYuQtUaxNyu8aH&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List payments links for specific profile
+  
+  request: {
+    url: {{baseUrl}}/payment-links?profileId=pfl_zcfJRjkf6P&testmode=true
+    method: GET
+    mode: none
+    params:query: {
+      profileId: pfl_zcfJRjkf6P
+      testmode: true
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "payment_links": [
+              {
+                "resource": "payment-link",
+                "id": "pl_64LiUHdgE1i8pPx6f0YFz",
+                "description": "This is the description of the payment",
+                "mode": "live",
+                "profileId": "pfl_zcfJRjkf6P",
+                "amount": {
+                  "value": "10.00",
+                  "currency": "EUR"
+                },
+                "archived": false,
+                "webhookUrl": "https://example.com/redirect",
+                "redirectUrl": "https://example.com/landing_page",
+                "createdAt": "2022-01-19T13:38:26+00:00",
+                "paidAt": null,
+                "updatedAt": null,
+                "expiresAt": "2029-12-24T11:00:16+00:00",
+                "reusable": false,
+                "allowedMethods": [
+                  "creditcard"
+                ],
+                "sequenceType": "oneoff",
+                "customerId": null,
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "paymentLink": {
+                    "href": "https://payment-links.mollie.com/payment/64LiUHdgE1i8pPx6f0YFz/",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "payment-link",
+                "id": "pl_wDW1JeAnCnPsh04jsfRSb",
+                "description": "test",
+                "mode": "live",
+                "profileId": "pfl_zcfJRjkf6P",
+                "amount": {
+                  "value": "20.00",
+                  "currency": "EUR"
+                },
+                "archived": false,
+                "webhookUrl": null,
+                "redirectUrl": null,
+                "createdAt": "2021-09-29T13:34:49+00:00",
+                "paidAt": null,
+                "updatedAt": null,
+                "expiresAt": null,
+                "reusable": false,
+                "allowedMethods": null,
+                "sequenceType": "oneoff",
+                "customerId": null,
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "paymentLink": {
+                    "href": "https://payment-links.mollie.com/payment/wDW1JeAnCnPsh04jsfRSb/",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "payment-link",
+                "id": "pl_Fht9cI7qi52h2RWjnfilj",
+                "description": "Testbla",
+                "mode": "live",
+                "profileId": "pfl_zcfJRjkf6P",
+                "amount": {
+                  "value": "10.00",
+                  "currency": "EUR"
+                },
+                "archived": false,
+                "webhookUrl": null,
+                "redirectUrl": null,
+                "createdAt": "2021-08-25T11:29:05+00:00",
+                "paidAt": null,
+                "updatedAt": null,
+                "expiresAt": null,
+                "reusable": false,
+                "allowedMethods": null,
+                "sequenceType": "oneoff",
+                "customerId": null,
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "paymentLink": {
+                    "href": "https://payment-links.mollie.com/payment/Fht9cI7qi52h2RWjnfilj/",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 3,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/payment-links?from=pl_d9fQur83kFdhH8hIhaZfq&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: pl_d9fQur83kFdhH8hIhaZfq
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

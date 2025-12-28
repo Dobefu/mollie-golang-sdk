@@ -1,0 +1,372 @@
+meta {
+  name: Create capture
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/payments/:paymentId/captures
+  body: json
+  auth: bearer
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+    "description": "Capture for cart #12345",
+    "amount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "settlementAmount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "status": "succeeded",
+    "metadata": "string",
+    "paymentId": "tr_5B8cwPMGnU",
+    "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+    "settlementId": "stl_5B8cwPMGnU"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Capture an *authorized* payment.
+  
+  Some payment methods allow you to first collect a customer's authorization, and capture the amount at a later point.
+  
+  By default, Mollie captures payments automatically. If however you configured your payment with `captureMode: manual`, you can capture the payment using this endpoint after having collected the customer's authorization.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.write**](/reference/authentication)
+}
+
+example {
+  name: The capture object
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures
+    method: POST
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+        "description": "Capture for cart #12345",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "status": "succeeded",
+        "metadata": "string",
+        "paymentId": "tr_5B8cwPMGnU",
+        "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "settlementId": "stl_5B8cwPMGnU"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "capture",
+          "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+          "mode": "live",
+          "description": "Capture for cart #12345",
+          "amount": {
+            "currency": "EUR",
+            "value": "35.95"
+          },
+          "metadata": "{\"bookkeeping_id\":12345}",
+          "status": "pending",
+          "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "payment": {
+              "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get capture
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures
+    method: POST
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+        "description": "Capture for cart #12345",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "status": "succeeded",
+        "metadata": "string",
+        "paymentId": "tr_5B8cwPMGnU",
+        "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "settlementId": "stl_5B8cwPMGnU"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "capture",
+          "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+          "mode": "test",
+          "amount": {
+            "value": "467.92",
+            "currency": "EUR"
+          },
+          "settlementAmount": {
+            "value": "467.92",
+            "currency": "EUR"
+          },
+          "createdAt": "2021-06-03T11:50:58+00:00",
+          "status": "pending",
+          "paymentId": "tr_V9kqkGtyUH",
+          "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "payment": {
+              "href": "https://api.mollie.com/v2/payments/tr_V9kqkGtyUH",
+              "type": "application/hal+json"
+            },
+            "shipment": {
+              "href": "https://api.mollie.com/v2/orders/ord_uvpptr/shipments/shp_5x4xQJDWGNcY3tKGL7X5J",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures
+    method: POST
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+        "description": "Capture for cart #12345",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "status": "succeeded",
+        "metadata": "string",
+        "paymentId": "tr_5B8cwPMGnU",
+        "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "settlementId": "stl_5B8cwPMGnU"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the capture amount is missing.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures
+    method: POST
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+        "description": "Capture for cart #12345",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "status": "succeeded",
+        "metadata": "string",
+        "paymentId": "tr_5B8cwPMGnU",
+        "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+        "settlementId": "stl_5B8cwPMGnU"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The amount contains an invalid currency",
+          "field": "amount.currency",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,154 @@
+meta {
+  name: Get terminal
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/terminals/:terminalId?testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  terminalId: term_vytxeTZskVKR7C7WgdSP3d
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single terminal by its ID.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **terminals.read**](/reference/authentication)
+}
+
+example {
+  name: The terminal object
+  
+  request: {
+    url: {{baseUrl}}/terminals/:terminalId?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      terminalId: term_vytxeTZskVKR7C7WgdSP3d
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "terminal",
+          "id": "term_7MgL4wea46qkRcoTZjWEH",
+          "mode": "live",
+          "status": "active",
+          "brand": "PAX",
+          "model": "A920",
+          "serialNumber": "1234567890",
+          "currency": "EUR",
+          "description": "Terminal #12345",
+          "profileId": "pfl_QkEhN94Ba",
+          "createdAt": "2022-02-12T11:58:35+00:00",
+          "updatedAt": "2022-02-12T11:58:35+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/terminals/:terminalId?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      terminalId: term_vytxeTZskVKR7C7WgdSP3d
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

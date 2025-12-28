@@ -1,0 +1,1557 @@
+meta {
+  name: List invoices
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/invoices?reference=2024.10000&year=2024&month=01&from=inv_xBEbP9rvAq&limit=50&sort=desc
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  reference: 2024.10000
+  year: 2024
+  month: 01
+  from: inv_xBEbP9rvAq
+  limit: 50
+  sort: desc
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all your invoices, optionally filtered by year or by invoice reference.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **invoices.read**](/reference/authentication)
+}
+
+example {
+  name: A list of invoice objects
+  
+  request: {
+    url: {{baseUrl}}/invoices?reference=2024.10000&year=2024&month=01&from=inv_xBEbP9rvAq&limit=50&sort=desc
+    method: GET
+    mode: none
+    params:query: {
+      reference: 2024.10000
+      year: 2024
+      month: 01
+      from: inv_xBEbP9rvAq
+      limit: 50
+      sort: desc
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "invoices": [
+              {
+                "resource": "invoice",
+                "id": "inv_xBEbP9rvAq",
+                "reference": "2023.10000",
+                "vatNumber": "NL001234567B01",
+                "status": "open",
+                "netAmount": {
+                  "currency": "EUR",
+                  "value": "45.00"
+                },
+                "vatAmount": {
+                  "currency": "EUR",
+                  "value": "9.45"
+                },
+                "grossAmount": {
+                  "currency": "EUR",
+                  "value": "54.45"
+                },
+                "lines": [
+                  {
+                    "period": "2023-09",
+                    "description": "iDEAL payment fees",
+                    "count": 100,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "currency": "EUR",
+                      "value": "45.00"
+                    }
+                  }
+                ],
+                "issuedAt": "2023-09-01",
+                "dueAt": "2023-09-14",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/invoices?from=inv_TUhzbAFMrt&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List invoices
+  
+  request: {
+    url: {{baseUrl}}/invoices?year=2020
+    method: GET
+    mode: none
+    params:query: {
+      year: 2020
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "invoices": [
+              {
+                "resource": "invoice",
+                "id": "inv_UQgMnkkTFz",
+                "reference": "MOLR2021.0001399669",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-12-31",
+                "paidAt": "2022-01-03",
+                "netAmount": {
+                  "value": "2.93",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.62",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "3.55",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-12",
+                    "description": "iDeal payment fixed fees",
+                    "count": 6,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.68",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-12",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 3,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.75",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-12",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 3,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00054",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-12",
+                    "description": "Credit Card payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-12",
+                    "description": "Credit Card payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00028",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-12",
+                    "description": "Bank transfer payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/UQgMnkkTFz/d9bc0b0c7e18e886b3b36c74749c03bb",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_USQe9D7fc8",
+                "reference": "MOLR2021.0001203556",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-11-30",
+                "paidAt": "2021-12-01",
+                "netAmount": {
+                  "value": "4.00",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.84",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "4.84",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-11",
+                    "description": "iDeal refund fees",
+                    "count": 15,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "3.75",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-11",
+                    "description": "Paypal refund fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-11",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-11",
+                    "description": "Direct debit payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/USQe9D7fc8/8bd27fecea40e0932d6af28d5b13edb3",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_9S73PDnES2",
+                "reference": "MOLR2021.0001157498",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-10-31",
+                "paidAt": "2021-11-01",
+                "netAmount": {
+                  "value": "4.91",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "1.03",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "5.94",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-10",
+                    "description": "iDeal payment fixed fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "4.48",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-10",
+                    "description": "Paypal payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-10",
+                    "description": "Paypal payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-10",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-10",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.18936",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/9S73PDnES2/8cef4dad7a00abcdae923b9c392d720a",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_MdyNgEbeNP",
+                "reference": "MOLR2021.0001050354",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-09-30",
+                "paidAt": "2021-10-01",
+                "netAmount": {
+                  "value": "0.75",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.16",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "0.91",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-09",
+                    "description": "Bank transfer payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-09",
+                    "description": "Direct debit refund fees",
+                    "count": 2,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.50",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/MdyNgEbeNP/cd546e0402607ca8d08f5975702c3293",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_xkgx8Kd9d5",
+                "reference": "MOLR2021.0000913190",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-08-31",
+                "paidAt": "2021-09-01",
+                "netAmount": {
+                  "value": "0.53",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.11",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "0.64",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-08",
+                    "description": "Sofort payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-08",
+                    "description": "Sofort payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00225",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-08",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-08",
+                    "description": "Direct debit payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-08",
+                    "description": "iDeal payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.28",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/xkgx8Kd9d5/4d29b8d112bd0675530e4ff571e0a6fe",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_7ee8zakWxE",
+                "reference": "MOLR2021.0000791294",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-07-31",
+                "paidAt": "2021-08-02",
+                "netAmount": {
+                  "value": "1.31",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.27",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "1.58",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-07",
+                    "description": "Paypal payment fixed fees",
+                    "count": 2,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "Paypal payment variable fees",
+                    "count": 2,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "iDeal payment fixed fees",
+                    "count": 2,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.56",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "Paypal refund fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 3,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "Direct debit payment variable fees",
+                    "count": 3,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "iDeal refund fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-07",
+                    "description": "Direct debit refund fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/7ee8zakWxE/c8e9066ffa33bcbd0b3eb424d1742eaa",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_wqN9zppN9h",
+                "reference": "MOLR2021.0000478657",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-05-31",
+                "paidAt": "2021-06-01",
+                "netAmount": {
+                  "value": "1.31",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.27",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "1.58",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-05",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-05",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00018",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-05",
+                    "description": "iDeal payment fixed fees",
+                    "count": 2,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.56",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-05",
+                    "description": "Credit Card - European cards refund fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-05",
+                    "description": "Klarna Pay Later refund fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/wqN9zppN9h/ca395e6464508ac017f8864d62532649",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_sAP3gb4SFE",
+                "reference": "MOLR2021.0000436905",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-04-30",
+                "paidAt": "2021-05-03",
+                "netAmount": {
+                  "value": "0.25",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.05",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "0.30",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-04",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2021-04",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.00018",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/sAP3gb4SFE/d89e0340c5bf09476cc3ca3fb7fc9cab",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_F6az3ffKj9",
+                "reference": "MOLR2021.0000283014",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-03-31",
+                "paidAt": "2021-04-01",
+                "netAmount": {
+                  "value": "0.25",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.05",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "0.30",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-03",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/F6az3ffKj9/adc34cc9423e17ce0585755680c41482",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_fdqCugCrMd",
+                "reference": "MOLR2021.0000216980",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2021-02-28",
+                "paidAt": "2021-03-01",
+                "netAmount": {
+                  "value": "0.56",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "0.11",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "0.67",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2021-02",
+                    "description": "iDeal payment fixed fees",
+                    "count": 2,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.56",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/fdqCugCrMd/155803920f438d07f6002b8588ad9e0a",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              },
+              {
+                "resource": "invoice",
+                "id": "inv_s3vn7CBrx7",
+                "reference": "MOLR2020.0000382031",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2020-11-30",
+                "paidAt": "2020-12-01",
+                "netAmount": {
+                  "value": "15.25",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "3.20",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "18.45",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2020-11",
+                    "description": "iDeal payment fixed fees",
+                    "count": 4,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.12",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.0378",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 4,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Direct debit chargeback fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "7.50",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "iDeal payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.29",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "4.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.01",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Klarna Pay Later capture fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Klarna Pay Later capture variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.05",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/s3vn7CBrx7/8c0ed722130abdd3080fc780c63f9f67",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:23+00:00"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 11,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List invoices for a specific year
+  
+  request: {
+    url: {{baseUrl}}/invoices?reference=MOLR2020.0000382031&year=2020
+    method: GET
+    mode: none
+    params:query: {
+      reference: MOLR2020.0000382031
+      year: 2020
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "invoices": [
+              {
+                "resource": "invoice",
+                "id": "inv_s3vn7CBrx7",
+                "reference": "MOLR2020.0000382031",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2020-11-30",
+                "paidAt": "2020-12-01",
+                "netAmount": {
+                  "value": "15.25",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "3.20",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "18.45",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2020-11",
+                    "description": "iDeal payment fixed fees",
+                    "count": 4,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.12",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.0378",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 4,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Direct debit chargeback fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "7.50",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "iDeal payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.29",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "4.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.01",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Klarna Pay Later capture fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Klarna Pay Later capture variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.05",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/s3vn7CBrx7/bf39b75717e4fa9552c29d2a249d6054",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:49:34+00:00"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 1,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Search invoices on reference number
+  
+  request: {
+    url: {{baseUrl}}/invoices?reference=MOLR2020.0000382031&year=2020
+    method: GET
+    mode: none
+    params:query: {
+      reference: MOLR2020.0000382031
+      year: 2020
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "invoices": [
+              {
+                "resource": "invoice",
+                "id": "inv_s3vn7CBrx7",
+                "reference": "MOLR2020.0000382031",
+                "vatNumber": "",
+                "status": "paid",
+                "issuedAt": "2020-11-30",
+                "paidAt": "2020-12-01",
+                "netAmount": {
+                  "value": "15.25",
+                  "currency": "EUR"
+                },
+                "vatAmount": {
+                  "value": "3.20",
+                  "currency": "EUR"
+                },
+                "grossAmount": {
+                  "value": "18.45",
+                  "currency": "EUR"
+                },
+                "lines": [
+                  {
+                    "period": "2020-11",
+                    "description": "iDeal payment fixed fees",
+                    "count": 4,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.12",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.25",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.0378",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Direct debit payment fixed fees",
+                    "count": 4,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Direct debit chargeback fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "7.50",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "iDeal payment fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.29",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment fixed fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "4.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Credit Card - European cards payment variable fees",
+                    "count": 16,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.01",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Klarna Pay Later capture fixed fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "1.00",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "period": "2020-11",
+                    "description": "Klarna Pay Later capture variable fees",
+                    "count": 1,
+                    "vatPercentage": 21,
+                    "amount": {
+                      "value": "0.05",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "pdf": {
+                    "href": "https://www.mollie.com/merchant/download/invoice/s3vn7CBrx7/3581b4b4d684ad6f8f2c9466aae4b791",
+                    "type": "application/pdf",
+                    "expiresAt": "2022-01-19T16:50:34+00:00"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 1,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/invoices?reference=2024.10000&year=2024&month=01&from=inv_xBEbP9rvAq&limit=50&sort=desc
+    method: GET
+    mode: none
+    params:query: {
+      reference: 2024.10000
+      year: 2024
+      month: 01
+      from: inv_xBEbP9rvAq
+      limit: 50
+      sort: desc
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/invoices?reference=2024.10000&year=2024&month=01&from=inv_xBEbP9rvAq&limit=50&sort=desc
+    method: GET
+    mode: none
+    params:query: {
+      reference: 2024.10000
+      year: 2024
+      month: 01
+      from: inv_xBEbP9rvAq
+      limit: 50
+      sort: desc
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

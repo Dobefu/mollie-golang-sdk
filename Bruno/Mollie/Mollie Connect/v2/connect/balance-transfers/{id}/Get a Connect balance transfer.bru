@@ -1,0 +1,174 @@
+meta {
+  name: Get a Connect balance transfer
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v2/connect/balance-transfers/:id?testmode=false
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  id: cbtr_j8NvRAM2WNZtsykpLEX8J
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single Connect balance transfer object by its ID.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **balance-transfers.read**](/reference/authentication)
+}
+
+example {
+  name: Get a successful Connect balance transfer
+  
+  request: {
+    url: {{baseUrl}}/v2/connect/balance-transfers/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: cbtr_j8NvRAM2WNZtsykpLEX8J
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "connect-balance-transfer",
+          "id": "cbtr_nBprRarXeqXi98AXSqCBJ",
+          "amount": {
+            "value": "100.00",
+            "currency": "EUR"
+          },
+          "source": {
+            "type": "organization",
+            "id": "org_1",
+            "description": "description for source"
+          },
+          "destination": {
+            "type": "organization",
+            "id": "org_2",
+            "description": "description for destination"
+          },
+          "description": "description for initiating party",
+          "status": "succeeded",
+          "statusReason": {
+            "code": "success",
+            "message": "Balance transfer completed successfully."
+          },
+          "metadata": {
+            "order_id": 12345,
+            "customer_id": 9876
+          },
+          "createdAt": "2025-05-01T10:00:00+00:00",
+          "executedAt": "2025-05-01T10:05:00+00:00",
+          "mode": "live"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/v2/connect/balance-transfers/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: cbtr_j8NvRAM2WNZtsykpLEX8J
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

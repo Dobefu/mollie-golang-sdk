@@ -1,0 +1,224 @@
+meta {
+  name: Cancel order
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/orders/:orderId?testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  An open order may be canceled if it does not have any open payments yet, and while its status is either `created`, `authorized`, or `shipping`.
+  
+  If the order was already authorized, the authorization will be released.
+  
+  For an order with status `shipping`, only the order lines that were still pending will be canceled if possible. If a payment method was used that does not support authorizations, cancelation is no longer possible. You will have to issue a refund instead.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **orders.write**](/reference/authentication)
+}
+
+example {
+  name: The canceled order object.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId?testmode=false
+    method: DELETE
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_pbjz8x",
+          "mode": "live",
+          "orderNumber": "34629",
+          "lines": [],
+          "amount": {
+            "currency": "EUR",
+            "value": "1027.99"
+          },
+          "billingAddress": {},
+          "redirectUrl": "https://example.org/updated-redirect",
+          "webhookUrl": "https://example.org/updated-webhook",
+          "profileId": "pfl_URR55HPMGx",
+          "status": "canceled",
+          "isCancelable": false,
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "expiresAt": "2023-08-30T09:29:56+00:00",
+          "canceledAt": "2023-08-30T09:36:12+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_123456789/orders/ord_pbjz8x",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId?testmode=false
+    method: DELETE
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if you are trying to cancel an order that can no longer be canceled.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId?testmode=false
+    method: DELETE
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The order cannot be cancelled",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

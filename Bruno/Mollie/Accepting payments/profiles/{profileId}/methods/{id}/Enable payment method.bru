@@ -1,0 +1,286 @@
+meta {
+  name: Enable payment method
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/profiles/:profileId/methods/:id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  profileId: pfl_5B8cwPMGnU
+  id: ideal
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Enable a payment method on a specific profile.
+  
+  When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
+  
+  Some payment methods require extra steps in order to be activated. In cases where a step at the payment method provider needs to be completed first, the status will be set to `pending-external` and the response will contain a link to complete the activation at the provider.
+  
+  To enable voucher or gift card issuers, refer to the [Enable payment method issuer](enable-method-issuer) endpoint.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **profiles.write**](/reference/authentication)
+}
+
+example {
+  name: The payment method object
+  
+  request: {
+    url: {{baseUrl}}/profiles/:profileId/methods/:id
+    method: POST
+    mode: none
+    params:path: {
+      profileId: pfl_5B8cwPMGnU
+      id: ideal
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "method",
+          "id": "ideal",
+          "description": "iDEAL",
+          "minimumAmount": {
+            "value": "0.01",
+            "currency": "EUR"
+          },
+          "maximumAmount": {
+            "value": "50000.00",
+            "currency": "EUR"
+          },
+          "image": {
+            "size1x": "https://mollie.com/external/icons/payment-methods/ideal.png",
+            "size2x": "https://mollie.com/external/icons/payment-methods/ideal%402x.png",
+            "svg": "https://mollie.com/external/icons/payment-methods/ideal.svg"
+          },
+          "status": "activated",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Enable creditcard payment method
+  
+  request: {
+    url: {{baseUrl}}/profiles/:profileId/methods/:id
+    method: POST
+    mode: none
+    params:path: {
+      profileId: pfl_5B8cwPMGnU
+      id: ideal
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "method",
+          "id": "creditcard",
+          "description": "Credit card",
+          "minimumAmount": {
+            "value": "0.01",
+            "currency": "EUR"
+          },
+          "maximumAmount": {
+            "value": "500.00",
+            "currency": "EUR"
+          },
+          "image": {
+            "size1x": "https://www.mollie.com/external/icons/payment-methods/creditcard.png",
+            "size2x": "https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png",
+            "svg": "https://www.mollie.com/external/icons/payment-methods/creditcard.svg"
+          },
+          "status": "pending-review",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Enable ideal payment method
+  
+  request: {
+    url: {{baseUrl}}/profiles/:profileId/methods/:id
+    method: POST
+    mode: none
+    params:path: {
+      profileId: pfl_5B8cwPMGnU
+      id: ideal
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "method",
+          "id": "ideal",
+          "description": "iDEAL",
+          "minimumAmount": {
+            "value": "0.01",
+            "currency": "EUR"
+          },
+          "maximumAmount": {
+            "value": "50000.00",
+            "currency": "EUR"
+          },
+          "image": {
+            "size1x": "https://www.mollie.com/external/icons/payment-methods/ideal.png",
+            "size2x": "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png",
+            "svg": "https://www.mollie.com/external/icons/payment-methods/ideal.svg"
+          },
+          "status": "pending-review",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/profiles/:profileId/methods/:id
+    method: POST
+    mode: none
+    params:path: {
+      profileId: pfl_5B8cwPMGnU
+      id: ideal
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

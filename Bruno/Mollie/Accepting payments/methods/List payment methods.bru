@@ -1,0 +1,682 @@
+meta {
+  name: List payment methods
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/methods?sequenceType=oneoff&locale=en_US&amount[currency]=EUR&amount[value]=10.00&resource=string&billingCountry=DE&includeWallets=applepay&orderLineCategories=eco&profileId=pfl_5B8cwPMGnU&include=issuers&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  sequenceType: oneoff
+  locale: en_US
+  amount[currency]: EUR
+  amount[value]: 10.00
+  resource: string
+  billingCountry: DE
+  includeWallets: applepay
+  orderLineCategories: eco
+  profileId: pfl_5B8cwPMGnU
+  include: issuers
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve all enabled payment methods. The results of this endpoint are **not** paginated — unlike most other list endpoints in our API.
+  
+  For test mode, all pending and enabled payment methods are returned. If no payment methods are requested yet, the most popular payment methods are returned in the test mode. For live mode, only fully enabled payment methods are returned.
+  
+  Payment methods can be requested and enabled via the Mollie Dashboard, or via the [Enable payment method endpoint](enable-method) of the Profiles API.
+  
+  The list can optionally be filtered using a number of parameters described below.
+  
+  By default, only payment methods for the Euro currency are returned. If you wish to retrieve payment methods which exclusively support other currencies (e.g. Twint), you need to use the `amount` parameters.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.read**](/reference/authentication)
+}
+
+example {
+  name: A list of payment method objects
+  
+  request: {
+    url: {{baseUrl}}/methods?sequenceType=oneoff&locale=en_US&amount[currency]=EUR&amount[value]=10.00&resource=string&billingCountry=DE&includeWallets=applepay&orderLineCategories=eco&profileId=pfl_5B8cwPMGnU&include=issuers&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      sequenceType: oneoff
+      locale: en_US
+      amount[currency]: EUR
+      amount[value]: 10.00
+      resource: string
+      billingCountry: DE
+      includeWallets: applepay
+      orderLineCategories: eco
+      profileId: pfl_5B8cwPMGnU
+      include: issuers
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 2,
+          "_embedded": {
+            "methods": [
+              {
+                "resource": "method",
+                "id": "ideal",
+                "description": "iDEAL",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://mollie.com/external/icons/payment-methods/ideal.png",
+                  "size2x": "https://mollie.com/external/icons/payment-methods/ideal%402x.png",
+                  "svg": "https://mollie.com/external/icons/payment-methods/ideal.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "creditcard",
+                "description": "Credit card",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "2000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://mollie.com/external/icons/payment-methods/creditcard.png",
+                  "size2x": "https://mollie.com/external/icons/payment-methods/creditcard%402x.png",
+                  "svg": "https://mollie.com/external/icons/payment-methods/creditcard.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List enabled methods for 10 EUR payment in NL
+  
+  request: {
+    url: {{baseUrl}}/methods?locale=en_US&amount[currency]=EUR&amount[value]=10.00&resource=payments&billingCountry=NL
+    method: GET
+    mode: none
+    params:query: {
+      locale: en_US
+      amount[currency]: EUR
+      amount[value]: 10.00
+      resource: payments
+      billingCountry: NL
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "methods": [
+              {
+                "resource": "method",
+                "id": "creditcard",
+                "description": "Credit card",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "2000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/creditcard.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/creditcard.svg"
+                },
+                "status": "pending-review",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "ideal",
+                "description": "iDEAL",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/ideal.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/ideal.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "banktransfer",
+                "description": "Bank transfer",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "1000000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/banktransfer.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/banktransfer%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/banktransfer.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 3,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List payment methods supported for Orders
+  
+  request: {
+    url: {{baseUrl}}/methods?locale=en_US&amount[currency]=EUR&amount[value]=10.00&resource=orders
+    method: GET
+    mode: none
+    params:query: {
+      locale: en_US
+      amount[currency]: EUR
+      amount[value]: 10.00
+      resource: orders
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "methods": [
+              {
+                "resource": "method",
+                "id": "ideal",
+                "description": "iDEAL",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/ideal.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/ideal.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "creditcard",
+                "description": "Credit card",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "500.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/creditcard.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/creditcard.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "paypal",
+                "description": "PayPal",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": null,
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/paypal.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/paypal%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/paypal.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "banktransfer",
+                "description": "Bank transfer",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "1000000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/banktransfer.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/banktransfer%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/banktransfer.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "bancontact",
+                "description": "Bancontact",
+                "minimumAmount": {
+                  "value": "0.02",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/bancontact.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/bancontact%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/bancontact.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "eps",
+                "description": "eps",
+                "minimumAmount": {
+                  "value": "1.00",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/eps.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/eps%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/eps.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "przelewy24",
+                "description": "Przelewy24",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "12815.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/przelewy24.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/przelewy24%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/przelewy24.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "kbc",
+                "description": "KBC/CBC Payment Button",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/kbc.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/kbc%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/kbc.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "belfius",
+                "description": "Belfius Pay Button",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "50000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/belfius.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/belfius%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/belfius.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "voucher",
+                "description": "Vouchers",
+                "minimumAmount": {
+                  "value": "1.00",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "100000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/voucher.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/voucher%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/voucher.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {
+                "resource": "method",
+                "id": "directdebit",
+                "description": "SEPA Direct Debit",
+                "minimumAmount": {
+                  "value": "0.01",
+                  "currency": "EUR"
+                },
+                "maximumAmount": {
+                  "value": "1000.00",
+                  "currency": "EUR"
+                },
+                "image": {
+                  "size1x": "https://www.mollie.com/external/icons/payment-methods/directdebit.png",
+                  "size2x": "https://www.mollie.com/external/icons/payment-methods/directdebit%402x.png",
+                  "svg": "https://www.mollie.com/external/icons/payment-methods/directdebit.svg"
+                },
+                "status": "activated",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 14,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `sequenceType` value is invalid.
+  
+  request: {
+    url: {{baseUrl}}/methods?sequenceType=oneoff&locale=en_US&amount[currency]=EUR&amount[value]=10.00&resource=string&billingCountry=DE&includeWallets=applepay&orderLineCategories=eco&profileId=pfl_5B8cwPMGnU&include=issuers&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      sequenceType: oneoff
+      locale: en_US
+      amount[currency]: EUR
+      amount[value]: 10.00
+      resource: string
+      billingCountry: DE
+      includeWallets: applepay
+      orderLineCategories: eco
+      profileId: pfl_5B8cwPMGnU
+      include: issuers
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "The sequence type is invalid",
+          "field": "sequenceType",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

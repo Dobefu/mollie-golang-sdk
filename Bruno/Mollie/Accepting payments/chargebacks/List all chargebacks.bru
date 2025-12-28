@@ -1,0 +1,607 @@
+meta {
+  name: List all chargebacks
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/chargebacks?from=chb_xFzwUN4ci8HAmSGUACS4J&limit=50&embed=payment&sort=desc&profileId=pfl_5B8cwPMGnU&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: chb_xFzwUN4ci8HAmSGUACS4J
+  limit: 50
+  embed: payment
+  sort: desc
+  profileId: pfl_5B8cwPMGnU
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve all chargebacks initiated for all your payments.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.read**](/reference/authentication)
+}
+
+example {
+  name: List of chargeback objects
+  
+  request: {
+    url: {{baseUrl}}/chargebacks?from=chb_xFzwUN4ci8HAmSGUACS4J&limit=50&embed=payment&sort=desc&profileId=pfl_5B8cwPMGnU&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: chb_xFzwUN4ci8HAmSGUACS4J
+      limit: 50
+      embed: payment
+      sort: desc
+      profileId: pfl_5B8cwPMGnU
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "chargebacks": [
+              {
+                "resource": "chargeback",
+                "id": "chb_xFzwUN4ci8HAmSGUACS4J",
+                "amount": {
+                  "currency": "USD",
+                  "value": "43.38"
+                },
+                "settlementAmount": {
+                  "currency": "EUR",
+                  "value": "-35.07"
+                },
+                "reason": {
+                  "code": "AC01",
+                  "description": "Account identifier incorrect (i.e. invalid IBAN)"
+                },
+                "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+                "createdAt": "2023-03-14T17:09:02+00:00",
+                "reversedAt": null,
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "payment": {
+                    "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo/chargebacks?from=chb_xFzwUN4ci8HAmSGUACS4J&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List all chargebacks
+  
+  request: {
+    url: {{baseUrl}}/chargebacks?from=chb_xFzwUN4ci8HAmSGUACS4J&limit=50&embed=payment&sort=desc&profileId=pfl_5B8cwPMGnU&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: chb_xFzwUN4ci8HAmSGUACS4J
+      limit: 50
+      embed: payment
+      sort: desc
+      profileId: pfl_5B8cwPMGnU
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 2,
+          "_embedded": {
+            "chargebacks": [
+              {
+                "resource": "chargeback",
+                "id": "chb_xFzwUN4ci8HAmSGUACS4J",
+                "amount": {
+                  "value": "10.00",
+                  "currency": "EUR"
+                },
+                "createdAt": "2022-01-03T13:28:13+00:00",
+                "paymentId": "tr_HdQrGb6N3r",
+                "settlementAmount": {
+                  "value": "-10.00",
+                  "currency": "EUR"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "payment": {
+                    "href": "https://api.mollie.com/v2/payments/tr_HdQrGb6N3r",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "chargeback",
+                "id": "chb_xFzwUN4ci8HAmSGUACS41",
+                "amount": {
+                  "value": "10.00",
+                  "currency": "EUR"
+                },
+                "createdAt": "2022-01-03T13:20:37+00:00",
+                "paymentId": "tr_8bVBhk2qs4",
+                "settlementAmount": {
+                  "value": "-10.00",
+                  "currency": "EUR"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "payment": {
+                    "href": "https://api.mollie.com/v2/payments/tr_8bVBhk2qs4",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List chargeback with payments embedded
+  
+  request: {
+    url: {{baseUrl}}/chargebacks?embed=payment
+    method: GET
+    mode: none
+    params:query: {
+      embed: payment
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 2,
+          "_embedded": {
+            "chargebacks": [
+              {
+                "resource": "chargeback",
+                "id": "chb_xFzwUN4ci8HAmSGUACS4J",
+                "amount": {
+                  "value": "10.00",
+                  "currency": "EUR"
+                },
+                "createdAt": "2022-01-03T13:28:13+00:00",
+                "paymentId": "tr_HdQrGb6N3r",
+                "settlementAmount": {
+                  "value": "-10.00",
+                  "currency": "EUR"
+                },
+                "_embedded": {
+                  "payment": {
+                    "resource": "payment",
+                    "id": "tr_HdQrGb6N3r",
+                    "mode": "test",
+                    "createdAt": "2022-01-03T13:27:35+00:00",
+                    "amount": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "description": "This is the description of the payment",
+                    "method": "creditcard",
+                    "metadata": {
+                      "someProperty": "someValue",
+                      "anotherProperty": "anotherValue"
+                    },
+                    "status": "paid",
+                    "paidAt": "2022-01-03T13:28:10+00:00",
+                    "amountRefunded": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    },
+                    "amountRemaining": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "amountChargedBack": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "locale": "en_US",
+                    "restrictPaymentMethodsToCountry": "NL",
+                    "countryCode": "NL",
+                    "profileId": "pfl_85dxyKqNHa",
+                    "sequenceType": "oneoff",
+                    "redirectUrl": "https://example.com/landing_page",
+                    "webhookUrl": "https://example.com/redirect",
+                    "settlementAmount": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "details": {
+                      "cardNumber": "6787",
+                      "cardHolder": "T. TEST",
+                      "cardAudience": "consumer",
+                      "cardLabel": "Mastercard",
+                      "cardCountryCode": "NL",
+                      "cardSecurity": "normal",
+                      "feeRegion": "other"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "...",
+                        "type": "application/hal+json"
+                      },
+                      "dashboard": {
+                        "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_HdQrGb6N3r",
+                        "type": "text/html"
+                      },
+                      "changePaymentState": {
+                        "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=3.lxnsca",
+                        "type": "text/html"
+                      },
+                      "chargebacks": {
+                        "href": "https://api.mollie.com/v2/payments/tr_HdQrGb6N3r/chargebacks",
+                        "type": "application/hal+json"
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "payment": {
+                    "href": "https://api.mollie.com/v2/payments/tr_HdQrGb6N3r",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "chargeback",
+                "id": "chb_xFzwUN4ci8HAmSGUACS41",
+                "amount": {
+                  "value": "10.00",
+                  "currency": "EUR"
+                },
+                "createdAt": "2022-01-03T13:20:37+00:00",
+                "paymentId": "tr_8bVBhk2qs4",
+                "settlementAmount": {
+                  "value": "-10.00",
+                  "currency": "EUR"
+                },
+                "_embedded": {
+                  "payment": {
+                    "resource": "payment",
+                    "id": "tr_8bVBhk2qs4",
+                    "mode": "test",
+                    "createdAt": "2022-01-03T13:11:20+00:00",
+                    "amount": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "description": "This is the description of the payment",
+                    "method": "creditcard",
+                    "metadata": {
+                      "someProperty": "someValue",
+                      "anotherProperty": "anotherValue"
+                    },
+                    "status": "paid",
+                    "paidAt": "2022-01-03T13:18:39+00:00",
+                    "amountRefunded": {
+                      "value": "0.00",
+                      "currency": "EUR"
+                    },
+                    "amountRemaining": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "amountChargedBack": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "locale": "en_US",
+                    "restrictPaymentMethodsToCountry": "NL",
+                    "countryCode": "NL",
+                    "profileId": "pfl_85dxyKqNHa",
+                    "sequenceType": "oneoff",
+                    "redirectUrl": "https://example.com/landing_page",
+                    "webhookUrl": "https://example.com/redirect",
+                    "settlementAmount": {
+                      "value": "10.00",
+                      "currency": "EUR"
+                    },
+                    "details": {
+                      "cardNumber": "6787",
+                      "cardHolder": "T. TEST",
+                      "cardAudience": "consumer",
+                      "cardLabel": "Mastercard",
+                      "cardCountryCode": "NL",
+                      "cardSecurity": "normal",
+                      "feeRegion": "other"
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "...",
+                        "type": "application/hal+json"
+                      },
+                      "dashboard": {
+                        "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_8bVBhk2qs4",
+                        "type": "text/html"
+                      },
+                      "changePaymentState": {
+                        "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=3.11roh2",
+                        "type": "text/html"
+                      },
+                      "chargebacks": {
+                        "href": "https://api.mollie.com/v2/payments/tr_8bVBhk2qs4/chargebacks",
+                        "type": "application/hal+json"
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "payment": {
+                    "href": "https://api.mollie.com/v2/payments/tr_8bVBhk2qs4",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/chargebacks?from=chb_xFzwUN4ci8HAmSGUACS4J&limit=50&embed=payment&sort=desc&profileId=pfl_5B8cwPMGnU&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: chb_xFzwUN4ci8HAmSGUACS4J
+      limit: 50
+      embed: payment
+      sort: desc
+      profileId: pfl_5B8cwPMGnU
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/chargebacks?from=chb_xFzwUN4ci8HAmSGUACS4J&limit=50&embed=payment&sort=desc&profileId=pfl_5B8cwPMGnU&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: chb_xFzwUN4ci8HAmSGUACS4J
+      limit: 50
+      embed: payment
+      sort: desc
+      profileId: pfl_5B8cwPMGnU
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

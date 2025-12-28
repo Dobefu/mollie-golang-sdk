@@ -1,0 +1,151 @@
+meta {
+  name: Request Apple Pay payment session
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/wallets/applepay/sessions
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession",
+    "domain": "pay.myshop.com",
+    "profileId": "pfl_5B8cwPMGnU"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  When integrating Apple Pay in your own checkout on the web, you need to [provide merchant validation](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/providing_merchant_validation). This is normally done using Apple's [Requesting an Apple Pay Session](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/requesting_an_apple_pay_payment_session). The merchant validation proves to Apple that a validated merchant is calling the Apple Pay Javascript APIs.
+  
+  To integrate Apple Pay via Mollie, you will have to call the Mollie API instead of Apple's API. The response of this API call can then be passed as-is to the completion method, `completeMerchantValidation`.
+  
+  Before requesting an Apple Pay Payment Session, you must place the domain validation file on your server at: `https://[domain]/.well-known/apple-developer-merchantid-domain-association`. Without this file, it will not be possible to use Apple Pay on your domain.
+  
+  Each new transaction requires a new payment session object. Merchant session objects are not reusable, and they expire after five minutes.
+  
+  Payment sessions cannot be requested directly from the browser. The request must be sent from your server. For the full documentation, see the official [Apple Pay JS API](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api) documentation.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.write**](/reference/authentication)
+}
+
+example {
+  name: The Apple Pay payment session object
+  
+  request: {
+    url: {{baseUrl}}/wallets/applepay/sessions
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession",
+        "domain": "pay.myshop.com",
+        "profileId": "pfl_5B8cwPMGnU"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "epochTimestamp": 1555507053169,
+          "expiresAt": 1555510653169,
+          "merchantSessionIdentifier": "SSH2EAF8AFAEAA94DEEA898162A5DAFD36E_916523AAED1343F5BC5815E12BEE9250AFFDC1A17C46B0DE5A9",
+          "nonce": "0206b8db",
+          "merchantIdentifier": "BD62FEB196874511C22DB28A9E14A89E3534C93194F73EA417EC566368D391EB",
+          "domainName": "pay.example.org",
+          "displayName": "Chuck Norris's Store",
+          "signature": "308006092a864886f7...8cc030ad3000000000000"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the validation URL is missing.
+  
+  request: {
+    url: {{baseUrl}}/wallets/applepay/sessions
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession",
+        "domain": "pay.myshop.com",
+        "profileId": "pfl_5B8cwPMGnU"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "Apple is not able to verify your domain",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,222 @@
+meta {
+  name: Get profile
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v2/profiles/:id?testmode=false
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  id: pfl_QkEhN94Ba
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single profile by its ID.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **profiles.read**](/reference/authentication)
+}
+
+example {
+  name: The profile object
+  
+  request: {
+    url: {{baseUrl}}/v2/profiles/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: pfl_QkEhN94Ba
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "profile",
+          "id": "pfl_QkEhN94Ba",
+          "mode": "live",
+          "name": "My website name",
+          "website": "https://shop.example.org",
+          "email": "info@example.org",
+          "phone": "+31208202070",
+          "businessCategory": "OTHER_MERCHANDISE",
+          "status": "verified",
+          "review": {
+            "status": "pending"
+          },
+          "createdAt": "2023-03-20T09:28:37+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_123456789/settings/profiles/pfl_QkEhN94Ba",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/v2/profiles/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: pfl_QkEhN94Ba
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The requested resource is no longer available. The profile associated with the ID has been deleted and cannot be accessed.
+  
+  request: {
+    url: {{baseUrl}}/v2/profiles/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: pfl_QkEhN94Ba
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Gone
+      text: 410
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 410,
+          "title": "Gone",
+          "detail": "Profile with token pfl_QkEhN94Ba has been deleted.",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

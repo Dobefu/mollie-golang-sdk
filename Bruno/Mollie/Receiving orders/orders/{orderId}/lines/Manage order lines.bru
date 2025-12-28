@@ -1,0 +1,564 @@
+meta {
+  name: Manage order lines
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/orders/:orderId/lines
+  body: json
+  auth: bearer
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "operations": [
+      {
+        "operation": "update",
+        "data": {
+          "id": "odl_5B8cwPMGnU",
+          "type": "physical",
+          "name": "Ready Player One",
+          "quantity": 2,
+          "quantityShipped": 1,
+          "amountShipped": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "quantityRefunded": 1,
+          "amountRefunded": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "quantityCanceled": 1,
+          "amountCanceled": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "shippableQuantity": 1,
+          "refundableQuantity": 1,
+          "cancelableQuantity": 1,
+          "unitPrice": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "discountAmount": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "totalAmount": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "vatRate": "string",
+          "vatAmount": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "sku": "978-1524763282",
+          "category": "eco",
+          "status": "created",
+          "metadata": "string",
+          "orderId": "ord_5B8cwPMGnU",
+          "imageUrl": "https://www.example.com/image",
+          "productUrl": "https://www.example.com/product"
+        }
+      },
+      {
+        "operation": "update",
+        "data": {
+          "id": "odl_5B8cwPMGnU",
+          "type": "physical",
+          "name": "Ready Player One",
+          "quantity": 2,
+          "quantityShipped": 1,
+          "amountShipped": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "quantityRefunded": 1,
+          "amountRefunded": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "quantityCanceled": 1,
+          "amountCanceled": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "shippableQuantity": 1,
+          "refundableQuantity": 1,
+          "cancelableQuantity": 1,
+          "unitPrice": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "discountAmount": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "totalAmount": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "vatRate": "string",
+          "vatAmount": {
+            "currency": "EUR",
+            "value": "10.00"
+          },
+          "sku": "978-1524763282",
+          "category": "eco",
+          "status": "created",
+          "metadata": "string",
+          "orderId": "ord_5B8cwPMGnU",
+          "imageUrl": "https://www.example.com/image",
+          "productUrl": "https://www.example.com/product"
+        }
+      }
+    ],
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+   Use this endpoint to update, cancel, or add one or more order lines of a `created`, `pending`, or `authorized` order.
+  
+   For an already authorized order, updating the order lines will trigger an additional authorization request to the payment method provider.
+  
+   For example, your customer placed an order that contains two order lines:
+  
+   * Order line A contains two items and amounts to €100.00.
+   * Order line B contains a discount of 10% applicable to the items in order line A, which amounts to -€10.00.
+  
+   The order total is €90.00.
+  
+   You only have one item of type A left, and therefore contact your customer to find another solution. The customer opts to replace one of order line A's items with item C. Item C costs €40.00, however, discount B does not apply to item C.
+  
+   Using this endpoint, you can create a request to update the order lines, where:
+  
+   * Order line A is updated to quantity 1.
+   * Order line B is updated to discount amount -€5.00.
+   * Order line C is added with amount €40.00.
+  
+   The updated order totals €85.00.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **orders.write**](/reference/authentication)
+}
+
+example {
+  name: The updated order object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/lines
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "operations": [
+          {
+            "operation": "update",
+            "data": {
+              "id": "odl_5B8cwPMGnU",
+              "type": "physical",
+              "name": "Ready Player One",
+              "quantity": 2,
+              "quantityShipped": 1,
+              "amountShipped": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityRefunded": 1,
+              "amountRefunded": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityCanceled": 1,
+              "amountCanceled": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "shippableQuantity": 1,
+              "refundableQuantity": 1,
+              "cancelableQuantity": 1,
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "vatRate": "string",
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "sku": "978-1524763282",
+              "category": "eco",
+              "status": "created",
+              "metadata": "string",
+              "orderId": "ord_5B8cwPMGnU",
+              "imageUrl": "https://www.example.com/image",
+              "productUrl": "https://www.example.com/product"
+            }
+          },
+          {
+            "operation": "update",
+            "data": {
+              "id": "odl_5B8cwPMGnU",
+              "type": "physical",
+              "name": "Ready Player One",
+              "quantity": 2,
+              "quantityShipped": 1,
+              "amountShipped": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityRefunded": 1,
+              "amountRefunded": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityCanceled": 1,
+              "amountCanceled": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "shippableQuantity": 1,
+              "refundableQuantity": 1,
+              "cancelableQuantity": 1,
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "vatRate": "string",
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "sku": "978-1524763282",
+              "category": "eco",
+              "status": "created",
+              "metadata": "string",
+              "orderId": "ord_5B8cwPMGnU",
+              "imageUrl": "https://www.example.com/image",
+              "productUrl": "https://www.example.com/product"
+            }
+          }
+        ],
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_pbjz8x",
+          "mode": "live",
+          "orderNumber": "34629",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.1l9vx0",
+              "type": "physical",
+              "name": "LEGO 42083 Bugatti Chiron",
+              "quantity": 2,
+              "vatRate": "21.00",
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "399.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "698.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "100.00"
+              },
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "121.14"
+              },
+              "sku": "5702016116977",
+              "status": "created",
+              "isCancelable": false,
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00"
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_jp31jz",
+              "type": "digital",
+              "name": "New order line",
+              "quantity": 2,
+              "vatRate": "0.00",
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "15.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "30.00"
+              },
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "0.00"
+              },
+              "sku": "48297102",
+              "status": "created",
+              "isCancelable": false,
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:36:19+00:00"
+            }
+          ],
+          "amount": {
+            "currency": "EUR",
+            "value": "728.00"
+          },
+          "billingAddress": {},
+          "redirectUrl": "https://example.org/redirect",
+          "webhookUrl": "https://example.org/webhook",
+          "profileId": "pfl_URR55HPMGx",
+          "status": "created",
+          "isCancelable": true,
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "expiresAt": "2023-08-30T09:29:56+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_123456789/orders/ord_pbjz8x",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/lines
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "operations": [
+          {
+            "operation": "update",
+            "data": {
+              "id": "odl_5B8cwPMGnU",
+              "type": "physical",
+              "name": "Ready Player One",
+              "quantity": 2,
+              "quantityShipped": 1,
+              "amountShipped": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityRefunded": 1,
+              "amountRefunded": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityCanceled": 1,
+              "amountCanceled": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "shippableQuantity": 1,
+              "refundableQuantity": 1,
+              "cancelableQuantity": 1,
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "vatRate": "string",
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "sku": "978-1524763282",
+              "category": "eco",
+              "status": "created",
+              "metadata": "string",
+              "orderId": "ord_5B8cwPMGnU",
+              "imageUrl": "https://www.example.com/image",
+              "productUrl": "https://www.example.com/product"
+            }
+          },
+          {
+            "operation": "update",
+            "data": {
+              "id": "odl_5B8cwPMGnU",
+              "type": "physical",
+              "name": "Ready Player One",
+              "quantity": 2,
+              "quantityShipped": 1,
+              "amountShipped": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityRefunded": 1,
+              "amountRefunded": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "quantityCanceled": 1,
+              "amountCanceled": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "shippableQuantity": 1,
+              "refundableQuantity": 1,
+              "cancelableQuantity": 1,
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "vatRate": "string",
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "10.00"
+              },
+              "sku": "978-1524763282",
+              "category": "eco",
+              "status": "created",
+              "metadata": "string",
+              "orderId": "ord_5B8cwPMGnU",
+              "imageUrl": "https://www.example.com/image",
+              "productUrl": "https://www.example.com/product"
+            }
+          }
+        ],
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

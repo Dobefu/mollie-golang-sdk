@@ -1,0 +1,97 @@
+meta {
+  name: Get partner status
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v2/organizations/me/partner
+  body: none
+  auth: oauth2
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve partnership details about the currently authenticated organization. Only relevant for so-called *partner accounts*.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **organizations.read**](/reference/authentication)
+}
+
+example {
+  name: The partner status object
+  
+  request: {
+    url: {{baseUrl}}/v2/organizations/me/partner
+    method: GET
+    mode: none
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "partner",
+          "partnerType": "signuplink",
+          "partnerContractSignedAt": "2024-03-20T13:59:02+00:00",
+          "partnerContractExpiresAt": "2024-04-19T23:59:59+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "signuplink": {
+              "href": "https://www.mollie.com/dashboard/signup/exampleCode",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

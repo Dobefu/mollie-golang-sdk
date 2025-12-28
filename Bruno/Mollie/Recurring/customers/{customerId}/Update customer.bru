@@ -1,0 +1,247 @@
+meta {
+  name: Update customer
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/customers/:customerId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  customerId: cst_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "id": "cst_5B8cwPMGnU",
+    "name": "John Doe",
+    "email": "example@email.com",
+    "locale": "en_US",
+    "metadata": "string",
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Update an existing customer.
+  
+  For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+}
+
+example {
+  name: The updated customer object
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId
+    method: PATCH
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cst_5B8cwPMGnU",
+        "name": "John Doe",
+        "email": "example@email.com",
+        "locale": "en_US",
+        "metadata": "string",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "customer",
+          "id": "cst_8wmqcHMN4U",
+          "mode": "live",
+          "name": "Jane Doe",
+          "email": "jane@example.org",
+          "locale": "nl_NL",
+          "metadata": null,
+          "createdAt": "2023-04-06T13:10:19+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Update customer's mail address
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId
+    method: PATCH
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "email": "test@mollie.com"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "customer",
+          "id": "cst_dTDjjbdSqm",
+          "mode": "test",
+          "name": "John Doe",
+          "email": "test@mollie.com",
+          "locale": "en_US",
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2022-01-03T13:44:57+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/customers/cst_dTDjjbdSqm",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId
+    method: PATCH
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cst_5B8cwPMGnU",
+        "name": "John Doe",
+        "email": "example@email.com",
+        "locale": "en_US",
+        "metadata": "string",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

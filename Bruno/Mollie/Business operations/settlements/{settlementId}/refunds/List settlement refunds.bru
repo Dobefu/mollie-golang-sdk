@@ -1,0 +1,260 @@
+meta {
+  name: List settlement refunds
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/settlements/:settlementId/refunds?from=re_5B8cwPMGnU&limit=50&embed=payment&testmode=false
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  from: re_5B8cwPMGnU
+  limit: 50
+  embed: payment
+  testmode: false
+}
+
+params:path {
+  settlementId: stl_jDk30akdN
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve all refunds 'deducted' from the given settlement.
+  
+  The response is in the same format as the response of the [List refunds endpoint](list-refunds).
+  
+  > 🔑 Access with
+  >
+  > [Access token with **settlements.read** **refunds.read**](/reference/authentication)
+}
+
+example {
+  name: A list of refund objects
+  
+  request: {
+    url: {{baseUrl}}/settlements/:settlementId/refunds?from=re_5B8cwPMGnU&limit=50&embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: re_5B8cwPMGnU
+      limit: 50
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      settlementId: stl_jDk30akdN
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "refunds": [
+              {
+                "resource": "refund",
+                "id": "re_4qqhO89gsT",
+                "mode": "live",
+                "description": "Order",
+                "amount": {
+                  "currency": "EUR",
+                  "value": "5.95"
+                },
+                "status": "pending",
+                "metadata": {
+                  "bookkeeping_id": 12345
+                },
+                "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+                "createdAt": "2023-03-14T17:09:02+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "payment": {
+                    "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo/refunds?from=re_APBiGPH2vV&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/settlements/:settlementId/refunds?from=re_5B8cwPMGnU&limit=50&embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: re_5B8cwPMGnU
+      limit: 50
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      settlementId: stl_jDk30akdN
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/settlements/:settlementId/refunds?from=re_5B8cwPMGnU&limit=50&embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: re_5B8cwPMGnU
+      limit: 50
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      settlementId: stl_jDk30akdN
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

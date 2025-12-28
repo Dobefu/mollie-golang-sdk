@@ -1,0 +1,299 @@
+meta {
+  name: List terminals
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/terminals?from=term_vytxeTZskVKR7C7WgdSP3d&limit=50&sort=desc&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: term_vytxeTZskVKR7C7WgdSP3d
+  limit: 50
+  sort: desc
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all physical point-of-sale devices.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **terminals.read**](/reference/authentication)
+}
+
+example {
+  name: A list of terminal objects
+  
+  request: {
+    url: {{baseUrl}}/terminals?from=term_vytxeTZskVKR7C7WgdSP3d&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: term_vytxeTZskVKR7C7WgdSP3d
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "terminals": [
+              {
+                "resource": "terminal",
+                "id": "term_7MgL4wea46qkRcoTZjWEH",
+                "mode": "live",
+                "status": "active",
+                "brand": "PAX",
+                "model": "A920",
+                "serialNumber": "1234567890",
+                "currency": "EUR",
+                "description": "Terminal #12345",
+                "profileId": "pfl_QkEhN94Ba",
+                "createdAt": "2022-02-12T11:58:35+00:00",
+                "updatedAt": "2022-02-12T11:58:35+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null,
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: List terminals for specific profile
+  
+  request: {
+    url: {{baseUrl}}/terminals?profileId=pfl_zcfJRjkf6P
+    method: GET
+    mode: none
+    params:query: {
+      profileId: pfl_zcfJRjkf6P
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "terminals": [
+              {
+                "resource": "terminal",
+                "id": "term_5YQ8WDcA4UWB5bo7AfDZH",
+                "mode": "live",
+                "profileId": "pfl_zcfJRjkf6P",
+                "status": "active",
+                "brand": "PAX",
+                "model": "A920",
+                "serialNumber": "1851664277",
+                "currency": "EUR",
+                "description": "Counter in store Amsterdam",
+                "createdAt": "2023-06-01T08:22:07+00:00",
+                "updatedAt": "2023-06-01T08:36:25+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "terminal",
+                "id": "term_fmA5H4CAMsAMZz8bPgzMH",
+                "mode": "live",
+                "profileId": "pfl_zcfJRjkf6P",
+                "status": "active",
+                "brand": "PAX",
+                "model": "A920",
+                "serialNumber": "1850009788",
+                "currency": "EUR",
+                "description": "Terminal #12346",
+                "createdAt": "2022-09-27T13:30:36+00:00",
+                "updatedAt": "2022-09-27T13:37:27+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "terminal",
+                "id": "term_2rfs4P5CfsEPaene6RgMH",
+                "mode": "live",
+                "profileId": "pfl_zcfJRjkf6P",
+                "status": "active",
+                "brand": "PAX",
+                "model": "A920",
+                "serialNumber": "1850009794",
+                "currency": "EUR",
+                "description": "Mollie1",
+                "createdAt": "2022-09-20T12:10:33+00:00",
+                "updatedAt": "2022-11-14T10:49:06+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "count": 3,
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/terminals?from=term_vytxeTZskVKR7C7WgdSP3d&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: term_vytxeTZskVKR7C7WgdSP3d
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

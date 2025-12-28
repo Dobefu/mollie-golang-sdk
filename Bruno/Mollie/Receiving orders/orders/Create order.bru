@@ -1,0 +1,1884 @@
+meta {
+  name: Create order
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/orders?embed=payments
+  body: json
+  auth: bearer
+}
+
+params:query {
+  embed: payments
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "orderNumber": "string",
+    "amount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "lines": [
+      {
+        "name": "Ready Player One",
+        "quantity": 2,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "id": "odl_5B8cwPMGnU",
+        "type": "physical",
+        "quantityShipped": 1,
+        "amountShipped": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityRefunded": 1,
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityCanceled": 1,
+        "amountCanceled": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "shippableQuantity": 1,
+        "refundableQuantity": 1,
+        "cancelableQuantity": 1,
+        "discountAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "string",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "sku": "978-1524763282",
+        "category": "eco",
+        "status": "created",
+        "metadata": "string",
+        "orderId": "ord_5B8cwPMGnU",
+        "imageUrl": "https://www.example.com/image",
+        "productUrl": "https://www.example.com/product"
+      },
+      {
+        "name": "Ready Player One",
+        "quantity": 2,
+        "unitPrice": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "totalAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "id": "odl_5B8cwPMGnU",
+        "type": "physical",
+        "quantityShipped": 1,
+        "amountShipped": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityRefunded": 1,
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "quantityCanceled": 1,
+        "amountCanceled": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "shippableQuantity": 1,
+        "refundableQuantity": 1,
+        "cancelableQuantity": 1,
+        "discountAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "vatRate": "string",
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "sku": "978-1524763282",
+        "category": "eco",
+        "status": "created",
+        "metadata": "string",
+        "orderId": "ord_5B8cwPMGnU",
+        "imageUrl": "https://www.example.com/image",
+        "productUrl": "https://www.example.com/product"
+      }
+    ],
+    "billingAddress": {
+      "title": "Mr.",
+      "givenName": "John",
+      "familyName": "Doe",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "4th floor",
+      "postalCode": "5678AB",
+      "email": "example@email.com",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "locale": "en_US",
+    "id": "ord_5B8cwPMGnU",
+    "amountRefunded": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "amountCaptured": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "redirectUrl": "https://www.example.com/redirect",
+    "cancelUrl": "https://www.example.com/cancel",
+    "webhookUrl": "https://www.example.com/webhook",
+    "shippingAddress": {
+      "title": "Mr.",
+      "givenName": "John",
+      "familyName": "Doe",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "4th floor",
+      "postalCode": "5678AB",
+      "email": "example@email.com",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "method": "creditcard",
+    "shopperCountryMustMatchBillingCountry": true,
+    "metadata": "string",
+    "status": "created",
+    "profileId": "pfl_5B8cwPMGnU",
+    "expiresAt": "2025-01-01",
+    "consumerDateOfBirth": "2000-01-01",
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  When creating an order, a payment will automatically be created to allow your customer to pay for the order. You can then redirect your customer to the URL in the `_links.checkout` property from the response, similar to the Payments API.
+  
+  Unlike the Payments API, if a payment fails, expires, or is canceled, you can create a new payment under the same order using the [Create order payment endpoint](create-order-payment). This is only possible for orders that still have the `created` status.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **orders.write**](/reference/authentication)
+}
+
+example {
+  name: The order object
+  
+  request: {
+    url: {{baseUrl}}/orders?embed=payments
+    method: POST
+    mode: json
+    params:query: {
+      embed: payments
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "orderNumber": "string",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "lines": [
+          {
+            "name": "Ready Player One",
+            "quantity": 2,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "id": "odl_5B8cwPMGnU",
+            "type": "physical",
+            "quantityShipped": 1,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 1,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 1,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 1,
+            "refundableQuantity": 1,
+            "cancelableQuantity": 1,
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "string",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "978-1524763282",
+            "category": "eco",
+            "status": "created",
+            "metadata": "string",
+            "orderId": "ord_5B8cwPMGnU",
+            "imageUrl": "https://www.example.com/image",
+            "productUrl": "https://www.example.com/product"
+          },
+          {
+            "name": "Ready Player One",
+            "quantity": 2,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "id": "odl_5B8cwPMGnU",
+            "type": "physical",
+            "quantityShipped": 1,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 1,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 1,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 1,
+            "refundableQuantity": 1,
+            "cancelableQuantity": 1,
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "string",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "978-1524763282",
+            "category": "eco",
+            "status": "created",
+            "metadata": "string",
+            "orderId": "ord_5B8cwPMGnU",
+            "imageUrl": "https://www.example.com/image",
+            "productUrl": "https://www.example.com/product"
+          }
+        ],
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "locale": "en_US",
+        "id": "ord_5B8cwPMGnU",
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountCaptured": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "redirectUrl": "https://www.example.com/redirect",
+        "cancelUrl": "https://www.example.com/cancel",
+        "webhookUrl": "https://www.example.com/webhook",
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "method": "creditcard",
+        "shopperCountryMustMatchBillingCountry": true,
+        "metadata": "string",
+        "status": "created",
+        "profileId": "pfl_5B8cwPMGnU",
+        "expiresAt": "2025-01-01",
+        "consumerDateOfBirth": "2000-01-01",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_pbjz8x",
+          "mode": "live",
+          "orderNumber": "34629",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_dgtxyl",
+              "type": "physical",
+              "name": "LEGO 42083 Bugatti Chiron",
+              "quantity": 2,
+              "vatRate": "21.00",
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "399.00"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "698.00"
+              },
+              "discountAmount": {
+                "currency": "EUR",
+                "value": "100.00"
+              },
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "121.14"
+              },
+              "sku": "5702016116977",
+              "status": "created",
+              "isCancelable": false,
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00",
+              "_links": {
+                "productUrl": {
+                  "href": "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
+                  "type": "text/html"
+                },
+                "imageUrl": {
+                  "href": "https://sh-s7-live-s.legocdn.com/is/image/LEGO/42083",
+                  "type": "text/html"
+                }
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_jp31jz",
+              "type": "physical",
+              "name": "LEGO 42056 Porsche 911 GT3 RS",
+              "quantity": 1,
+              "vatRate": "21.00",
+              "unitPrice": {
+                "currency": "EUR",
+                "value": "329.99"
+              },
+              "totalAmount": {
+                "currency": "EUR",
+                "value": "329.99"
+              },
+              "vatAmount": {
+                "currency": "EUR",
+                "value": "57.27"
+              },
+              "sku": "5702015594028",
+              "status": "created",
+              "isCancelable": false,
+              "orderId": "ord_pbjz8x",
+              "createdAt": "2023-08-02T09:29:56+00:00",
+              "_links": {
+                "productUrl": {
+                  "href": "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056",
+                  "type": "text/html"
+                },
+                "imageUrl": {
+                  "href": "https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056",
+                  "type": "text/html"
+                }
+              }
+            }
+          ],
+          "amount": {
+            "currency": "EUR",
+            "value": "1027.99"
+          },
+          "billingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "postalCode": "1234AB",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "piet@example.org",
+            "phone": "+31309202070"
+          },
+          "redirectUrl": "https://example.org/redirect",
+          "webhookUrl": "https://example.org/webhook",
+          "profileId": "pfl_URR55HPMGx",
+          "status": "created",
+          "isCancelable": true,
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "expiresAt": "2023-08-30T09:29:56+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_123456789/orders/ord_pbjz8x",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Create ideal order with 2 lines with discount
+  
+  request: {
+    url: {{baseUrl}}/orders
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "value": "289.00",
+              "currency": "EUR"
+          },
+          "billingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "postalCode": "1234AB",
+              "country": "NL",
+              "title": "Dhr.",
+              "givenName": "Piet",
+              "familyName": "Mondriaan",
+              "email": "test@mollie.com",
+              "phone": "+3130920207"
+          },
+          "shippingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "streetAdditional": "4th floor",
+              "city": "Haarlem",
+              "region": "Noord-Holland",
+              "postalCode": "5678AB",
+              "country": "NL",
+              "title": "Mr.",
+              "givenName": "Chuck",
+              "familyName": "Norris",
+              "email": "test@mollie.com"
+          },
+          "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+          },
+          "consumerDateOfBirth": "1958-01-31",
+          "locale": "en_US",
+          "orderNumber": "1337",
+          "redirectUrl": "https:\/\/example.com\/landing_page",
+          "webhookUrl": "https:\/\/example.com\/redirect",
+          "method": "ideal",
+          "lines": [
+              {
+                  "type": "physical",
+                  "category": "meal",
+                  "name": "order line number 1",
+                  "quantity": "2",
+                  "vatRate": "21.00",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "89.00"
+                  },
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "168.00"
+                  },
+                  "discountAmount": {
+                      "currency": "EUR",
+                      "value": "10.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "29.16"
+                  }
+              },
+              {
+                  "type": "physical",
+                  "name": "order line number 2",
+                  "quantity": "1",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "121.00"
+                  },
+                  "vatRate": "21.00",
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "121.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "21.00"
+                  }
+              }
+          ]
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_efu0tw",
+          "profileId": "pfl_85dxyKqNHa",
+          "method": "ideal",
+          "amount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "status": "created",
+          "isCancelable": true,
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2021-12-30T13:38:46+00:00",
+          "expiresAt": "2022-01-27T13:38:46+00:00",
+          "mode": "test",
+          "locale": "en_US",
+          "billingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "postalCode": "1234AB",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "test@mollie.com",
+            "phone": "+3130920207"
+          },
+          "shopperCountryMustMatchBillingCountry": false,
+          "consumerDateOfBirth": "1958-01-31",
+          "orderNumber": "1337",
+          "shippingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "streetAdditional": "4th floor",
+            "postalCode": "5678AB",
+            "city": "Haarlem",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Mr.",
+            "givenName": "Chuck",
+            "familyName": "Norris",
+            "email": "test@mollie.com"
+          },
+          "redirectUrl": "https://example.com/landing_page",
+          "webhookUrl": "https://example.com/redirect",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.q28flc",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 1",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 2,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "29.16",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "168.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00",
+              "discountAmount": {
+                "value": "10.00",
+                "currency": "EUR"
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_1.w48z1e",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 2",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "21.00",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/orders/ord_efu0tw",
+              "type": "text/html"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/order/efu0tw",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Create Billie order
+  
+  request: {
+    url: {{baseUrl}}/orders
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "value": "9.00",
+              "currency": "EUR"
+          },
+          "billingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "postalCode": "1234AB",
+              "country": "DE",
+              "title": "Dhr.",
+              "givenName": "Piet",
+              "familyName": "Mondriaan",
+              "email": "test@mollie.com",
+              "phone": "+3130920207"
+          },
+          "locale": "de_DE",
+          "method": "billie",
+          "orderNumber": "1337",
+          "redirectUrl": "https:\/\/example.com\/landing_page",
+          "webhookUrl": "https:\/\/example.com\/redirect",
+          "lines": [
+              {
+                  "name": "line 1",
+                  "type": "physical",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "5.00"
+                  },
+                  "vatRate": "10",
+                  "quantity": "1",
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "5.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "0.45"
+                  }
+              },
+              {
+                  "name": "line 2",
+                  "type": "physical",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "5.00"
+                  },
+                  "vatRate": "10",
+                  "quantity": "1",
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "5.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "0.45"
+                  }
+              },
+              {
+                  "name": "discount 10%",
+                  "type": "discount",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "-1.00"
+                  },
+                  "vatRate": "10",
+                  "quantity": "1",
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "-1.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "-0.10"
+                  }
+              }
+          ]
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_rwp6xc",
+          "profileId": "pfl_eYDqpvw3Cv",
+          "method": "billie",
+          "amount": {
+            "value": "9.00",
+            "currency": "EUR"
+          },
+          "status": "created",
+          "isCancelable": true,
+          "metadata": null,
+          "createdAt": "2023-06-02T14:05:39+00:00",
+          "expiresAt": "2023-06-30T14:05:39+00:00",
+          "mode": "test",
+          "locale": "de_DE",
+          "billingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "postalCode": "1234AB",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "DE",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "test@mollie.com",
+            "phone": "+3130920207"
+          },
+          "shopperCountryMustMatchBillingCountry": false,
+          "orderNumber": "1337",
+          "redirectUrl": "https://example.com/landing_page",
+          "webhookUrl": "https://example.com/redirect",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_2.suuim4",
+              "orderId": "ord_rwp6xc",
+              "name": "line 1",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "5.00",
+                "currency": "EUR"
+              },
+              "vatRate": "10.00",
+              "vatAmount": {
+                "value": "0.45",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "5.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2023-06-02T14:05:39+00:00"
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_2.z33s4u",
+              "orderId": "ord_rwp6xc",
+              "name": "line 2",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "5.00",
+                "currency": "EUR"
+              },
+              "vatRate": "10.00",
+              "vatAmount": {
+                "value": "0.45",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "5.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2023-06-02T14:05:39+00:00"
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_2.5nteow",
+              "orderId": "ord_rwp6xc",
+              "name": "discount 10%",
+              "sku": "5702016116977",
+              "type": "discount",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "-1.00",
+                "currency": "EUR"
+              },
+              "vatRate": "10.00",
+              "vatAmount": {
+                "value": "-0.10",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "-1.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2023-06-02T14:05:39+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://my.mollie.com/dashboard/org_16993549/orders/ord_rwp6xc",
+              "type": "text/html"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/order/rwp6xc",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Create order on profile
+  
+  request: {
+    url: {{baseUrl}}/orders
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "value": "289.00",
+              "currency": "EUR"
+          },
+          "billingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "postalCode": "1234AB",
+              "country": "NL",
+              "title": "Dhr.",
+              "givenName": "Piet",
+              "familyName": "Mondriaan",
+              "email": "test@mollie.com",
+              "phone": "+3130920207"
+          },
+          "shippingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "streetAdditional": "4th floor",
+              "city": "Haarlem",
+              "region": "Noord-Holland",
+              "postalCode": "5678AB",
+              "country": "NL",
+              "title": "Mr.",
+              "givenName": "Chuck",
+              "familyName": "Norris",
+              "email": "test@mollie.com"
+          },
+          "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+          },
+          "consumerDateOfBirth": "1958-01-31",
+          "locale": "en_US",
+          "orderNumber": "1337",
+          "redirectUrl": "https:\/\/example.com\/landing_page",
+          "webhookUrl": "https:\/\/example.com\/redirect",
+          "method": "ideal",
+          "profileId": "pfl_zcfJRjkf6P",
+          "lines": [
+              {
+                  "type": "physical",
+                  "category": "meal",
+                  "name": "order line number 1",
+                  "quantity": "2",
+                  "vatRate": "21.00",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "89.00"
+                  },
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "168.00"
+                  },
+                  "discountAmount": {
+                      "currency": "EUR",
+                      "value": "10.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "29.16"
+                  }
+              },
+              {
+                  "type": "physical",
+                  "name": "order line number 2",
+                  "quantity": "1",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "121.00"
+                  },
+                  "vatRate": "21.00",
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "121.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "21.00"
+                  }
+              }
+          ],
+          "testmode": true
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_a5vdgo",
+          "profileId": "pfl_zcfJRjkf6P",
+          "method": "ideal",
+          "amount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "status": "created",
+          "isCancelable": true,
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2022-01-19T13:54:48+00:00",
+          "expiresAt": "2022-02-16T13:54:48+00:00",
+          "mode": "live",
+          "locale": "en_US",
+          "billingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "postalCode": "1234AB",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "test@mollie.com",
+            "phone": "+3130920207"
+          },
+          "shopperCountryMustMatchBillingCountry": false,
+          "consumerDateOfBirth": "1958-01-31",
+          "orderNumber": "1337",
+          "shippingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "streetAdditional": "4th floor",
+            "postalCode": "5678AB",
+            "city": "Haarlem",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Mr.",
+            "givenName": "Chuck",
+            "familyName": "Norris",
+            "email": "test@mollie.com"
+          },
+          "redirectUrl": "https://example.com/landing_page",
+          "webhookUrl": "https://example.com/redirect",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.xzkrco",
+              "orderId": "ord_a5vdgo",
+              "name": "order line number 1",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 2,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "29.16",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "168.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2022-01-19T13:54:48+00:00",
+              "discountAmount": {
+                "value": "10.00",
+                "currency": "EUR"
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_1.4j19ey",
+              "orderId": "ord_a5vdgo",
+              "name": "order line number 2",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "21.00",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2022-01-19T13:54:48+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/orders/ord_a5vdgo",
+              "type": "text/html"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/order/a5vdgo",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Create order with application fee
+  
+  request: {
+    url: {{baseUrl}}/orders
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "value": "289.00",
+              "currency": "EUR"
+          },
+          "payment": {
+              "applicationFee": {
+                  "amount": {
+                      "currency": "EUR",
+                      "value": "10.00"
+                  },
+                  "description": "Platform fees"
+              }
+          },
+          "billingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "postalCode": "1234AB",
+              "country": "NL",
+              "title": "Dhr.",
+              "givenName": "Piet",
+              "familyName": "Mondriaan",
+              "email": "test@mollie.com",
+              "phone": "+3130920207"
+          },
+          "shippingAddress": {
+              "organizationName": "Mollie B.V.",
+              "streetAndNumber": "Keizersgracht 126",
+              "streetAdditional": "4th floor",
+              "city": "Haarlem",
+              "region": "Noord-Holland",
+              "postalCode": "5678AB",
+              "country": "NL",
+              "title": "Mr.",
+              "givenName": "Chuck",
+              "familyName": "Norris",
+              "email": "test@mollie.com"
+          },
+          "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+          },
+          "consumerDateOfBirth": "1958-01-31",
+          "locale": "en_US",
+          "orderNumber": "1337",
+          "redirectUrl": "https:\/\/example.com\/landing_page",
+          "webhookUrl": "https:\/\/example.com\/redirect",
+          "method": "ideal",
+          "profileId": "pfl_zcfJRjkf6P",
+          "lines": [
+              {
+                  "type": "physical",
+                  "category": "meal",
+                  "name": "order line number 1",
+                  "quantity": "2",
+                  "vatRate": "21.00",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "89.00"
+                  },
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "168.00"
+                  },
+                  "discountAmount": {
+                      "currency": "EUR",
+                      "value": "10.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "29.16"
+                  }
+              },
+              {
+                  "type": "physical",
+                  "name": "order line number 2",
+                  "quantity": "1",
+                  "unitPrice": {
+                      "currency": "EUR",
+                      "value": "121.00"
+                  },
+                  "vatRate": "21.00",
+                  "totalAmount": {
+                      "currency": "EUR",
+                      "value": "121.00"
+                  },
+                  "vatAmount": {
+                      "currency": "EUR",
+                      "value": "21.00"
+                  }
+              }
+          ],
+          "testmode": true
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_xs5swc",
+          "profileId": "pfl_zcfJRjkf6P",
+          "method": "ideal",
+          "amount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "status": "created",
+          "isCancelable": true,
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2022-02-18T10:45:49+00:00",
+          "expiresAt": "2022-03-18T10:45:49+00:00",
+          "mode": "test",
+          "locale": "en_US",
+          "billingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "postalCode": "1234AB",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "test@mollie.com",
+            "phone": "+3130920207"
+          },
+          "shopperCountryMustMatchBillingCountry": false,
+          "consumerDateOfBirth": "1958-01-31",
+          "orderNumber": "1337",
+          "shippingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "streetAdditional": "4th floor",
+            "postalCode": "5678AB",
+            "city": "Haarlem",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Mr.",
+            "givenName": "Chuck",
+            "familyName": "Norris",
+            "email": "test@mollie.com"
+          },
+          "redirectUrl": "https://example.com/landing_page",
+          "webhookUrl": "https://example.com/redirect",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.bs97uw",
+              "orderId": "ord_xs5swc",
+              "name": "order line number 1",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 2,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "29.16",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "168.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2022-02-18T10:45:49+00:00",
+              "discountAmount": {
+                "value": "10.00",
+                "currency": "EUR"
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_1.hvip6i",
+              "orderId": "ord_xs5swc",
+              "name": "order line number 2",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "21.00",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2022-02-18T10:45:49+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/orders/ord_xs5swc",
+              "type": "text/html"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/order/xs5swc",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the order number is missing, or if the specified amount is higher than the maximum allowed amount.
+  
+  request: {
+    url: {{baseUrl}}/orders?embed=payments
+    method: POST
+    mode: json
+    params:query: {
+      embed: payments
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "orderNumber": "string",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "lines": [
+          {
+            "name": "Ready Player One",
+            "quantity": 2,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "id": "odl_5B8cwPMGnU",
+            "type": "physical",
+            "quantityShipped": 1,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 1,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 1,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 1,
+            "refundableQuantity": 1,
+            "cancelableQuantity": 1,
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "string",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "978-1524763282",
+            "category": "eco",
+            "status": "created",
+            "metadata": "string",
+            "orderId": "ord_5B8cwPMGnU",
+            "imageUrl": "https://www.example.com/image",
+            "productUrl": "https://www.example.com/product"
+          },
+          {
+            "name": "Ready Player One",
+            "quantity": 2,
+            "unitPrice": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "totalAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "id": "odl_5B8cwPMGnU",
+            "type": "physical",
+            "quantityShipped": 1,
+            "amountShipped": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityRefunded": 1,
+            "amountRefunded": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "quantityCanceled": 1,
+            "amountCanceled": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "shippableQuantity": 1,
+            "refundableQuantity": 1,
+            "cancelableQuantity": 1,
+            "discountAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "vatRate": "string",
+            "vatAmount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "sku": "978-1524763282",
+            "category": "eco",
+            "status": "created",
+            "metadata": "string",
+            "orderId": "ord_5B8cwPMGnU",
+            "imageUrl": "https://www.example.com/image",
+            "productUrl": "https://www.example.com/product"
+          }
+        ],
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "locale": "en_US",
+        "id": "ord_5B8cwPMGnU",
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountCaptured": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "redirectUrl": "https://www.example.com/redirect",
+        "cancelUrl": "https://www.example.com/cancel",
+        "webhookUrl": "https://www.example.com/webhook",
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "method": "creditcard",
+        "shopperCountryMustMatchBillingCountry": true,
+        "metadata": "string",
+        "status": "created",
+        "profileId": "pfl_5B8cwPMGnU",
+        "expiresAt": "2025-01-01",
+        "consumerDateOfBirth": "2000-01-01",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The 'orderNumber' field is missing",
+          "field": "orderNumber",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

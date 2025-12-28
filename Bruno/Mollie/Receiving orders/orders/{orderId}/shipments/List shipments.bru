@@ -1,0 +1,244 @@
+meta {
+  name: List shipments
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/orders/:orderId/shipments?from=shp_5x4xQJDWGNcY3tKGL7X5J&limit=50&sort=desc&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: shp_5x4xQJDWGNcY3tKGL7X5J
+  limit: 50
+  sort: desc
+  testmode: false
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all shipments created for a specific order.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **shipments.read**](/reference/authentication)
+}
+
+example {
+  name: A list of shipmen objects
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments?from=shp_5x4xQJDWGNcY3tKGL7X5J&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: shp_5x4xQJDWGNcY3tKGL7X5J
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 5,
+          "_embedded": {
+            "shipments": [
+              {
+                "resource": "shipment",
+                "id": "shp_gNapNy9qQTUFZYnCrCF7J",
+                "mode": "live",
+                "orderId": "ord_pbjz8x",
+                "tracking": {
+                  "carrier": "PostNL",
+                  "code": "3SKABA000000000",
+                  "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+                },
+                "createdAt": "2023-08-09T14:33:54+00:00",
+                "lines": [],
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "order": {
+                    "href": "https://api.mollie.com/v2/orders/ord_pbjz8x",
+                    "type": "application/hal+json"
+                  }
+                }
+              },
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/orders/ord_pbjz8x/shipments?from=shp_abwvsKJpSs&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments?from=shp_5x4xQJDWGNcY3tKGL7X5J&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: shp_5x4xQJDWGNcY3tKGL7X5J
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments?from=shp_5x4xQJDWGNcY3tKGL7X5J&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: shp_5x4xQJDWGNcY3tKGL7X5J
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

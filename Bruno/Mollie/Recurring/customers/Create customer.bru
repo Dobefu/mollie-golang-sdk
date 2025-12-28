@@ -1,0 +1,171 @@
+meta {
+  name: Create customer
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/customers
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "id": "cst_5B8cwPMGnU",
+    "name": "John Doe",
+    "email": "example@email.com",
+    "locale": "en_US",
+    "metadata": "string",
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked to this customer object, which simplifies management of recurring payments.
+  
+  Once registered, customers will also appear in your Mollie dashboard.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **customers.write**](/reference/authentication)
+}
+
+example {
+  name: A customer object
+  
+  request: {
+    url: {{baseUrl}}/customers
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cst_5B8cwPMGnU",
+        "name": "John Doe",
+        "email": "example@email.com",
+        "locale": "en_US",
+        "metadata": "string",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "customer",
+          "id": "cst_tKt44u85MM",
+          "mode": "test",
+          "name": "Jane Doe",
+          "email": "test@mollie.com",
+          "locale": "en_US",
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2022-01-03T13:42:04+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/customers/cst_tKt44u85MM",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/customers
+    method: POST
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "id": "cst_5B8cwPMGnU",
+        "name": "John Doe",
+        "email": "example@email.com",
+        "locale": "en_US",
+        "metadata": "string",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

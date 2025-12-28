@@ -1,0 +1,216 @@
+meta {
+  name: List all Connect balance transfers
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v2/connect/balance-transfers?from=cbtr_j8NvRAM2WNZtsykpLEX8J&limit=50&sort=desc&testmode=false
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  from: cbtr_j8NvRAM2WNZtsykpLEX8J
+  limit: 50
+  sort: desc
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Returns a paginated list of balance transfers associated with your organization. These may be a balance transfer that was received or sent from your balance, or a balance transfer that you initiated on behalf of your clients. If no balance transfers are available, the resulting array will be empty. This request should never throw an error.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **balance-transfers.read**](/reference/authentication)
+}
+
+example {
+  name: List Connect balance transfers
+  
+  request: {
+    url: {{baseUrl}}/v2/connect/balance-transfers?from=cbtr_j8NvRAM2WNZtsykpLEX8J&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: cbtr_j8NvRAM2WNZtsykpLEX8J
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "_embedded": {
+            "connect_balance_transfers": [
+              {
+                "resource": "connect-balance-transfer",
+                "id": "cbtr_bSAG5zQUrqbJGSv3ZSU9J",
+                "amount": {
+                  "value": "200.00",
+                  "currency": "EUR"
+                },
+                "source": {
+                  "type": "organization",
+                  "id": "org_1",
+                  "description": "description for source"
+                },
+                "destination": {
+                  "type": "organization",
+                  "id": "org_42",
+                  "description": "description for destination"
+                },
+                "description": "description for initiating party",
+                "status": "created",
+                "statusReason": {
+                  "code": "request_created",
+                  "message": "Balance transfer request created."
+                },
+                "createdAt": "2025-05-01T07:00:00+00:00",
+                "mode": "live"
+              },
+              {
+                "resource": "connect-balance-transfer",
+                "id": "cbtr_aGa49xYozWV8nhUzTSU9J",
+                "amount": {
+                  "value": "100.00",
+                  "currency": "EUR"
+                },
+                "source": {
+                  "type": "organization",
+                  "id": "org_42",
+                  "description": "description for source"
+                },
+                "destination": {
+                  "type": "organization",
+                  "id": "org_2",
+                  "description": "description for destination"
+                },
+                "description": "description for initiating party",
+                "status": "created",
+                "statusReason": {
+                  "code": "request_created",
+                  "message": "Balance transfer request created."
+                },
+                "metadata": {
+                  "order_id": 12345,
+                  "customer_id": 9876
+                },
+                "createdAt": "2025-05-01T06:00:00+00:00",
+                "mode": "live"
+              }
+            ]
+          },
+          "count": 2,
+          "_links": {
+            "self": {
+              "href": "https://api.mollie.com/v2/connect/balance-transfers?limit=50",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": null,
+            "documentation": {
+              "href": "https://docs.mollie.com/reference/list-balance-transfers",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/v2/connect/balance-transfers?from=cbtr_j8NvRAM2WNZtsykpLEX8J&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: cbtr_j8NvRAM2WNZtsykpLEX8J
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

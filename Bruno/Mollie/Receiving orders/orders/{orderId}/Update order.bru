@@ -1,0 +1,589 @@
+meta {
+  name: Update order
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/orders/:orderId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "orderNumber": "string",
+    "redirectUrl": "https://www.example.com/redirect",
+    "cancelUrl": "https://www.example.com/cancel",
+    "webhookUrl": "https://www.example.com/webhook",
+    "billingAddress": {
+      "title": "Mr.",
+      "givenName": "John",
+      "familyName": "Doe",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "4th floor",
+      "postalCode": "5678AB",
+      "email": "example@email.com",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "shippingAddress": {
+      "title": "Mr.",
+      "givenName": "John",
+      "familyName": "Doe",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "4th floor",
+      "postalCode": "5678AB",
+      "email": "example@email.com",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  Certain details of an existing order can be updated.
+  
+  For an in-depth explanation of each parameter, see [Create order](create-order).
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **orders.write**](/reference/authentication)
+}
+
+example {
+  name: The updated order object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "orderNumber": "string",
+        "redirectUrl": "https://www.example.com/redirect",
+        "cancelUrl": "https://www.example.com/cancel",
+        "webhookUrl": "https://www.example.com/webhook",
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_pbjz8x",
+          "mode": "live",
+          "orderNumber": "34629",
+          "lines": [],
+          "amount": {
+            "currency": "EUR",
+            "value": "1027.99"
+          },
+          "billingAddress": {
+            "organizationName": "Updated Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "postalCode": "1234AB",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "piet@example.org",
+            "phone": "+31309202070"
+          },
+          "redirectUrl": "https://example.org/updated-redirect",
+          "webhookUrl": "https://example.org/updated-webhook",
+          "profileId": "pfl_URR55HPMGx",
+          "status": "created",
+          "isCancelable": true,
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "expiresAt": "2023-08-30T09:29:56+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_123456789/orders/ord_pbjz8x",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Correct billing address
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "billingAddress": {
+              "streetAndNumber": "corrected address",
+              "city": "corrected city",
+              "region": "Noord-Holland",
+              "postalCode": "corrected postalcode",
+              "country": "NL",
+              "title": "Dhr.",
+              "givenName": "Piet",
+              "familyName": "Mondriaan",
+              "email": "test@mollie.com",
+              "phone": "+3130920207"
+          }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "order",
+          "id": "ord_efu0tw",
+          "profileId": "pfl_85dxyKqNHa",
+          "method": "ideal",
+          "amount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "status": "created",
+          "isCancelable": true,
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "createdAt": "2021-12-30T13:38:46+00:00",
+          "expiresAt": "2022-01-27T13:38:46+00:00",
+          "mode": "test",
+          "locale": "en_US",
+          "billingAddress": {
+            "streetAndNumber": "corrected address",
+            "postalCode": "corrected postalcode",
+            "city": "corrected city",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Dhr.",
+            "givenName": "Piet",
+            "familyName": "Mondriaan",
+            "email": "test@mollie.com",
+            "phone": "+3130920207"
+          },
+          "shopperCountryMustMatchBillingCountry": false,
+          "consumerDateOfBirth": "1958-01-31",
+          "orderNumber": "1337",
+          "shippingAddress": {
+            "organizationName": "Mollie B.V.",
+            "streetAndNumber": "Keizersgracht 126",
+            "streetAdditional": "4th floor",
+            "postalCode": "5678AB",
+            "city": "Haarlem",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "title": "Mr.",
+            "givenName": "Chuck",
+            "familyName": "Norris",
+            "email": "test@mollie.com"
+          },
+          "redirectUrl": "https://example.com/landing_page",
+          "webhookUrl": "https://example.com/redirect",
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.q28flc",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 1",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 2,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "29.16",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "168.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00",
+              "discountAmount": {
+                "value": "10.00",
+                "currency": "EUR"
+              }
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_1.w48z1e",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 2",
+              "sku": "5702016116977",
+              "type": "physical",
+              "status": "created",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "quantityShipped": 0,
+              "amountShipped": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityRefunded": 0,
+              "amountRefunded": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "quantityCanceled": 0,
+              "amountCanceled": {
+                "value": "0.00",
+                "currency": "EUR"
+              },
+              "shippableQuantity": 0,
+              "refundableQuantity": 0,
+              "cancelableQuantity": 0,
+              "unitPrice": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "21.00",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/orders/ord_efu0tw",
+              "type": "text/html"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/order/efu0tw",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "orderNumber": "string",
+        "redirectUrl": "https://www.example.com/redirect",
+        "cancelUrl": "https://www.example.com/cancel",
+        "webhookUrl": "https://www.example.com/webhook",
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if you are trying to update a property that can no longer be updated.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "orderNumber": "string",
+        "redirectUrl": "https://www.example.com/redirect",
+        "cancelUrl": "https://www.example.com/cancel",
+        "webhookUrl": "https://www.example.com/webhook",
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "John",
+          "familyName": "Doe",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "4th floor",
+          "postalCode": "5678AB",
+          "email": "example@email.com",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The redirect URL cannot be updated when the order is finalized",
+          "field": "redirectUrl",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

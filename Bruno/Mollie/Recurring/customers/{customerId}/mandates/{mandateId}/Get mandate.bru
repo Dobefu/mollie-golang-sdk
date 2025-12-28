@@ -1,0 +1,163 @@
+meta {
+  name: Get mandate
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/customers/:customerId/mandates/:mandateId?testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  customerId: cst_5B8cwPMGnU
+  mandateId: mdt_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single mandate by its ID. Depending on the type of mandate, the object will contain the customer's bank account details, card details, or PayPal account details.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **mandates.read**](/reference/authentication)
+}
+
+example {
+  name: The mandate object
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/mandates/:mandateId?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+      mandateId: mdt_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "mandate",
+          "id": "mdt_h3gAaD5zP",
+          "mode": "live",
+          "status": "valid",
+          "method": "directdebit",
+          "details": {
+            "consumerName": "John Doe",
+            "consumerAccount": "NL55INGB0000000000",
+            "consumerBic": "INGBNL2A"
+          },
+          "mandateReference": "EXAMPLE-CORP-MD13804",
+          "signatureDate": "2023-05-07",
+          "customerId": "cst_4qqhO89gsT",
+          "createdAt": "2023-05-07T10:49:08+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "customer": {
+              "href": "https://api.mollie.com/v2/customers/cst_4qqhO89gsT",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/mandates/:mandateId?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+      mandateId: mdt_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

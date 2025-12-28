@@ -1,0 +1,221 @@
+meta {
+  name: List customers
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/customers?from=cst_5B8cwPMGnU&limit=50&sort=desc&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: cst_5B8cwPMGnU
+  limit: 50
+  sort: desc
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all customers.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **customers.read**](/reference/authentication)
+}
+
+example {
+  name: A list of customer objects
+  
+  request: {
+    url: {{baseUrl}}/customers?from=cst_5B8cwPMGnU&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: cst_5B8cwPMGnU
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "customers": [
+              {
+                "resource": "customer",
+                "id": "cst_8wmqcHMN4U",
+                "mode": "live",
+                "name": "John Doe",
+                "email": "customer@example.org",
+                "locale": "nl_NL",
+                "metadata": null,
+                "createdAt": "2023-04-06T13:10:19+00:00",
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "dashboard": {
+                    "href": "https://www.mollie.com/dashboard/org_13514547/customers/cst_tKt44u85MM",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "previous": null,
+            "next": {
+              "href": "https://api.mollie.com/v2/customers?from=cst_stTC2WHAuS&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/customers?from=cst_5B8cwPMGnU&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: cst_5B8cwPMGnU
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/customers?from=cst_5B8cwPMGnU&limit=50&sort=desc&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: cst_5B8cwPMGnU
+      limit: 50
+      sort: desc
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

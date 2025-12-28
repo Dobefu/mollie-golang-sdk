@@ -1,0 +1,321 @@
+meta {
+  name: Update shipment
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/orders/:orderId/shipments/:shipmentId?testmode=false
+  body: json
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+  shipmentId: shp_5x4xQJDWGNcY3tKGL7X5J
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "tracking": {
+      "carrier": "PostNL",
+      "code": "3SKABA000000000",
+      "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Update the tracking information on a shipment.
+  
+  For an in-depth explanation of each parameter, refer to the [Create shipment](create-shipment) endpoint.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **shipments.write**](/reference/authentication)
+}
+
+example {
+  name: The updated shipment object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments/:shipmentId?testmode=false
+    method: PATCH
+    mode: json
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+      shipmentId: shp_5x4xQJDWGNcY3tKGL7X5J
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "tracking": {
+          "carrier": "PostNL",
+          "code": "3SKABA000000000",
+          "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "shipment",
+          "id": "shp_gNapNy9qQTUFZYnCrCF7J",
+          "mode": "live",
+          "orderId": "ord_pbjz8x",
+          "tracking": {
+            "carrier": "DHL",
+            "code": "3SBCC000123456",
+            "url": "https://www.dhl.com/gb-en/home/tracking.html?tracking-id=3SBCC000123456"
+          },
+          "createdAt": "2023-08-09T14:33:54+00:00",
+          "lines": [],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "order": {
+              "href": "https://api.mollie.com/v2/orders/ord_pbjz8x",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Update tracking information of shipment
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments/:shipmentId
+    method: PATCH
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+      shipmentId: shp_5x4xQJDWGNcY3tKGL7X5J
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "tracking": {
+              "carrier": "PostNL",
+              "code": "3SKABA000000001",
+              "url": "https:\/\/example.com\/tracktrace\/?B=3SKABA000000001&P=1015CW&D=NL&T=C"
+          }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "shipment",
+          "id": "shp_od834y",
+          "orderId": "ord_efu0tw",
+          "createdAt": "2022-01-04T16:37:10+00:00",
+          "tracking": {
+            "carrier": "PostNL",
+            "code": "3SKABA000000001",
+            "url": "https://example.com/tracktrace/?B=3SKABA000000001&P=1015CW&D=NL&T=C"
+          },
+          "lines": [
+            {
+              "resource": "orderline",
+              "id": "odl_1.q28flc",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 1",
+              "sku": null,
+              "type": "physical",
+              "status": "shipping",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "15.45",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "89.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00"
+            },
+            {
+              "resource": "orderline",
+              "id": "odl_1.w48z1e",
+              "orderId": "ord_efu0tw",
+              "name": "order line number 2",
+              "sku": null,
+              "type": "physical",
+              "status": "completed",
+              "metadata": null,
+              "isCancelable": false,
+              "quantity": 1,
+              "unitPrice": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "vatRate": "21.00",
+              "vatAmount": {
+                "value": "21.00",
+                "currency": "EUR"
+              },
+              "totalAmount": {
+                "value": "121.00",
+                "currency": "EUR"
+              },
+              "createdAt": "2021-12-30T13:38:46+00:00"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "order": {
+              "href": "https://api.mollie.com/v2/orders/ord_efu0tw",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/shipments/:shipmentId?testmode=false
+    method: PATCH
+    mode: json
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+      shipmentId: shp_5x4xQJDWGNcY3tKGL7X5J
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "tracking": {
+          "carrier": "PostNL",
+          "code": "3SKABA000000000",
+          "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1015CW&D=NL&T=C"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

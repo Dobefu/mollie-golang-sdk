@@ -1,0 +1,240 @@
+meta {
+  name: Get capture
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/payments/:paymentId/captures/:captureId?embed=payment&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  embed: payment
+  testmode: false
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+  captureId: cpt_gVMhHKqSSRYJyPsuoPNFH
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single payment capture by its ID and the ID of its parent payment.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.read**](/reference/authentication)
+}
+
+example {
+  name: The capture object
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures/:captureId?embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+      captureId: cpt_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "capture",
+          "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+          "mode": "live",
+          "description": "Capture for cart #12345",
+          "amount": {
+            "currency": "EUR",
+            "value": "35.95"
+          },
+          "metadata": "{\"bookkeeping_id\":12345}",
+          "status": "pending",
+          "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+          "createdAt": "2023-08-02T09:29:56+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "payment": {
+              "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get capture
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures/:captureId?embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+      captureId: cpt_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "capture",
+          "id": "cpt_vytxeTZskVKR7C7WgdSP3d",
+          "mode": "test",
+          "amount": {
+            "value": "467.92",
+            "currency": "EUR"
+          },
+          "settlementAmount": {
+            "value": "467.92",
+            "currency": "EUR"
+          },
+          "createdAt": "2021-06-03T11:50:58+00:00",
+          "status": "pending",
+          "paymentId": "tr_V9kqkGtyUH",
+          "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "payment": {
+              "href": "https://api.mollie.com/v2/payments/tr_V9kqkGtyUH",
+              "type": "application/hal+json"
+            },
+            "shipment": {
+              "href": "https://api.mollie.com/v2/orders/ord_uvpptr/shipments/shp_5x4xQJDWGNcY3tKGL7X5J",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/captures/:captureId?embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+      captureId: cpt_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

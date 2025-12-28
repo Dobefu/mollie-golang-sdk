@@ -1,0 +1,206 @@
+meta {
+  name: Delete a webhook
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v2/webhooks/:id
+  body: json
+  auth: oauth2
+}
+
+params:path {
+  id: hook_B2EyhTH5N4KWUnoYPcgiH
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+body:json {
+  {
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Delete a single webhook object by its webhook ID.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **webhooks.write**](/reference/authentication)
+}
+
+example {
+  name: No content.
+  
+  request: {
+    url: {{baseUrl}}/v2/webhooks/:id
+    method: DELETE
+    mode: json
+    params:path: {
+      id: hook_B2EyhTH5N4KWUnoYPcgiH
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: No Content
+      text: 204
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {}
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/v2/webhooks/:id
+    method: DELETE
+    mode: json
+    params:path: {
+      id: hook_B2EyhTH5N4KWUnoYPcgiH
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the webhook has already been deleted.
+  
+  request: {
+    url: {{baseUrl}}/v2/webhooks/:id
+    method: DELETE
+    mode: json
+    params:path: {
+      id: hook_B2EyhTH5N4KWUnoYPcgiH
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable entity",
+          "detail": "This subscription was already deleted.",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

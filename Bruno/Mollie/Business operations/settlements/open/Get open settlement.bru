@@ -1,0 +1,212 @@
+meta {
+  name: Get open settlement
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/settlements/open
+  body: none
+  auth: oauth2
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve the details of the open balance of the organization. This will return a settlement object representing your organization's balance.
+  
+  For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
+  
+  For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **settlements.read**](/reference/authentication)
+}
+
+example {
+  name: The settlement object
+  
+  request: {
+    url: {{baseUrl}}/settlements/open
+    method: GET
+    mode: none
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "settlement",
+          "id": "stl_jDk30akdN",
+          "reference": "1234567.2404.03",
+          "createdAt": "2024-04-06T09:41:44+00:00",
+          "status": "paidout",
+          "amount": {
+            "currency": "EUR",
+            "value": "39.75"
+          },
+          "balanceId": "bal_3kUf4yU2nT",
+          "invoiceId": "inv_FrvewDA3Pr",
+          "periods": {
+            "2024": {
+              "04": {
+                "revenue": [
+                  {
+                    "description": "iDEAL",
+                    "method": "ideal",
+                    "count": 6,
+                    "amountNet": {
+                      "currency": "EUR",
+                      "value": "86.1000"
+                    },
+                    "amountVat": null,
+                    "amountGross": {
+                      "currency": "EUR",
+                      "value": "86.1000"
+                    }
+                  },
+                  {
+                    "description": "Refunds iDEAL",
+                    "method": "refund",
+                    "count": 2,
+                    "amountNet": {
+                      "currency": "EUR",
+                      "value": "-43.2000"
+                    },
+                    "amountVat": null,
+                    "amountGross": {
+                      "currency": "EUR",
+                      "value": "-43.2000"
+                    }
+                  }
+                ],
+                "costs": [
+                  {
+                    "description": "iDEAL",
+                    "method": "ideal",
+                    "count": 6,
+                    "rate": {
+                      "fixed": {
+                        "currency": "EUR",
+                        "value": "0.3500"
+                      },
+                      "percentage": null
+                    },
+                    "amountNet": {
+                      "currency": "EUR",
+                      "value": "2.1000"
+                    },
+                    "amountVat": {
+                      "currency": "EUR",
+                      "value": "0.4410"
+                    },
+                    "amountGross": {
+                      "currency": "EUR",
+                      "value": "2.5410"
+                    }
+                  },
+                  {
+                    "description": "Refunds iDEAL",
+                    "method": "refund",
+                    "count": 2,
+                    "rate": {
+                      "fixed": {
+                        "currency": "EUR",
+                        "value": "0.2500"
+                      },
+                      "percentage": null
+                    },
+                    "amountNet": {
+                      "currency": "EUR",
+                      "value": "0.5000"
+                    },
+                    "amountVat": {
+                      "currency": "EUR",
+                      "value": "0.1050"
+                    },
+                    "amountGross": {
+                      "currency": "EUR",
+                      "value": "0.6050"
+                    }
+                  }
+                ],
+                "invoiceId": "inv_FrvewDA3Pr"
+              }
+            }
+          },
+          "settledAt": "2024-04-06T09:41:44+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "payments": {
+              "href": "https://api.mollie.com/v2/settlements/stl_jDk30akdN/payments",
+              "type": "application/hal+json"
+            },
+            "refunds": {
+              "href": "https://api.mollie.com/v2/settlements/stl_jDk30akdN/refunds",
+              "type": "application/hal+json"
+            },
+            "chargebacks": {
+              "href": "https://api.mollie.com/v2/settlements/stl_jDk30akdN/chargebacks",
+              "type": "application/hal+json"
+            },
+            "captures": {
+              "href": "https://api.mollie.com/v2/settlements/stl_jDk30akdN/captures",
+              "type": "application/hal+json"
+            },
+            "invoice": {
+              "href": "https://api.mollie.com/v2/invoices/inv_FrvewDA3Pr",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

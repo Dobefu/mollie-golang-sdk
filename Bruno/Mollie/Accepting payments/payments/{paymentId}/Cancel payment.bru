@@ -1,0 +1,234 @@
+meta {
+  name: Cancel payment
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/payments/:paymentId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Depending on the payment method, you may be able to cancel a payment for a certain amount of time — usually until the next business day or as long as the payment status is open.
+  
+  Payments may also be canceled manually from the Mollie Dashboard.
+  
+  The `isCancelable` property on the [Payment object](get-payment) will indicate if the payment can be canceled.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.write**](/reference/authentication)
+}
+
+example {
+  name: The canceled payment object
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId
+    method: DELETE
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_WDqYK6vllg",
+          "mode": "live",
+          "amount": {
+            "value": "35.07",
+            "currency": "EUR"
+          },
+          "description": "Order 33",
+          "method": "banktransfer",
+          "details": {
+            "bankName": "Stichting Mollie Payments",
+            "bankAccount": "NL53ABNA0627535577",
+            "bankBic": "ABNANL2A",
+            "transferReference": "RF12-3456-7890-1234"
+          },
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://webshop.example.org/order/33/",
+          "metadata": null,
+          "profileId": "pfl_QkEhN94Ba",
+          "status": "canceled",
+          "createdAt": "2024-03-20T09:13:37+00:00",
+          "canceledAt": "2024-03-20T10:19:15+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_12345678/payments/tr_WDqYK6vllg",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId
+    method: DELETE
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if you are trying to cancel a payment that can no longer be canceled.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId
+    method: DELETE
+    mode: json
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The payment cannot be cancelled",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

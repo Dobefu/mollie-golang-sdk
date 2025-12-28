@@ -1,0 +1,1886 @@
+meta {
+  name: Create customer payment
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/customers/:customerId/payments
+  body: json
+  auth: bearer
+}
+
+params:path {
+  customerId: cst_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "amount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "description": "Chess Board",
+    "redirectUrl": "https://example.org/redirect",
+    "id": "tr_5B8cwPMGnU",
+    "amountRefunded": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "amountRemaining": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "amountCaptured": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "amountChargedBack": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "settlementAmount": {
+      "currency": "EUR",
+      "value": "10.00"
+    },
+    "cancelUrl": "https://example.org/cancel",
+    "webhookUrl": "https://example.org/webhooks",
+    "lines": null,
+    "billingAddress": {
+      "title": "Mr.",
+      "givenName": "Piet",
+      "familyName": "Mondriaan",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "Apt. 1",
+      "postalCode": "1234AB",
+      "email": "piet@example.org",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "shippingAddress": {
+      "title": "Mr.",
+      "givenName": "Piet",
+      "familyName": "Mondriaan",
+      "organizationName": "Mollie B.V.",
+      "streetAndNumber": "Keizersgracht 126",
+      "streetAdditional": "Apt. 1",
+      "postalCode": "1234AB",
+      "email": "piet@example.org",
+      "phone": "string",
+      "city": "Amsterdam",
+      "region": "Noord-Holland",
+      "country": "NL"
+    },
+    "locale": "en_US",
+    "method": "ideal",
+    "issuer": "ideal_INGBNL2A",
+    "restrictPaymentMethodsToCountry": "NL",
+    "metadata": "string",
+    "captureMode": "manual",
+    "captureDelay": "8 hours",
+    "applicationFee": null,
+    "routing": [
+      {
+        "id": "rt_5B8cwPMGnU",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_1234567"
+        },
+        "_links": {
+          "self": {
+            "href": "https://...",
+            "type": "application/hal+json"
+          },
+          "payment": {
+            "href": "https://...",
+            "type": "application/hal+json"
+          }
+        },
+        "releaseDate": "2024-12-12",
+        "resource": 4965.6324650535735,
+        "mode": "string"
+      },
+      {
+        "id": "rt_5B8cwPMGnU",
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_1234567"
+        },
+        "_links": {
+          "self": {
+            "href": "https://...",
+            "type": "application/hal+json"
+          },
+          "payment": {
+            "href": "https://...",
+            "type": "application/hal+json"
+          }
+        },
+        "releaseDate": "2024-12-12",
+        "resource": true,
+        "mode": "string"
+      }
+    ],
+    "sequenceType": "oneoff",
+    "subscriptionId": "sub_5B8cwPMGnU",
+    "mandateId": "mdt_5B8cwPMGnU",
+    "customerId": "cst_5B8cwPMGnU",
+    "profileId": "pfl_5B8cwPMGnU",
+    "settlementId": "stl_5B8cwPMGnU",
+    "orderId": "ord_5B8cwPMGnU",
+    "dueDate": "2025-01-01",
+    "testmode": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Creates a payment for the customer.
+  
+  Linking customers to payments enables you to:
+  
+  * Keep track of payment preferences for your customers
+  * Allow your customers to charge a previously used credit card with a single click in our hosted checkout
+  * Improve payment insights in the Mollie dashboard
+  * Use recurring payments
+  
+  This endpoint is effectively an alias of the [Create payment endpoint](create-payment) with the `customerId` parameter predefined.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.write**](/reference/authentication)
+}
+
+example {
+  name: The payment object
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "description": "Chess Board",
+        "redirectUrl": "https://example.org/redirect",
+        "id": "tr_5B8cwPMGnU",
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountRemaining": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountCaptured": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountChargedBack": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "cancelUrl": "https://example.org/cancel",
+        "webhookUrl": "https://example.org/webhooks",
+        "lines": null,
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrictPaymentMethodsToCountry": "NL",
+        "metadata": "string",
+        "captureMode": "manual",
+        "captureDelay": "8 hours",
+        "applicationFee": null,
+        "routing": [
+          {
+            "id": "rt_5B8cwPMGnU",
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "destination": {
+              "type": "organization",
+              "organizationId": "org_1234567"
+            },
+            "_links": {
+              "self": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              },
+              "payment": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              }
+            },
+            "releaseDate": "2024-12-12",
+            "resource": 4965.6324650535735,
+            "mode": "string"
+          },
+          {
+            "id": "rt_5B8cwPMGnU",
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "destination": {
+              "type": "organization",
+              "organizationId": "org_1234567"
+            },
+            "_links": {
+              "self": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              },
+              "payment": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              }
+            },
+            "releaseDate": "2024-12-12",
+            "resource": true,
+            "mode": "string"
+          }
+        ],
+        "sequenceType": "oneoff",
+        "subscriptionId": "sub_5B8cwPMGnU",
+        "mandateId": "mdt_5B8cwPMGnU",
+        "customerId": "cst_5B8cwPMGnU",
+        "profileId": "pfl_5B8cwPMGnU",
+        "settlementId": "stl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "dueDate": "2025-01-01",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+          "mode": "live",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "Order #12345",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://webshop.example.org/order/12345/",
+          "webhookUrl": "https://webshop.example.org/payments/webhook/",
+          "metadata": "{\"order_id\":12345}",
+          "profileId": "pfl_QkEhN94Ba",
+          "status": "open",
+          "isCancelable": false,
+          "createdAt": "2024-03-20T09:13:37+00:00",
+          "expiresAt": "2024-03-20T09:28:37+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_12345678/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Minimum viable request
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "I can do payments now",
+          "redirectUrl": "https:\/\/example.com"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_KQb4E3WfpA",
+          "mode": "test",
+          "createdAt": "2021-12-14T12:53:25+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "I can do payments now",
+          "method": "ideal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2021-12-14T13:08:25+00:00",
+          "profileId": "pfl_fFdmWR2qQU",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/KQb4E3WfpA",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_9253561/payments/tr_KQb4E3WfpA",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Dutch credit card payment with address
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "This is the description",
+          "redirectUrl": "https:\/\/example.com\/redirect",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "locale": "nl_NL",
+          "method": "creditcard",
+          "billingAddress": {
+              "streetAndNumber": "Keizersgracht 126",
+              "postalCode": "1234AB",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "country": "NL"
+          }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_92M7kM99Rg",
+          "mode": "test",
+          "createdAt": "2021-12-29T13:39:35+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description",
+          "method": "creditcard",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2021-12-29T13:56:35+00:00",
+          "locale": "nl_NL",
+          "profileId": "pfl_85dxyKqNHa",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "settlementAmount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=3.onk00c",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_92M7kM99Rg",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Protected Paypal payment
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "This is the description Order ABS123",
+          "redirectUrl": "https:\/\/example.com\/redirect",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "locale": "nl_NL",
+          "method": "paypal",
+          "digitalGoods": false,
+          "shippingAddress": {
+              "streetAndNumber": "Keizersgracht 126",
+              "streetAdditional": "4th floor",
+              "city": "Haarlem",
+              "region": "Noord-Holland",
+              "postalCode": "5678AB",
+              "country": "NL",
+              "givenName": "Chuck",
+              "familyName": "Norris"
+          }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_RyNpP6zd9t",
+          "mode": "test",
+          "createdAt": "2022-01-14T14:49:45+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description Order ABS123",
+          "method": "paypal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-14T17:49:45+00:00",
+          "locale": "nl_NL",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "details": {
+            "shippingAddress": {
+              "streetAndNumber": "Keizersgracht 126",
+              "postalCode": "5678AB",
+              "city": "Haarlem",
+              "region": "Noord-Holland",
+              "country": "NL"
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/test-mode?method=paypal&token=3.ruux9k",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/payments/tr_RyNpP6zd9t",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: iDeal payment with QR-code
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments?include=details.qrCode
+    method: POST
+    mode: json
+    params:query: {
+      include: details.qrCode
+    }
+  
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "This is the description of the payment",
+          "redirectUrl": "https:\/\/example.com\/redirect",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "method": "ideal"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_hSW7aK9NJA",
+          "mode": "test",
+          "createdAt": "2022-01-14T14:57:33+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description of the payment",
+          "method": "ideal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-14T15:12:33+00:00",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "details": {
+            "qrCode": {
+              "src": "https://example.com/ideal-qr/qr/get/e9b52d78-9af9-4b4c-b7f7-f63499525d22",
+              "width": 180,
+              "height": 180
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-issuer/ideal/hSW7aK9NJA",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/payments/tr_hSW7aK9NJA",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: First payment linked to customer (creates mandate)
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "0.00"
+          },
+          "description": "Direct debit charge as recuring payment",
+          "redirectUrl": "https:\/\/example.com\/redirect",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "locale": "en_US",
+          "method": "creditcard",
+          "sequenceType": "first",
+          "customerId": "cst_tKt44u85MM",
+          "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+          }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_NQCRf7VtKP",
+          "mode": "test",
+          "createdAt": "2022-01-14T14:37:01+00:00",
+          "amount": {
+            "value": "0.00",
+            "currency": "EUR"
+          },
+          "description": "Direct debit charge as recuring payment",
+          "method": "creditcard",
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-14T14:54:01+00:00",
+          "locale": "en_US",
+          "profileId": "pfl_85dxyKqNHa",
+          "customerId": "cst_tKt44u85MM",
+          "mandateId": "mdt_KmQnsDNkq2",
+          "sequenceType": "first",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=3.ivicl6",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_NQCRf7VtKP",
+              "type": "text/html"
+            },
+            "customer": {
+              "href": "https://api.mollie.com/v2/customers/cst_tKt44u85MM",
+              "type": "application/hal+json"
+            },
+            "mandate": {
+              "href": "https://api.mollie.com/v2/customers/cst_tKt44u85MM/mandates/mdt_KmQnsDNkq2",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Recurring payment linked to customer
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "20.00"
+          },
+          "description": "Direct debit charge as recuring payment",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "locale": "en_US",
+          "method": "directdebit",
+          "sequenceType": "recurring",
+          "customerId": "cst_tKt44u85MM",
+          "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+          }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_DjH8FpPNj7",
+          "mode": "test",
+          "createdAt": "2022-01-04T12:44:39+00:00",
+          "amount": {
+            "value": "20.00",
+            "currency": "EUR"
+          },
+          "description": "Direct debit charge as recuring payment",
+          "method": "directdebit",
+          "metadata": {
+            "someProperty": "someValue",
+            "anotherProperty": "anotherValue"
+          },
+          "status": "pending",
+          "isCancelable": true,
+          "locale": "en_US",
+          "profileId": "pfl_85dxyKqNHa",
+          "customerId": "cst_tKt44u85MM",
+          "mandateId": "mdt_uDPFVsxjR4",
+          "sequenceType": "recurring",
+          "redirectUrl": null,
+          "webhookUrl": "https://example.com/webhook",
+          "settlementAmount": {
+            "value": "20.00",
+            "currency": "EUR"
+          },
+          "details": {
+            "transferReference": "SD49-7608-3386-2993",
+            "creditorIdentifier": "NL08ZZZ502057730000",
+            "consumerName": "Jane Doe",
+            "consumerAccount": "NL55INGB0000000000",
+            "consumerBic": "INGBNL2A",
+            "dueDate": "2022-01-05",
+            "signatureDate": "2022-01-04"
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_DjH8FpPNj7",
+              "type": "text/html"
+            },
+            "changePaymentState": {
+              "href": "https://www.mollie.com/checkout/test-mode?method=directdebit&token=3.88ss2m",
+              "type": "text/html"
+            },
+            "customer": {
+              "href": "https://api.mollie.com/v2/customers/cst_tKt44u85MM",
+              "type": "application/hal+json"
+            },
+            "mandate": {
+              "href": "https://api.mollie.com/v2/customers/cst_tKt44u85MM/mandates/mdt_uDPFVsxjR4",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Card authorization with manual capture mode
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "This is the description",
+          "redirectUrl": "https:\/\/example.com\/redirect",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "locale": "nl_NL",
+          "method": "creditcard",
+          "billingAddress": {
+              "streetAndNumber": "Keizersgracht 126",
+              "postalCode": "1234AB",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "country": "NL"
+          },
+          "captureMode": "manual"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_HnJygmFKY2",
+          "mode": "test",
+          "createdAt": "2023-06-05T12:56:30+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description",
+          "method": "creditcard",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2023-06-05T13:11:30+00:00",
+          "amountCaptured": {
+            "value": "0.00",
+            "currency": "EUR"
+          },
+          "locale": "nl_NL",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "captureMode": "manual",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/credit-card/embedded/HnJygmFKY2",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://my.mollie.com/dashboard/org_7049691/payments/tr_HnJygmFKY2",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Card authorization with delayed automatic capture
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "This is the description",
+          "redirectUrl": "https:\/\/example.com\/redirect",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "locale": "nl_NL",
+          "method": "creditcard",
+          "billingAddress": {
+              "streetAndNumber": "Keizersgracht 126",
+              "postalCode": "1234AB",
+              "city": "Amsterdam",
+              "region": "Noord-Holland",
+              "country": "NL"
+          },
+          "captureDelay": "2 days"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_EZLbsLBhYb",
+          "mode": "test",
+          "createdAt": "2023-06-05T12:59:45+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "This is the description",
+          "method": "creditcard",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2023-06-05T13:14:45+00:00",
+          "amountCaptured": {
+            "value": "0.00",
+            "currency": "EUR"
+          },
+          "locale": "nl_NL",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "captureMode": "automatic",
+          "captureDelay": "2 days",
+          "redirectUrl": "https://example.com/redirect",
+          "webhookUrl": "https://example.com/webhook",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/credit-card/embedded/EZLbsLBhYb",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://my.mollie.com/dashboard/org_7049691/payments/tr_EZLbsLBhYb",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Create payment on submerchants profile
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "I can do payments now",
+          "redirectUrl": "https:\/\/example.com",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "profileId": "pfl_zcfJRjkf6P",
+          "testmode": true
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_95my2qPt3H",
+          "mode": "test",
+          "createdAt": "2022-01-19T13:22:39+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "I can do payments now",
+          "method": "ideal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-19T13:37:39+00:00",
+          "profileId": "pfl_zcfJRjkf6P",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/95my2qPt3H",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/payments/tr_95my2qPt3H",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Submerchant payment with application fee
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "description": "I can do payments now",
+          "redirectUrl": "https:\/\/example.com",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/example.com\/webhook",
+          "profileId": "pfl_zcfJRjkf6P",
+          "applicationFee": {
+              "amount": {
+                  "currency": "EUR",
+                  "value": "1.50"
+              },
+              "description": "Platform free"
+          },
+          "testmode": true
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_jDqwhKQVgW",
+          "mode": "test",
+          "createdAt": "2022-01-19T13:28:30+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "I can do payments now",
+          "method": "ideal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-19T13:43:30+00:00",
+          "profileId": "pfl_zcfJRjkf6P",
+          "applicationFee": {
+            "amount": {
+              "value": "1.50",
+              "currency": "EUR"
+            },
+            "description": "Platform free"
+          },
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/jDqwhKQVgW",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_7049691/payments/tr_jDqwhKQVgW",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Single-split payment (routing)
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+          },
+          "method": "ideal",
+          "description": "My first routed payment",
+          "redirectUrl": "https:\/\/www.mollie.com\/en",
+          "cancelUrl": "https:\/\/example.com\/payment-cancelled",
+          "webhookUrl": "https:\/\/www.mollie.com\/en",
+          "profileId": "pfl_85dxyKqNHa",
+          "routing": [
+              {
+                  "amount": {
+                      "currency": "EUR",
+                      "value": "7.50"
+                  },
+                  "destination": {
+                      "type": "organization",
+                      "organizationId": "org_7049691"
+                  }
+              }
+          ],
+          "testmode": true
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_wuGFwxKB7g",
+          "mode": "test",
+          "createdAt": "2022-01-21T11:16:15+00:00",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "My first routed payment",
+          "method": "ideal",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": false,
+          "expiresAt": "2022-01-21T11:31:15+00:00",
+          "profileId": "pfl_85dxyKqNHa",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://www.mollie.com/en",
+          "webhookUrl": "https://www.mollie.com/en",
+          "routing": [
+            {
+              "resource": "route",
+              "id": "rt_p70g7o9kj239d49rj4",
+              "mode": "test",
+              "amount": {
+                "value": "7.50",
+                "currency": "EUR"
+              },
+              "destination": {
+                "type": "organization",
+                "organizationId": "org_7049691"
+              },
+              "createdAt": "2022-01-21T11:16:15+00:00",
+              "_links": {
+                "self": {
+                  "href": "...",
+                  "type": "application/hal+json"
+                },
+                "payment": {
+                  "href": "...",
+                  "type": "text/html"
+                }
+              }
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-issuer/ideal/wuGFwxKB7g",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_wuGFwxKB7g",
+              "type": "text/html"
+            },
+            "routes": {
+              "href": "https://api.mollie.com/v2/payments/tr_wuGFwxKB7g/routes?testmode=true",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if a payment description is missing, or if the specified amount is higher than the maximum allowed amount.
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "description": "Chess Board",
+        "redirectUrl": "https://example.org/redirect",
+        "id": "tr_5B8cwPMGnU",
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountRemaining": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountCaptured": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountChargedBack": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "cancelUrl": "https://example.org/cancel",
+        "webhookUrl": "https://example.org/webhooks",
+        "lines": null,
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrictPaymentMethodsToCountry": "NL",
+        "metadata": "string",
+        "captureMode": "manual",
+        "captureDelay": "8 hours",
+        "applicationFee": null,
+        "routing": [
+          {
+            "id": "rt_5B8cwPMGnU",
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "destination": {
+              "type": "organization",
+              "organizationId": "org_1234567"
+            },
+            "_links": {
+              "self": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              },
+              "payment": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              }
+            },
+            "releaseDate": "2024-12-12",
+            "resource": 4965.6324650535735,
+            "mode": "string"
+          },
+          {
+            "id": "rt_5B8cwPMGnU",
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "destination": {
+              "type": "organization",
+              "organizationId": "org_1234567"
+            },
+            "_links": {
+              "self": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              },
+              "payment": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              }
+            },
+            "releaseDate": "2024-12-12",
+            "resource": true,
+            "mode": "string"
+          }
+        ],
+        "sequenceType": "oneoff",
+        "subscriptionId": "sub_5B8cwPMGnU",
+        "mandateId": "mdt_5B8cwPMGnU",
+        "customerId": "cst_5B8cwPMGnU",
+        "profileId": "pfl_5B8cwPMGnU",
+        "settlementId": "stl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "dueDate": "2025-01-01",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The 'description' field is missing",
+          "field": "description",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The payment method supplier is currently unavailable. For example, if you are setting up an iDEAL payment but the iDEAL network is having issues, we may return this error response.
+  
+  request: {
+    url: {{baseUrl}}/customers/:customerId/payments
+    method: POST
+    mode: json
+    params:path: {
+      customerId: cst_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "amount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "description": "Chess Board",
+        "redirectUrl": "https://example.org/redirect",
+        "id": "tr_5B8cwPMGnU",
+        "amountRefunded": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountRemaining": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountCaptured": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "amountChargedBack": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "settlementAmount": {
+          "currency": "EUR",
+          "value": "10.00"
+        },
+        "cancelUrl": "https://example.org/cancel",
+        "webhookUrl": "https://example.org/webhooks",
+        "lines": null,
+        "billingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "shippingAddress": {
+          "title": "Mr.",
+          "givenName": "Piet",
+          "familyName": "Mondriaan",
+          "organizationName": "Mollie B.V.",
+          "streetAndNumber": "Keizersgracht 126",
+          "streetAdditional": "Apt. 1",
+          "postalCode": "1234AB",
+          "email": "piet@example.org",
+          "phone": "string",
+          "city": "Amsterdam",
+          "region": "Noord-Holland",
+          "country": "NL"
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrictPaymentMethodsToCountry": "NL",
+        "metadata": "string",
+        "captureMode": "manual",
+        "captureDelay": "8 hours",
+        "applicationFee": null,
+        "routing": [
+          {
+            "id": "rt_5B8cwPMGnU",
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "destination": {
+              "type": "organization",
+              "organizationId": "org_1234567"
+            },
+            "_links": {
+              "self": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              },
+              "payment": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              }
+            },
+            "releaseDate": "2024-12-12",
+            "resource": 4965.6324650535735,
+            "mode": "string"
+          },
+          {
+            "id": "rt_5B8cwPMGnU",
+            "amount": {
+              "currency": "EUR",
+              "value": "10.00"
+            },
+            "destination": {
+              "type": "organization",
+              "organizationId": "org_1234567"
+            },
+            "_links": {
+              "self": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              },
+              "payment": {
+                "href": "https://...",
+                "type": "application/hal+json"
+              }
+            },
+            "releaseDate": "2024-12-12",
+            "resource": true,
+            "mode": "string"
+          }
+        ],
+        "sequenceType": "oneoff",
+        "subscriptionId": "sub_5B8cwPMGnU",
+        "mandateId": "mdt_5B8cwPMGnU",
+        "customerId": "cst_5B8cwPMGnU",
+        "profileId": "pfl_5B8cwPMGnU",
+        "settlementId": "stl_5B8cwPMGnU",
+        "orderId": "ord_5B8cwPMGnU",
+        "dueDate": "2025-01-01",
+        "testmode": false
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Service Unavailable
+      text: 503
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 503,
+          "title": "Service Unavailable",
+          "detail": "Payment platform for this payment method temporarily not available",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,307 @@
+meta {
+  name: Create order payment
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/orders/:orderId/payments
+  body: json
+  auth: bearer
+}
+
+params:path {
+  orderId: ord_5B8cwPMGnU
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "method": "ideal",
+    "customerId": "cst_5B8cwPMGnU",
+    "mandateId": "mdt_5B8cwPMGnU",
+    "sequenceType": "oneoff",
+    "webhookUrl": "https://example.org/webhooks",
+    "metadata": "string",
+    "applicationFee": null
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
+  
+  An order has an automatically created payment that your customer can use to pay for the order. When the payment expires you can create a new payment for the order using this endpoint. A maximum of 25 payments can be created for an order.
+  
+  A new payment can only be created while the status of the order is `created`, and when the status of the existing payment is either `expired`, `canceled` or `failed`.
+  
+  The endpoint accepts virtually all parameters accepted by the regular [Create payment](create-payment) endpoint. Please refer to that endpoint for the full documentation of all parameters.
+  
+  The payment inherits certain properties, such as the `amount` and `webhookUrl`, directly from the order. These cannot be changed via this endpoint.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.write**](/reference/authentication)
+}
+
+example {
+  name: The newly created payment object
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/payments
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "method": "ideal",
+        "customerId": "cst_5B8cwPMGnU",
+        "mandateId": "mdt_5B8cwPMGnU",
+        "sequenceType": "oneoff",
+        "webhookUrl": "https://example.org/webhooks",
+        "metadata": "string",
+        "applicationFee": null
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+          "mode": "live",
+          "amount": {
+            "value": "10.00",
+            "currency": "EUR"
+          },
+          "description": "Order #12345",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://webshop.example.org/order/12345/",
+          "webhookUrl": "https://webshop.example.org/payments/webhook/",
+          "metadata": "{\"order_id\":12345}",
+          "profileId": "pfl_QkEhN94Ba",
+          "status": "open",
+          "isCancelable": false,
+          "orderId": "ord_pbjz8x",
+          "createdAt": "2024-03-20T09:13:37+00:00",
+          "expiresAt": "2024-03-20T09:28:37+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/select-method/7UhSN1zuXS",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_12345678/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Create bank transfer payment for order
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/payments
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+          "method": "banktransfer"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Created
+      text: 201
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "payment",
+          "id": "tr_KP3rG8k8xd",
+          "mode": "test",
+          "createdAt": "2022-01-04T16:33:31+00:00",
+          "amount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "description": "Order 1337",
+          "method": "banktransfer",
+          "metadata": null,
+          "status": "open",
+          "isCancelable": true,
+          "expiresAt": "2022-01-29T05:00:00+00:00",
+          "locale": "en_US",
+          "profileId": "pfl_85dxyKqNHa",
+          "orderId": "ord_efu0tw",
+          "sequenceType": "oneoff",
+          "redirectUrl": "https://example.com/landing_page",
+          "settlementAmount": {
+            "value": "289.00",
+            "currency": "EUR"
+          },
+          "details": {
+            "bankName": "Stichting Mollie Payments",
+            "bankAccount": "NL10TEST000100100",
+            "bankBic": "TESTNL10",
+            "transferReference": "RF12-3965-1375-9211",
+            "billingEmail": "test@mollie.com"
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "checkout": {
+              "href": "https://www.mollie.com/checkout/test-mode?method=banktransfer&token=3.49yvc6",
+              "type": "text/html"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_KP3rG8k8xd",
+              "type": "text/html"
+            },
+            "order": {
+              "href": "https://api.mollie.com/v2/orders/ord_efu0tw",
+              "type": "application/hal+json"
+            },
+            "status": {
+              "href": "https://www.mollie.com/checkout/bank-transfer/status/3.49yvc6",
+              "type": "text/html"
+            },
+            "payOnline": {
+              "href": "https://www.mollie.com/checkout/bank-transfer/pay-online/3.49yvc6",
+              "type": "text/html"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/orders/:orderId/payments
+    method: POST
+    mode: json
+    params:path: {
+      orderId: ord_5B8cwPMGnU
+    }
+  
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  
+    body:json: {
+      {
+        "method": "ideal",
+        "customerId": "cst_5B8cwPMGnU",
+        "mandateId": "mdt_5B8cwPMGnU",
+        "sequenceType": "oneoff",
+        "webhookUrl": "https://example.org/webhooks",
+        "metadata": "string",
+        "applicationFee": null
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,1416 @@
+meta {
+  name: Get balance report
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/balances/:balanceId/report?from=2024-01-01&until=2024-02-01&grouping=status-balances&testmode=false
+  body: none
+  auth: oauth2
+}
+
+params:query {
+  from: 2024-01-01
+  until: 2024-02-01
+  grouping: status-balances
+  testmode: false
+}
+
+params:path {
+  balanceId: bal_gVMhHKqSSRYJyPsuoPNFH
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a summarized report for all transactions on a given balance within a given timeframe.
+  
+  The API also provides a detailed report on all 'prepayments' for Mollie fees that were deducted from your balance during the reported period, ahead of your Mollie invoice.
+  
+  The alias `primary` can be used instead of the balance ID to refer to the organization's primary balance.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **balance-reports.read**](/reference/authentication)
+}
+
+example {
+  name: The balance report object
+  
+  request: {
+    url: {{baseUrl}}/balances/:balanceId/report?from=2024-01-01&until=2024-02-01&grouping=status-balances&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: 2024-01-01
+      until: 2024-02-01
+      grouping: status-balances
+      testmode: false
+    }
+  
+    params:path: {
+      balanceId: bal_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "balance-report",
+          "balanceId": "bal_gVMhHKqSSRYJyPsuoPNFH",
+          "timeZone": "Europe/Amsterdam",
+          "from": "2024-01-01",
+          "until": "2024-01-31",
+          "grouping": "transaction-categories",
+          "totals": {
+            "open": {
+              "available": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                }
+              },
+              "pending": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                }
+              }
+            },
+            "payments": {
+              "immediatelyAvailable": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                }
+              },
+              "pending": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "4.98"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "payment",
+                    "count": 1,
+                    "amount": {
+                      "currency": "EUR",
+                      "value": "4.98"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "ideal",
+                        "count": 1,
+                        "amount": {
+                          "currency": "EUR",
+                          "value": "4.98"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                }
+              }
+            },
+            "refunds": {},
+            "capital": {},
+            "chargebacks": {},
+            "transfers": {},
+            "fee-prepayments": {
+              "immediatelyAvailable": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                }
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "-0.36"
+                },
+                "subtotals": [
+                  {
+                    "prepaymentPartType": "fee",
+                    "count": 1,
+                    "amount": {
+                      "currency": "EUR",
+                      "value": "-0.29"
+                    },
+                    "subtotals": [
+                      {
+                        "feeType": "payment-fee",
+                        "method": "ideal",
+                        "count": 1,
+                        "amount": {
+                          "currency": "EUR",
+                          "value": "-0.29"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "prepaymentPartType": "fee-vat",
+                    "amount": {
+                      "currency": "EUR",
+                      "value": "-0.0609"
+                    }
+                  },
+                  {
+                    "prepaymentPartType": "fee-rounding-compensation",
+                    "amount": {
+                      "currency": "EUR",
+                      "value": "-0.0091"
+                    }
+                  }
+                ]
+              },
+              "pending": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "-0.36"
+                },
+                "subtotals": []
+              }
+            },
+            "corrections": {},
+            "close": {
+              "available": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "0.00"
+                }
+              },
+              "pending": {
+                "amount": {
+                  "currency": "EUR",
+                  "value": "4.32"
+                }
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get balance report - status-balances grouping
+  
+  request: {
+    url: {{baseUrl}}/balances/:balanceId/report?from=2022-12-01&until=2022-12-16
+    method: GET
+    mode: none
+    params:query: {
+      from: 2022-12-01
+      until: 2022-12-16
+    }
+  
+    params:path: {
+      balanceId: bal_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "balance-report",
+          "balanceId": "bal_CKjKwQdjCwCSArXFAJNFH",
+          "timeZone": "Europe/Amsterdam",
+          "from": "2022-12-01",
+          "until": "2022-12-16",
+          "grouping": "status-balances",
+          "totals": {
+            "pendingBalance": {
+              "open": {
+                "amount": {
+                  "value": "5.21",
+                  "currency": "EUR"
+                }
+              },
+              "pending": {
+                "amount": {
+                  "value": "4380.51",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "payment",
+                    "count": 82,
+                    "amount": {
+                      "value": "4382.75",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "creditcard",
+                        "count": 1,
+                        "amount": {
+                          "value": "1.00",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "cardIssuer": "amex",
+                            "cardAudience": "other",
+                            "cardRegion": "intra-eea",
+                            "count": 1,
+                            "amount": {
+                              "value": "1.00",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "method": "ideal",
+                        "count": 7,
+                        "amount": {
+                          "value": "0.30",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 74,
+                        "amount": {
+                          "value": "4381.45",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "fee-prepayment",
+                    "amount": {
+                      "value": "-2.24",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "prepaymentPartType": "fee",
+                        "count": 8,
+                        "amount": {
+                          "value": "-2.239",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "feeType": "payment-fee",
+                            "count": 8,
+                            "amount": {
+                              "value": "-2.239",
+                              "currency": "EUR"
+                            },
+                            "subtotals": [
+                              {
+                                "method": "creditcard",
+                                "count": 1,
+                                "amount": {
+                                  "value": "-0.279",
+                                  "currency": "EUR"
+                                },
+                                "subtotals": [
+                                  {
+                                    "cardIssuer": "amex",
+                                    "cardAudience": "other",
+                                    "cardRegion": "intra-eea",
+                                    "count": 1,
+                                    "amount": {
+                                      "value": "-0.279",
+                                      "currency": "EUR"
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "method": "ideal",
+                                "count": 7,
+                                "amount": {
+                                  "value": "-1.96",
+                                  "currency": "EUR"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "prepaymentPartType": "fee-rounding-compensation",
+                        "amount": {
+                          "value": "-0.001",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "pending-rolling-reserve",
+                    "amount": {
+                      "value": "-0.10",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "transactionType": "to-be-released-rolling-reserve",
+                    "amount": {
+                      "value": "0.10",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "1080.31",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "payment",
+                    "count": 70,
+                    "amount": {
+                      "value": "1082.65",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "creditcard",
+                        "count": 1,
+                        "amount": {
+                          "value": "1.00",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "cardIssuer": "amex",
+                            "cardAudience": "other",
+                            "cardRegion": "intra-eea",
+                            "count": 1,
+                            "amount": {
+                              "value": "1.00",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "method": "ideal",
+                        "count": 7,
+                        "amount": {
+                          "value": "0.30",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 62,
+                        "amount": {
+                          "value": "1081.35",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "fee-prepayment",
+                    "amount": {
+                      "value": "-2.24",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "prepaymentPartType": "fee",
+                        "count": 8,
+                        "amount": {
+                          "value": "-2.239",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "feeType": "payment-fee",
+                            "count": 8,
+                            "amount": {
+                              "value": "-2.239",
+                              "currency": "EUR"
+                            },
+                            "subtotals": [
+                              {
+                                "method": "creditcard",
+                                "count": 1,
+                                "amount": {
+                                  "value": "-0.279",
+                                  "currency": "EUR"
+                                },
+                                "subtotals": [
+                                  {
+                                    "cardIssuer": "amex",
+                                    "cardAudience": "other",
+                                    "cardRegion": "intra-eea",
+                                    "count": 1,
+                                    "amount": {
+                                      "value": "-0.279",
+                                      "currency": "EUR"
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "method": "ideal",
+                                "count": 7,
+                                "amount": {
+                                  "value": "-1.96",
+                                  "currency": "EUR"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "prepaymentPartType": "fee-rounding-compensation",
+                        "amount": {
+                          "value": "-0.001",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "held-rolling-reserve",
+                    "amount": {
+                      "value": "-0.10",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "close": {
+                "amount": {
+                  "value": "3305.41",
+                  "currency": "EUR"
+                }
+              }
+            },
+            "availableBalance": {
+              "open": {
+                "amount": {
+                  "value": "2.25",
+                  "currency": "EUR"
+                }
+              },
+              "movedFromPending": {
+                "amount": {
+                  "value": "1080.31",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "payment",
+                    "count": 70,
+                    "amount": {
+                      "value": "1082.65",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "creditcard",
+                        "count": 1,
+                        "amount": {
+                          "value": "1.00",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "cardIssuer": "amex",
+                            "cardAudience": "other",
+                            "cardRegion": "intra-eea",
+                            "count": 1,
+                            "amount": {
+                              "value": "1.00",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "method": "ideal",
+                        "count": 7,
+                        "amount": {
+                          "value": "0.30",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 62,
+                        "amount": {
+                          "value": "1081.35",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "fee-prepayment",
+                    "amount": {
+                      "value": "-2.24",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "prepaymentPartType": "fee",
+                        "count": 8,
+                        "amount": {
+                          "value": "-2.239",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "feeType": "payment-fee",
+                            "count": 8,
+                            "amount": {
+                              "value": "-2.239",
+                              "currency": "EUR"
+                            },
+                            "subtotals": [
+                              {
+                                "method": "creditcard",
+                                "count": 1,
+                                "amount": {
+                                  "value": "-0.279",
+                                  "currency": "EUR"
+                                },
+                                "subtotals": [
+                                  {
+                                    "cardIssuer": "amex",
+                                    "cardAudience": "other",
+                                    "cardRegion": "intra-eea",
+                                    "count": 1,
+                                    "amount": {
+                                      "value": "-0.279",
+                                      "currency": "EUR"
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "method": "ideal",
+                                "count": 7,
+                                "amount": {
+                                  "value": "-1.96",
+                                  "currency": "EUR"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "prepaymentPartType": "fee-rounding-compensation",
+                        "amount": {
+                          "value": "-0.001",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "held-rolling-reserve",
+                    "amount": {
+                      "value": "-0.10",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "-1078.74",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "refund",
+                    "count": 4,
+                    "amount": {
+                      "value": "-0.12",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "ideal",
+                        "count": 1,
+                        "amount": {
+                          "value": "-0.01",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 3,
+                        "amount": {
+                          "value": "-0.11",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "fee-prepayment",
+                    "amount": {
+                      "value": "-1.00",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "prepaymentPartType": "fee",
+                        "count": 4,
+                        "amount": {
+                          "value": "-1.00",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "feeType": "refund-fee",
+                            "count": 4,
+                            "amount": {
+                              "value": "-1.00",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "outgoing-transfer",
+                    "count": 1,
+                    "amount": {
+                      "value": "-1077.62",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "close": {
+                "amount": {
+                  "value": "3.82",
+                  "currency": "EUR"
+                }
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Get balance report - transaction-categories grouping
+  
+  request: {
+    url: {{baseUrl}}/balances/:balanceId/report?from=2022-12-01&until=2022-12-16&grouping=transaction-categories
+    method: GET
+    mode: none
+    params:query: {
+      from: 2022-12-01
+      until: 2022-12-16
+      grouping: transaction-categories
+    }
+  
+    params:path: {
+      balanceId: bal_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "balance-report",
+          "balanceId": "bal_CKjKwQdjCwCSArXFAJNFH",
+          "timeZone": "Europe/Amsterdam",
+          "from": "2022-12-01",
+          "until": "2022-12-16",
+          "grouping": "transaction-categories",
+          "totals": {
+            "open": {
+              "pending": {
+                "amount": {
+                  "value": "5.21",
+                  "currency": "EUR"
+                }
+              },
+              "available": {
+                "amount": {
+                  "value": "2.25",
+                  "currency": "EUR"
+                }
+              }
+            },
+            "payments": {
+              "pending": {
+                "amount": {
+                  "value": "4382.75",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "payment",
+                    "count": 82,
+                    "amount": {
+                      "value": "4382.75",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "creditcard",
+                        "count": 1,
+                        "amount": {
+                          "value": "1.00",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "cardIssuer": "amex",
+                            "cardAudience": "other",
+                            "cardRegion": "intra-eea",
+                            "count": 1,
+                            "amount": {
+                              "value": "1.00",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "method": "ideal",
+                        "count": 7,
+                        "amount": {
+                          "value": "0.30",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 74,
+                        "amount": {
+                          "value": "4381.45",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "pending-rolling-reserve",
+                    "amount": {
+                      "value": "-0.10",
+                      "currency": "EUR"
+                    }
+                  },
+                  {
+                    "transactionType": "to-be-released-rolling-reserve",
+                    "amount": {
+                      "value": "0.10",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "1082.55",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "payment",
+                    "count": 70,
+                    "amount": {
+                      "value": "1082.65",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "creditcard",
+                        "count": 1,
+                        "amount": {
+                          "value": "1.00",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "cardIssuer": "amex",
+                            "cardAudience": "other",
+                            "cardRegion": "intra-eea",
+                            "count": 1,
+                            "amount": {
+                              "value": "1.00",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "method": "ideal",
+                        "count": 7,
+                        "amount": {
+                          "value": "0.30",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 62,
+                        "amount": {
+                          "value": "1081.35",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "transactionType": "held-rolling-reserve",
+                    "amount": {
+                      "value": "-0.10",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              }
+            },
+            "refunds": {
+              "pending": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "-0.12",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "refund",
+                    "count": 4,
+                    "amount": {
+                      "value": "-0.12",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "method": "ideal",
+                        "count": 1,
+                        "amount": {
+                          "value": "-0.01",
+                          "currency": "EUR"
+                        }
+                      },
+                      {
+                        "method": "pointofsale",
+                        "count": 3,
+                        "amount": {
+                          "value": "-0.11",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "chargebacks": {
+              "pending": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              }
+            },
+            "capital": {
+              "pending": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              }
+            },
+            "transfers": {
+              "pending": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "-1077.62",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "transactionType": "outgoing-transfer",
+                    "count": 1,
+                    "amount": {
+                      "value": "-1077.62",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              }
+            },
+            "fee-prepayments": {
+              "pending": {
+                "amount": {
+                  "value": "-2.24",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "prepaymentPartType": "fee",
+                    "count": 8,
+                    "amount": {
+                      "value": "-2.239",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "feeType": "payment-fee",
+                        "count": 8,
+                        "amount": {
+                          "value": "-2.239",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "method": "creditcard",
+                            "count": 1,
+                            "amount": {
+                              "value": "-0.279",
+                              "currency": "EUR"
+                            },
+                            "subtotals": [
+                              {
+                                "cardIssuer": "amex",
+                                "cardAudience": "other",
+                                "cardRegion": "intra-eea",
+                                "count": 1,
+                                "amount": {
+                                  "value": "-0.279",
+                                  "currency": "EUR"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "method": "ideal",
+                            "count": 7,
+                            "amount": {
+                              "value": "-1.96",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "prepaymentPartType": "fee-rounding-compensation",
+                    "amount": {
+                      "value": "-0.001",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "-2.24",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "prepaymentPartType": "fee",
+                    "count": 8,
+                    "amount": {
+                      "value": "-2.239",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "feeType": "payment-fee",
+                        "count": 8,
+                        "amount": {
+                          "value": "-2.239",
+                          "currency": "EUR"
+                        },
+                        "subtotals": [
+                          {
+                            "method": "creditcard",
+                            "count": 1,
+                            "amount": {
+                              "value": "-0.279",
+                              "currency": "EUR"
+                            },
+                            "subtotals": [
+                              {
+                                "cardIssuer": "amex",
+                                "cardAudience": "other",
+                                "cardRegion": "intra-eea",
+                                "count": 1,
+                                "amount": {
+                                  "value": "-0.279",
+                                  "currency": "EUR"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "method": "ideal",
+                            "count": 7,
+                            "amount": {
+                              "value": "-1.96",
+                              "currency": "EUR"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "prepaymentPartType": "fee-rounding-compensation",
+                    "amount": {
+                      "value": "-0.001",
+                      "currency": "EUR"
+                    }
+                  }
+                ]
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "-1.00",
+                  "currency": "EUR"
+                },
+                "subtotals": [
+                  {
+                    "prepaymentPartType": "fee",
+                    "count": 4,
+                    "amount": {
+                      "value": "-1.00",
+                      "currency": "EUR"
+                    },
+                    "subtotals": [
+                      {
+                        "feeType": "refund-fee",
+                        "count": 4,
+                        "amount": {
+                          "value": "-1.00",
+                          "currency": "EUR"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "corrections": {
+              "pending": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "movedToAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              },
+              "immediatelyAvailable": {
+                "amount": {
+                  "value": "0.00",
+                  "currency": "EUR"
+                }
+              }
+            },
+            "close": {
+              "pending": {
+                "amount": {
+                  "value": "3305.41",
+                  "currency": "EUR"
+                }
+              },
+              "available": {
+                "amount": {
+                  "value": "3.82",
+                  "currency": "EUR"
+                }
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/balances/:balanceId/report?from=2024-01-01&until=2024-02-01&grouping=status-balances&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: 2024-01-01
+      until: 2024-02-01
+      grouping: status-balances
+      testmode: false
+    }
+  
+    params:path: {
+      balanceId: bal_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request is invalid. For example, the `from` date is after `until` date.
+  
+  request: {
+    url: {{baseUrl}}/balances/:balanceId/report?from=2024-01-01&until=2024-02-01&grouping=status-balances&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: 2024-01-01
+      until: 2024-02-01
+      grouping: status-balances
+      testmode: false
+    }
+  
+    params:path: {
+      balanceId: bal_gVMhHKqSSRYJyPsuoPNFH
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Unprocessable Entity (WebDAV) (RFC 4918)
+      text: 422
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 422,
+          "title": "Unprocessable Entity",
+          "detail": "The 'from' field is after 'until' field",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

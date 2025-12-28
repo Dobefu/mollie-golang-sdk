@@ -1,0 +1,206 @@
+meta {
+  name: Get sales invoice
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/sales-invoices/:id?testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  id: invoice_4Y0eZitmBnQ6IDoMqZQKh
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  > 🚧 Beta feature
+  >
+  > This feature is currently in beta testing, and the final specification may still change.
+  
+  Retrieve a single sales invoice by its ID.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **sales-invoices.read**](/reference/authentication)
+}
+
+example {
+  name: The Sales Invoice object.
+  
+  request: {
+    url: {{baseUrl}}/sales-invoices/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: invoice_4Y0eZitmBnQ6IDoMqZQKh
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "sales-invoice",
+          "id": "invoice_4Y0eZitmBnQ6IDoMqZQKh",
+          "mode": "live",
+          "profileId": "pfl_QkEhN94Ba",
+          "currency": "EUR",
+          "status": "draft",
+          "vatScheme": "standard",
+          "paymentTerm": "30 days",
+          "recipientIdentifier": "123532354",
+          "recipient": {
+            "type": "consumer",
+            "givenName": "Given",
+            "familyName": "Family",
+            "email": "given.family@mollie.com",
+            "streetAndNumber": "Street 1",
+            "postalCode": "1000 AA",
+            "city": "Amsterdam",
+            "country": "NL",
+            "locale": "nl_NL"
+          },
+          "lines": [
+            {
+              "description": "LEGO 4440 Forest Police Station",
+              "quantity": 1,
+              "vatRate": "21.00",
+              "unitPrice": {
+                "value": "89.00",
+                "currency": "EUR"
+              }
+            }
+          ],
+          "amountDue": {
+            "value": "107.69",
+            "currency": "EUR"
+          },
+          "subtotalAmount": {
+            "value": "89.00",
+            "currency": "EUR"
+          },
+          "totalAmount": {
+            "value": "107.69",
+            "currency": "EUR"
+          },
+          "totalVatAmount": {
+            "value": "18.69",
+            "currency": "EUR"
+          },
+          "discountedSubtotalAmount": {
+            "value": "89.00",
+            "currency": "EUR"
+          },
+          "createdAt": "2024-10-03T10:47:38+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "invoicePayment": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "pdfLink": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/sales-invoices/:id?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      id: invoice_4Y0eZitmBnQ6IDoMqZQKh
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

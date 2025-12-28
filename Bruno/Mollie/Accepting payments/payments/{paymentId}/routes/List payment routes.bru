@@ -1,0 +1,222 @@
+meta {
+  name: List payment routes
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/payments/:paymentId/routes?testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  testmode: false
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a list of all routes created for a specific payment.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **payments.read**](/reference/authentication)
+}
+
+example {
+  name: A list of route objects
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/routes?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 3,
+          "_embedded": {
+            "routes": [
+              {
+                "resource": "route",
+                "id": "crt_kSq9CDTa6FzW7c6gpYq3J",
+                "paymentId": "tr_sva3o24VKn",
+                "createdAt": "2024-05-22T15:11:19+02:00",
+                "description": "Payment for Order #12345",
+                "amount": {
+                  "value": "1.00",
+                  "currency": "EUR"
+                },
+                "destination": {
+                  "type": "organization",
+                  "organizationId": "org_123"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "route",
+                "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
+                "paymentId": "tr_sva3o24VKn",
+                "createdAt": "2024-05-22T15:11:19+02:00",
+                "description": "Payment for Order #12346",
+                "amount": {
+                  "value": "2.00",
+                  "currency": "EUR"
+                },
+                "destination": {
+                  "type": "organization",
+                  "organizationId": "org_456"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              },
+              {
+                "resource": "route",
+                "id": "crt_tntKsr6tffuVdqnEvhq3J",
+                "paymentId": "tr_sva3o24VKn",
+                "createdAt": "2024-05-22T15:11:19+02:00",
+                "description": "Payment for Order #12347",
+                "amount": {
+                  "value": "3.00",
+                  "currency": "EUR"
+                },
+                "destination": {
+                  "type": "organization",
+                  "organizationId": "org_789"
+                },
+                "_links": {
+                  "self": {
+                    "href": "...",
+                    "type": "application/hal+json"
+                  },
+                  "documentation": {
+                    "href": "...",
+                    "type": "text/html"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No entity with this ID exists.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/routes?testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

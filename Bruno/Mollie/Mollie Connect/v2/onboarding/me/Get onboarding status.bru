@@ -1,0 +1,103 @@
+meta {
+  name: Get onboarding status
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v2/onboarding/me
+  body: none
+  auth: oauth2
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve the onboarding status of the currently authenticated organization.
+  
+  > 🔑 Access with
+  >
+  > [Access token with **onboarding.read**](/reference/authentication)
+}
+
+example {
+  name: The onboarding status object of the current organization
+  
+  request: {
+    url: {{baseUrl}}/v2/onboarding/me
+    method: GET
+    mode: none
+    headers: {
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "onboarding",
+          "name": "Mollie B.V.",
+          "status": "completed",
+          "canReceivePayments": true,
+          "canReceiveSettlements": true,
+          "signedUpAt": "2023-12-20T10:49:08+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "dashboard": {
+              "href": "https://www.mollie.com/dashboard/onboarding",
+              "type": "text/html"
+            },
+            "organization": {
+              "href": "https://api.mollie.com/v2/organizations/org_12345678",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

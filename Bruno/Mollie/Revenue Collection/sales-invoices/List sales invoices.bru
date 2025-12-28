@@ -1,0 +1,196 @@
+meta {
+  name: List sales invoices
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/sales-invoices?from=invoice_4Y0eZitmBnQ6IDoMqZQKh&limit=50&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: invoice_4Y0eZitmBnQ6IDoMqZQKh
+  limit: 50
+  testmode: false
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  > 🚧 Beta feature
+  >
+  > This feature is currently in beta testing, and the final specification may still change.
+  
+  Retrieve a list of all sales invoices created through the API.
+  
+  The results are paginated.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **sales-invoices.read**](/reference/authentication)
+}
+
+example {
+  name: A list of sales invoice objects. For a complete reference of the sales invoice object, refer to the [Get sales invoice endpoint](get-sales-invoice) documentation.
+  
+  request: {
+    url: {{baseUrl}}/sales-invoices?from=invoice_4Y0eZitmBnQ6IDoMqZQKh&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: invoice_4Y0eZitmBnQ6IDoMqZQKh
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "count": 1,
+          "_embedded": {
+            "sales_invoices": [
+              {
+                "resource": "sales-invoice",
+                "id": "invoice_4Y0eZitmBnQ6IDoMqZQKh",
+                "mode": "live",
+                "profileId": "pfl_QkEhN94Ba",
+                "currency": "EUR",
+                "status": "draft",
+                "vatScheme": "standard",
+                "paymentTerm": "30 days",
+                "recipientIdentifier": "123532354",
+                "lines": [
+                  {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "vatRate": "21.00",
+                    "unitPrice": {
+                      "value": "89.00",
+                      "currency": "EUR"
+                    }
+                  }
+                ],
+                "amountDue": {
+                  "value": "107.69",
+                  "currency": "EUR"
+                },
+                "subtotalAmount": {
+                  "value": "89.00",
+                  "currency": "EUR"
+                },
+                "totalAmount": {
+                  "value": "107.69",
+                  "currency": "EUR"
+                },
+                "totalVatAmount": {
+                  "value": "18.69",
+                  "currency": "EUR"
+                },
+                "discountedSubtotalAmount": {
+                  "value": "89.00",
+                  "currency": "EUR"
+                },
+                "createdAt": "2024-10-03T10:47:38+00:00"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "next": {
+              "href": "https://api.mollie.com/v2/sales/invoices?from=invoice_4yUfQpbKnd2DUTouUdUwH&limit=5",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            },
+            "previous": null
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: The request contains issues. For example, if the specified `from` value is not a valid ID.
+  
+  request: {
+    url: {{baseUrl}}/sales-invoices?from=invoice_4Y0eZitmBnQ6IDoMqZQKh&limit=50&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      from: invoice_4Y0eZitmBnQ6IDoMqZQKh
+      limit: 50
+      testmode: false
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Bad Request
+      text: 400
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "detail": "Invalid cursor value",
+          "field": "from",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}

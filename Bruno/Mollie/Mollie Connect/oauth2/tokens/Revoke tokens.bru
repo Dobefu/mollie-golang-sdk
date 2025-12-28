@@ -1,0 +1,98 @@
+meta {
+  name: Revoke tokens
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{baseUrl}}/oauth2/tokens
+  body: json
+  auth: oauth2
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/hal+json
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: 
+  authorization_url: https://my.mollie.com/oauth2/authorize
+  access_token_url: https://api.mollie.com/oauth2/tokens
+  refresh_token_url: 
+  client_id: 
+  client_secret: 
+  scope: 
+  state: 
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: 
+  token_placement: url
+  token_query_key: 
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+body:json {
+  {
+    "token_type_hint": "string",
+    "token": "string"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Revoke an access token or refresh token. Once revoked, the token can no longer be used.
+  
+  Revoking a refresh token revokes all access tokens that were created using the same authorization.
+  
+  This endpoint can only be accessed using **OAuth client credentials**.
+  
+  > 🔑 Access with
+  >
+  > [Access token](/reference/authentication)
+}
+
+example {
+  name: An empty response.
+  
+  request: {
+    url: {{baseUrl}}/oauth2/tokens
+    method: DELETE
+    mode: json
+    headers: {
+      Content-Type: application/json
+      Accept: application/hal+json
+      Authorization: <token>
+    }
+  
+    body:json: {
+      {
+        "token_type_hint": "string",
+        "token": "string"
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: No Content
+      text: 204
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {}
+      '''
+    }
+  }
+}

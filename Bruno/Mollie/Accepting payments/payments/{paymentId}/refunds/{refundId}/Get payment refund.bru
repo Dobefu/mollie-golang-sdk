@@ -1,0 +1,164 @@
+meta {
+  name: Get payment refund
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/payments/:paymentId/refunds/:refundId?embed=payment&testmode=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  embed: payment
+  testmode: false
+}
+
+params:path {
+  paymentId: tr_5B8cwPMGnU
+  refundId: re_5B8cwPMGnU
+}
+
+headers {
+  Accept: application/hal+json
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Retrieve a single payment refund by its ID and the ID of its parent payment.
+  
+  > 🔑 Access with
+  >
+  > [API key](/reference/authentication)
+  >
+  > [Access token with **refunds.read**](/reference/authentication)
+}
+
+example {
+  name: The payment object
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/refunds/:refundId?embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+      refundId: re_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: OK
+      text: 200
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "resource": "refund",
+          "id": "re_4qqhO89gsT",
+          "mode": "live",
+          "description": "Order",
+          "amount": {
+            "currency": "EUR",
+            "value": "5.95"
+          },
+          "status": "pending",
+          "metadata": "{\"bookkeeping_id\":12345}",
+          "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo",
+          "createdAt": "2023-03-14T17:09:02+00:00",
+          "_links": {
+            "self": {
+              "href": "...",
+              "type": "application/hal+json"
+            },
+            "payment": {
+              "href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo",
+              "type": "application/hal+json"
+            },
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: No item with this ID exists, or the refund was canceled.
+  
+  request: {
+    url: {{baseUrl}}/payments/:paymentId/refunds/:refundId?embed=payment&testmode=false
+    method: GET
+    mode: none
+    params:query: {
+      embed: payment
+      testmode: false
+    }
+  
+    params:path: {
+      paymentId: tr_5B8cwPMGnU
+      refundId: re_5B8cwPMGnU
+    }
+  
+    headers: {
+      Accept: application/hal+json
+      Authorization: Bearer <token>
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/hal+json
+    }
+  
+    status: {
+      code: Not Found
+      text: 404
+    }
+  
+    body: {
+      type: text
+      content: '''
+        {
+          "status": 404,
+          "title": "Not Found",
+          "detail": "No entity exists with token '7UhSN1zuXS'",
+          "_links": {
+            "documentation": {
+              "href": "...",
+              "type": "text/html"
+            }
+          }
+        }
+      '''
+    }
+  }
+}
