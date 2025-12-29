@@ -516,3 +516,32 @@ type Payment struct {
 	RedirectURL  string            `json:"redirectUrl" url:"redirectUrl"`
 	Links        map[string]Link   `json:"_links" url:"_links"`
 }
+
+// Customer specifies a single customer instance.
+type Customer struct {
+	Resource  string            `json:"resource" url:"resource"`
+	ID        string            `json:"id" url:"id"`
+	Mode      string            `json:"mode" url:"mode"`
+	Name      string            `json:"name" url:"name"`
+	Email     string            `email:"name" url:"email"`
+	Locale    Locale            `email:"locale" url:"locale"`
+	Metadata  map[string]string `json:"metadata" url:"metadata"`
+	CreatedAt time.Time         `json:"createdAt" url:"createdAt"`
+	Links     map[string]Link   `json:"_links" url:"_links"`
+}
+
+// Payments specifies a payments response.
+type Payments struct {
+	Count    int `json:"count" url:"count"`
+	Embedded struct {
+		Payments []Payment `json:"payments" url:"payments"`
+	} `json:"_embedded" url:"_embedded"`
+}
+
+// Customers specifies a customers response.
+type Customers struct {
+	Count    int `json:"count" url:"count"`
+	Embedded struct {
+		Customers []Customer `json:"customers" url:"customers"`
+	} `json:"_embedded" url:"_embedded"`
+}

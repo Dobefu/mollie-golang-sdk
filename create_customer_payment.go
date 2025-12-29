@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-// CreatePaymentBody represents a single CreatePayment body.
-type CreatePaymentBody struct {
+// CreateCustomerPaymentBody represents a single CreateCustomerPayment body.
+type CreateCustomerPaymentBody struct {
 	Description string            `json:"description" url:"description"`
 	Amount      Amount            `json:"amount" url:"amount"`
 	RedirectURL string            `json:"redirectUrl,omitempty" url:"redirectUrl,omitempty"`
@@ -14,9 +14,16 @@ type CreatePaymentBody struct {
 	Metadata    map[string]string `json:"metadata,omitempty" url:"metadata,omitempty"`
 }
 
-// CreatePayment creates a new payment.
-func (c *Client) CreatePayment(body CreatePaymentBody) (*Payment, error) {
-	_, respBodyJSON, err := c.request("POST", "/payments", body)
+// CreateCustomerPayment creates a new customer payment.
+func (c *Client) CreateCustomerPayment(
+	customerID string,
+	body CreateCustomerPaymentBody,
+) (*Payment, error) {
+	_, respBodyJSON, err := c.request(
+		"POST",
+		fmt.Sprintf("/customers/%s/payments", customerID),
+		body,
+	)
 
 	if err != nil {
 		return nil, err

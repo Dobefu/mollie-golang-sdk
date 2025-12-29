@@ -5,15 +5,15 @@ import (
 	"fmt"
 )
 
-// GetPayment gets a single payment.
-func (c *Client) GetPayment(id string) (*Payment, error) {
-	_, respBodyJSON, err := c.request("GET", fmt.Sprintf("/payments/%s", id), nil)
+// GetCustomers gets a paginated list of customers.
+func (c *Client) GetCustomers() (*Customers, error) {
+	_, respBodyJSON, err := c.request("GET", "/customers", nil)
 
 	if err != nil {
 		return nil, err
 	}
 
-	var respBody Payment
+	var respBody Customers
 	err = json.Unmarshal(respBodyJSON, &respBody)
 
 	if err != nil {

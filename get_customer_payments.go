@@ -5,9 +5,13 @@ import (
 	"fmt"
 )
 
-// GetPayments gets a paginated list of payments.
-func (c *Client) GetPayments() (*Payments, error) {
-	_, respBodyJSON, err := c.request("GET", "/payments", nil)
+// GetCustomerPayments gets a paginated list of customer payments.
+func (c *Client) GetCustomerPayments(customerID string) (*Payments, error) {
+	_, respBodyJSON, err := c.request(
+		"GET",
+		fmt.Sprintf("/customers/%s/payments", customerID),
+		nil,
+	)
 
 	if err != nil {
 		return nil, err
