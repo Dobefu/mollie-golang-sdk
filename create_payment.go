@@ -7,11 +7,13 @@ import (
 
 // CreatePaymentBody represents a single CreatePayment body.
 type CreatePaymentBody struct {
-	Description string            `json:"description" url:"description"`
-	Amount      Amount            `json:"amount" url:"amount"`
-	RedirectURL string            `json:"redirectUrl,omitempty" url:"redirectUrl,omitempty"`
-	WebhookURL  string            `json:"webhookUrl,omitempty" url:"webhookUrl,omitempty"`
-	Metadata    map[string]string `json:"metadata,omitempty" url:"metadata,omitempty"`
+	CustomerID   string            `json:"customerId,omitempty" url:"customerId,omitempty"`
+	SequenceType string            `json:"sequenceType,omitempty" url:"sequenceType,omitempty"`
+	Description  string            `json:"description" url:"description"`
+	Amount       Amount            `json:"amount" url:"amount"`
+	RedirectURL  string            `json:"redirectUrl,omitempty" url:"redirectUrl,omitempty"`
+	WebhookURL   string            `json:"webhookUrl,omitempty" url:"webhookUrl,omitempty"`
+	Metadata     map[string]string `json:"metadata,omitempty" url:"metadata,omitempty"`
 }
 
 // CreatePayment creates a new payment.

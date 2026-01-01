@@ -3,7 +3,6 @@ package mollie
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 	"time"
 )
 
@@ -344,27 +343,14 @@ type Date struct {
 }
 
 // MarshalJSON marshals a date in a YYYY-MM-DD format.
-func (d *Date) MarshalJSON() ([]byte, error) {
-	bts, err := json.Marshal(d.Format("2006-01-02"))
+func (d Date) MarshalJSON() ([]byte, error) {
+	dateJSON, err := json.Marshal(d.Format("2006-01-02"))
 
 	if err != nil {
 		return nil, fmt.Errorf("cannot marshal Date JSON: %s", err.Error())
 	}
 
-	return bts, nil
-}
-
-// UnmarshalJSON unmarshals a date from a YYYY-MM-DD format.
-func (d *Date) UnmarshalJSON(b []byte) error {
-	date, err := time.Parse("2006-01-02", strings.Trim(string(b), `"`))
-
-	if err != nil {
-		return fmt.Errorf("cannot unmarshal Date JSON: %s", err.Error())
-	}
-
-	d.Time = date
-
-	return nil
+	return dateJSON, nil
 }
 
 // Datetime specifies a single datetime.
@@ -377,27 +363,14 @@ type Datetime struct {
 }
 
 // MarshalJSON marshals a datetime in an ISO8601 format.
-func (d *Datetime) MarshalJSON() ([]byte, error) {
-	bts, err := json.Marshal(time.RFC3339)
+func (d Datetime) MarshalJSON() ([]byte, error) {
+	dateJSON, err := json.Marshal(time.RFC3339)
 
 	if err != nil {
-		return nil, fmt.Errorf("cannot marshal Date JSON: %s", err.Error())
+		return nil, fmt.Errorf("cannot marshal DateTime JSON: %s", err.Error())
 	}
 
-	return bts, nil
-}
-
-// UnmarshalJSON unmarshals a date from an ISO8601 format.
-func (d *Datetime) UnmarshalJSON(b []byte) error {
-	date, err := time.Parse(time.RFC3339, strings.Trim(string(b), `"`))
-
-	if err != nil {
-		return fmt.Errorf("cannot unmarshal Date JSON: %s", err.Error())
-	}
-
-	d.Time = date
-
-	return nil
+	return dateJSON, nil
 }
 
 // Locale specifies a single locale.
@@ -517,6 +490,14 @@ type Payment struct {
 	Links        map[string]Link   `json:"_links" url:"_links"`
 }
 
+// Payments specifies a payments response.
+type Payments struct {
+	Count    int `json:"count" url:"count"`
+	Embedded struct {
+		Payments []Payment `json:"payments" url:"payments"`
+	} `json:"_embedded" url:"_embedded"`
+}
+
 // Customer specifies a single customer instance.
 type Customer struct {
 	Resource  string            `json:"resource" url:"resource"`
@@ -530,18 +511,31 @@ type Customer struct {
 	Links     map[string]Link   `json:"_links" url:"_links"`
 }
 
-// Payments specifies a payments response.
-type Payments struct {
-	Count    int `json:"count" url:"count"`
-	Embedded struct {
-		Payments []Payment `json:"payments" url:"payments"`
-	} `json:"_embedded" url:"_embedded"`
-}
-
 // Customers specifies a customers response.
 type Customers struct {
 	Count    int `json:"count" url:"count"`
 	Embedded struct {
 		Customers []Customer `json:"customers" url:"customers"`
 	} `json:"_embedded" url:"_embedded"`
+}
+
+// Subscription specifies a single subscription instance.
+type Subscription struct {
+	Resource        string            `json:"resource" url:"resource"`
+	ID              string            `json:"id" url:"id"`
+	Mode            string            `json:"mode" url:"mode"`
+	Amount          Amount            `json:"amount" url:"amount"`
+	Times           int               `json:"times" url:"times"`
+	TimesRemaining  int               `json:"timesRemaining" url:"timesRemaining"`
+	StartDate       time.Time         `json:"startDate" url:"startDate"`
+	NextPaymentDate time.Time         `json:"nextPaymentDate" url:"nextPaymentDate"`
+	Description     string            `json:"description" url:"description"`
+	Metadata        map[string]string `json:"metadata" url:"metadata"`
+	Method          string            `json:"method" url:"method"`
+	Status          string            `json:"status" url:"status"`
+	WebhookURL      string            `json:"webhookUrl" url:"webhookUrl"`
+	CustomerID      string            `json:"customerId" url:"customerId"`
+	MandateID       string            `json:"mandateId" url:"mandateId"`
+	CreatedAt       time.Time         `json:"createdAt" url:"createdAt"`
+	Links           map[string]Link   `json:"_links" url:"_links"`
 }
