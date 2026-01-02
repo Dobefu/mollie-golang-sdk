@@ -24,12 +24,29 @@ func (c *Client) CreatePayment(body CreatePaymentBody) (*Payment, error) {
 		return nil, err
 	}
 
-	var respBody Payment
+	var respBody *Payment
 	err = json.Unmarshal(respBodyJSON, &respBody)
 
 	if err != nil {
 		return nil, fmt.Errorf("could not unmarshal response body: %s", err.Error())
 	}
 
-	return &respBody, nil
+	redirectURL := fmt.Sprintf(
+		"%s?payment_id=%s",
+		respBody.RedirectURL,
+		respBody.ID,
+	)
+
+	respBody, err = c.UpdatePayment(respBody.ID, UpdatePaymentBody{
+		Description: body.Description,
+		RedirectURL: redirectURL,
+		WebhookURL:  body.WebhookURL,
+		Metadata:    body.Metadata,
+	})
+
+	if err != nil {
+		return nil, fmt.Errorf("could not update payment: %s", err.Error())
+	}
+
+	return respBody, nil
 }
