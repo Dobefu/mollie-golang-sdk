@@ -484,6 +484,8 @@ type Payment struct {
 	Status       string            `json:"status" url:"status"`
 	IsCancelable bool              `json:"isCancelable" url:"isCancelable"`
 	ExpiresAt    time.Time         `json:"expiresAt" url:"expiresAt"`
+	MandateID    string            `json:"mandateId" url:"mandateId"`
+	CustomerID   string            `json:"customerId" url:"customerId"`
 	ProfileID    string            `json:"profileId" url:"profileId"`
 	SequenceType string            `json:"sequenceType" url:"sequenceType"`
 	RedirectURL  string            `json:"redirectUrl" url:"redirectUrl"`
