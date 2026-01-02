@@ -541,3 +541,22 @@ type Subscription struct {
 	CreatedAt       time.Time         `json:"createdAt" url:"createdAt"`
 	Links           map[string]Link   `json:"_links" url:"_links"`
 }
+
+// Mandate specifies a single mandate instance.
+type Mandate struct {
+	Resource string `json:"resource" url:"resource"`
+	ID       string `json:"id" url:"id"`
+	Mode     string `json:"mode" url:"mode"`
+	Status   string `json:"status" url:"status"`
+	Method   string `json:"method" url:"method"`
+	Details  struct {
+		ConsumerName    string `json:"consumerName" url:"consumerName"`
+		ConsumerAccount string `json:"consumerAccount" url:"consumerAccount"`
+		ConsumerBIC     string `json:"consumerBic" url:"consumerBic"`
+	} `json:"details" url:"details"`
+	MandateReference string          `json:"mandateReference" url:"mandateReference"`
+	SignatureDate    Date            `json:"signatureDate" url:"signatureDate"`
+	CustomerID       string          `json:"customerId" url:"customerId"`
+	CreatedAt        time.Time       `json:"createdAt" url:"createdAt"`
+	Links            map[string]Link `json:"_links" url:"_links"`
+}
