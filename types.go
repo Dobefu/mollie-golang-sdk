@@ -500,6 +500,14 @@ type Link struct {
 	Type string `json:"type" url:"type"`
 }
 
+// Error specifies an error response.
+type Error struct {
+	Status int             `json:"status" url:"status"`
+	Title  string          `json:"title" url:"title"`
+	Detail string          `json:"detail" url:"detail"`
+	Links  map[string]Link `json:"_links" url:"_links"`
+}
+
 // Payment specifies a single payment instance.
 type Payment struct {
 	Resource     string            `json:"resource" url:"resource"`
