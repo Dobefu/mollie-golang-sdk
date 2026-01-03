@@ -589,3 +589,11 @@ type Mandate struct {
 	CreatedAt        time.Time       `json:"createdAt" url:"createdAt"`
 	Links            map[string]Link `json:"_links" url:"_links"`
 }
+
+// Mandates specifies a mandates response.
+type Mandates struct {
+	Count    int `json:"count" url:"count"`
+	Embedded struct {
+		Mandates []Mandate `json:"mandates" url:"mandates"`
+	} `json:"_embedded" url:"_embedded"`
+}
