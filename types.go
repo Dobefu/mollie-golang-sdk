@@ -353,6 +353,19 @@ func (d Date) MarshalJSON() ([]byte, error) {
 	return dateJSON, nil
 }
 
+// UnmarshalJSON unmarshals a date from a YYYY-MM-DD format.
+func (d *Date) UnmarshalJSON(dateBytes []byte) error {
+	date, err := time.Parse(`"2006-01-02"`, string(dateBytes))
+
+	if err != nil {
+		return fmt.Errorf("could not parse date: %s", err.Error())
+	}
+
+	d.Time = date
+
+	return nil
+}
+
 // Datetime specifies a single datetime.
 //
 // See the [documentation].
