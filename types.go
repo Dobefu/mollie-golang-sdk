@@ -386,6 +386,22 @@ func (d Datetime) MarshalJSON() ([]byte, error) {
 	return dateJSON, nil
 }
 
+// UnmarshalJSON unmarshals a datetime from an ISO8601 format.
+func (d *Datetime) UnmarshalJSON(datetimeBytes []byte) error {
+	datetime, err := time.Parse(
+		fmt.Sprintf(`"%s"`, time.RFC3339),
+		string(datetimeBytes),
+	)
+
+	if err != nil {
+		return fmt.Errorf("could not parse datetime: %s", err.Error())
+	}
+
+	d.Time = datetime
+
+	return nil
+}
+
 // Locale specifies a single locale.
 //
 // See the [documentation].
