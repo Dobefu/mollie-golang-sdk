@@ -571,6 +571,14 @@ type Subscription struct {
 	Links           map[string]Link   `json:"_links" url:"_links"`
 }
 
+// Subscriptions specifies a subscriptions response.
+type Subscriptions struct {
+	Count    int `json:"count" url:"count"`
+	Embedded struct {
+		Subscriptions []Subscription `json:"subscriptions" url:"subscriptions"`
+	} `json:"_embedded" url:"_embedded"`
+}
+
 // Mandate specifies a single mandate instance.
 type Mandate struct {
 	Resource string `json:"resource" url:"resource"`
