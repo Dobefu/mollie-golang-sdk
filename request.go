@@ -47,11 +47,23 @@ func (c *Client) request(
 		return nil, nil, fmt.Errorf("request failed: %s", err.Error())
 	}
 
-	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-		return nil, nil, fmt.Errorf("request failed with status code %d", resp.StatusCode)
-	}
-
 	respBodyJSON, err := io.ReadAll(resp.Body)
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		var respBody Error
+
+		err = json.Unmarshal(respBodyJSON, &respBody)
+
+		if err != nil {
+			return nil, nil, fmt.Errorf("request failed with status code %d", resp.StatusCode)
+		}
+
+		return nil, nil, fmt.Errorf(
+			"request failed with status code %d: %s",
+			resp.StatusCode,
+			respBody.Detail,
+		)
+	}
 
 	if err != nil {
 		return nil, nil, fmt.Errorf("could read response body: %s", err.Error())
