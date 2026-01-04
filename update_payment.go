@@ -7,7 +7,7 @@ import (
 
 // UpdatePaymentBody represents a single UpdatePayment body.
 type UpdatePaymentBody struct {
-	Description string            `json:"description" url:"description"`
+	Description string            `json:"description,omitempty" url:"description, omitempty"`
 	RedirectURL string            `json:"redirectUrl,omitempty" url:"redirectUrl,omitempty"`
 	WebhookURL  string            `json:"webhookUrl,omitempty" url:"webhookUrl,omitempty"`
 	Metadata    map[string]string `json:"metadata,omitempty" url:"metadata,omitempty"`

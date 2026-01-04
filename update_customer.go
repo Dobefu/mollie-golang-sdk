@@ -7,12 +7,15 @@ import (
 
 // UpdateCustomerBody represents a single UpdateCustomer body.
 type UpdateCustomerBody struct {
-	Name  string `json:"name" url:"name"`
-	Email string `json:"email" url:"email"`
+	Name  string `json:"name,omitempty" url:"name,omitempty"`
+	Email string `json:"email,omitempty" url:"email,omitempty"`
 }
 
 // UpdateCustomer updates an existing customer.
-func (c *Client) UpdateCustomer(id string, body UpdateCustomerBody) (*Customer, error) {
+func (c *Client) UpdateCustomer(
+	id string,
+	body UpdateCustomerBody,
+) (*Customer, error) {
 	_, respBodyJSON, err := c.request(
 		"PATCH",
 		fmt.Sprintf("/customers/%s", id),
