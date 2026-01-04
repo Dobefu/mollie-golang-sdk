@@ -1,6 +1,8 @@
 package mollie
 
-import "net/http"
+import (
+	"net/http"
+)
 
 // Client specifies a single Mollie client.
 type Client struct {
