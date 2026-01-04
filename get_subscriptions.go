@@ -6,12 +6,8 @@ import (
 )
 
 // GetSubscriptions gets a paginated list of subscriptions for a customer.
-func (c *Client) GetSubscriptions(customerID string) (*Subscriptions, error) {
-	_, respBodyJSON, err := c.request(
-		"GET",
-		fmt.Sprintf("/customers/%s/subscriptions", customerID),
-		nil,
-	)
+func (c *Client) GetSubscriptions() (*Subscriptions, error) {
+	_, respBodyJSON, err := c.request("GET", "/subscriptions", nil)
 
 	if err != nil {
 		return nil, err
