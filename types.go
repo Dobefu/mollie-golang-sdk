@@ -513,14 +513,14 @@ type Payment struct {
 	Resource     string            `json:"resource" url:"resource"`
 	ID           string            `json:"id" url:"id"`
 	Mode         string            `json:"mode" url:"mode"`
-	CreatedAt    time.Time         `json:"createdAt" url:"createdAt"`
+	CreatedAt    Datetime          `json:"createdAt" url:"createdAt"`
 	Amount       Amount            `json:"amount" url:"amount"`
 	Description  string            `json:"description" url:"description"`
 	Method       string            `json:"method" url:"method"`
 	Metadata     map[string]string `json:"metadata" url:"metadata"`
 	Status       string            `json:"status" url:"status"`
 	IsCancelable bool              `json:"isCancelable" url:"isCancelable"`
-	ExpiresAt    time.Time         `json:"expiresAt" url:"expiresAt"`
+	ExpiresAt    Datetime          `json:"expiresAt" url:"expiresAt"`
 	MandateID    string            `json:"mandateId" url:"mandateId"`
 	CustomerID   string            `json:"customerId" url:"customerId"`
 	ProfileID    string            `json:"profileId" url:"profileId"`
@@ -546,7 +546,7 @@ type Customer struct {
 	Email     string            `email:"name" url:"email"`
 	Locale    Locale            `email:"locale" url:"locale"`
 	Metadata  map[string]string `json:"metadata" url:"metadata"`
-	CreatedAt time.Time         `json:"createdAt" url:"createdAt"`
+	CreatedAt Datetime          `json:"createdAt" url:"createdAt"`
 	Links     map[string]Link   `json:"_links" url:"_links"`
 }
 
@@ -575,7 +575,7 @@ type Subscription struct {
 	WebhookURL      string            `json:"webhookUrl" url:"webhookUrl"`
 	CustomerID      string            `json:"customerId" url:"customerId"`
 	MandateID       string            `json:"mandateId" url:"mandateId"`
-	CreatedAt       time.Time         `json:"createdAt" url:"createdAt"`
+	CreatedAt       Datetime          `json:"createdAt" url:"createdAt"`
 	Links           map[string]Link   `json:"_links" url:"_links"`
 }
 
@@ -602,7 +602,7 @@ type Mandate struct {
 	MandateReference string          `json:"mandateReference" url:"mandateReference"`
 	SignatureDate    Date            `json:"signatureDate" url:"signatureDate"`
 	CustomerID       string          `json:"customerId" url:"customerId"`
-	CreatedAt        time.Time       `json:"createdAt" url:"createdAt"`
+	CreatedAt        Datetime        `json:"createdAt" url:"createdAt"`
 	Links            map[string]Link `json:"_links" url:"_links"`
 }
 
