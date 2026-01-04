@@ -566,8 +566,8 @@ type Subscription struct {
 	Amount          Amount            `json:"amount" url:"amount"`
 	Times           int               `json:"times" url:"times"`
 	TimesRemaining  int               `json:"timesRemaining" url:"timesRemaining"`
-	StartDate       time.Time         `json:"startDate" url:"startDate"`
-	NextPaymentDate time.Time         `json:"nextPaymentDate" url:"nextPaymentDate"`
+	StartDate       Date              `json:"startDate" url:"startDate"`
+	NextPaymentDate Date              `json:"nextPaymentDate" url:"nextPaymentDate"`
 	Description     string            `json:"description" url:"description"`
 	Metadata        map[string]string `json:"metadata" url:"metadata"`
 	Method          string            `json:"method" url:"method"`
