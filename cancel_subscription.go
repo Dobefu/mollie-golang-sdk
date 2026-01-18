@@ -6,7 +6,7 @@ import (
 
 // CancelSubscription cancels a subscription.
 func (c *Client) CancelSubscription(customerID, subscriptionID string) error {
-	_, _, err := c.request(
+	resp, _, err := c.request(
 		"DELETE",
 		fmt.Sprintf("/customers/%s/subscriptions/%s", customerID, subscriptionID),
 		nil,
@@ -15,6 +15,8 @@ func (c *Client) CancelSubscription(customerID, subscriptionID string) error {
 	if err != nil {
 		return err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	return nil
 }

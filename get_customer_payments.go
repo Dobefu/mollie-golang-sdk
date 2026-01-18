@@ -7,7 +7,7 @@ import (
 
 // GetCustomerPayments gets a paginated list of customer payments.
 func (c *Client) GetCustomerPayments(customerID string) (*Payments, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"GET",
 		fmt.Sprintf("/customers/%s/payments", customerID),
 		nil,
@@ -16,6 +16,8 @@ func (c *Client) GetCustomerPayments(customerID string) (*Payments, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Payments
 	err = json.Unmarshal(respBodyJSON, &respBody)

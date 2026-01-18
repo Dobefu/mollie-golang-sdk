@@ -7,11 +7,13 @@ import (
 
 // GetCustomer gets a single customer.
 func (c *Client) GetCustomer(id string) (*Customer, error) {
-	_, respBodyJSON, err := c.request("GET", fmt.Sprintf("/customers/%s", id), nil)
+	resp, respBodyJSON, err := c.request("GET", fmt.Sprintf("/customers/%s", id), nil)
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Customer
 	err = json.Unmarshal(respBodyJSON, &respBody)

@@ -20,7 +20,7 @@ func (c *Client) UpdateSubscription(
 	subscriptionID string,
 	body UpdateSubscriptionBody,
 ) (*Subscription, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"PATCH",
 		fmt.Sprintf("/customers/%s/subscriptions/%s", customerID, subscriptionID),
 		body,
@@ -29,6 +29,8 @@ func (c *Client) UpdateSubscription(
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Subscription
 	err = json.Unmarshal(respBodyJSON, &respBody)

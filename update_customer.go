@@ -16,7 +16,7 @@ func (c *Client) UpdateCustomer(
 	id string,
 	body UpdateCustomerBody,
 ) (*Customer, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"PATCH",
 		fmt.Sprintf("/customers/%s", id),
 		body,
@@ -25,6 +25,8 @@ func (c *Client) UpdateCustomer(
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Customer
 	err = json.Unmarshal(respBodyJSON, &respBody)

@@ -6,7 +6,7 @@ import (
 
 // RevokeMandate revokes a single mandate.
 func (c *Client) RevokeMandate(customerID, mandateID string) error {
-	_, _, err := c.request(
+	resp, _, err := c.request(
 		"DELETE",
 		fmt.Sprintf("/customers/%s/mandates/%s", customerID, mandateID),
 		nil,
@@ -15,6 +15,8 @@ func (c *Client) RevokeMandate(customerID, mandateID string) error {
 	if err != nil {
 		return err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	return nil
 }

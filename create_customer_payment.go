@@ -19,7 +19,7 @@ func (c *Client) CreateCustomerPayment(
 	customerID string,
 	body CreateCustomerPaymentBody,
 ) (*Payment, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"POST",
 		fmt.Sprintf("/customers/%s/payments", customerID),
 		body,
@@ -28,6 +28,8 @@ func (c *Client) CreateCustomerPayment(
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Payment
 	err = json.Unmarshal(respBodyJSON, &respBody)

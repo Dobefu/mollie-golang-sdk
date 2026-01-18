@@ -10,7 +10,7 @@ func (c *Client) GetSubscription(
 	customerID,
 	subscriptionID string,
 ) (*Subscription, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"GET",
 		fmt.Sprintf("/customers/%s/subscriptions/%s", customerID, subscriptionID),
 		nil,
@@ -19,6 +19,8 @@ func (c *Client) GetSubscription(
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Subscription
 	err = json.Unmarshal(respBodyJSON, &respBody)

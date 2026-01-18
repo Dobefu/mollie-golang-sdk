@@ -7,7 +7,7 @@ import (
 
 // GetCustomerSubscriptions gets a paginated list of subscriptions for a customer.
 func (c *Client) GetCustomerSubscriptions(customerID string) (*Subscriptions, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"GET",
 		fmt.Sprintf("/customers/%s/subscriptions", customerID),
 		nil,
@@ -16,6 +16,8 @@ func (c *Client) GetCustomerSubscriptions(customerID string) (*Subscriptions, er
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Subscriptions
 	err = json.Unmarshal(respBodyJSON, &respBody)

@@ -18,11 +18,13 @@ type CreatePaymentBody struct {
 
 // CreatePayment creates a new payment.
 func (c *Client) CreatePayment(body CreatePaymentBody) (*Payment, error) {
-	_, respBodyJSON, err := c.request("POST", "/payments", body)
+	resp, respBodyJSON, err := c.request("POST", "/payments", body)
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody *Payment
 	err = json.Unmarshal(respBodyJSON, &respBody)

@@ -7,11 +7,13 @@ import (
 
 // GetPayments gets a paginated list of payments.
 func (c *Client) GetPayments() (*Payments, error) {
-	_, respBodyJSON, err := c.request("GET", "/payments", nil)
+	resp, respBodyJSON, err := c.request("GET", "/payments", nil)
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Payments
 	err = json.Unmarshal(respBodyJSON, &respBody)

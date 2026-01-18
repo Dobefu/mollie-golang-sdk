@@ -7,11 +7,13 @@ import (
 
 // GetCustomers gets a paginated list of customers.
 func (c *Client) GetCustomers() (*Customers, error) {
-	_, respBodyJSON, err := c.request("GET", "/customers", nil)
+	resp, respBodyJSON, err := c.request("GET", "/customers", nil)
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Customers
 	err = json.Unmarshal(respBodyJSON, &respBody)

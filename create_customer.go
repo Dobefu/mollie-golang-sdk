@@ -13,11 +13,13 @@ type CreateCustomerBody struct {
 
 // CreateCustomer creates a new customer.
 func (c *Client) CreateCustomer(body CreateCustomerBody) (*Customer, error) {
-	_, respBodyJSON, err := c.request("POST", "/customers", body)
+	resp, respBodyJSON, err := c.request("POST", "/customers", body)
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Customer
 	err = json.Unmarshal(respBodyJSON, &respBody)

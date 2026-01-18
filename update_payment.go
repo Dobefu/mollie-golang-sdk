@@ -18,7 +18,7 @@ func (c *Client) UpdatePayment(
 	paymentID string,
 	body UpdatePaymentBody,
 ) (*Payment, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"PATCH",
 		fmt.Sprintf("/payments/%s", paymentID),
 		body,
@@ -27,6 +27,8 @@ func (c *Client) UpdatePayment(
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Payment
 	err = json.Unmarshal(respBodyJSON, &respBody)

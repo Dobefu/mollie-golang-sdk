@@ -21,7 +21,7 @@ func (c *Client) CreateSubscription(
 	customerID string,
 	body CreateSubscriptionBody,
 ) (*Subscription, error) {
-	_, respBodyJSON, err := c.request(
+	resp, respBodyJSON, err := c.request(
 		"POST",
 		fmt.Sprintf("/customers/%s/subscriptions", customerID),
 		body,
@@ -30,6 +30,8 @@ func (c *Client) CreateSubscription(
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	var respBody Subscription
 	err = json.Unmarshal(respBodyJSON, &respBody)
