@@ -2,7 +2,13 @@ package mollie
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+)
+
+var (
+	// ErrUnmarshalRespBody specifies when the response body could not be unmarshalled.
+	ErrUnmarshalRespBody = errors.New("could not unmarshal response body")
 )
 
 // CreatePaymentBody represents a single CreatePayment body.
@@ -30,7 +36,7 @@ func (c *Client) CreatePayment(body CreatePaymentBody) (*Payment, error) {
 	err = json.Unmarshal(respBodyJSON, &respBody)
 
 	if err != nil {
-		return nil, fmt.Errorf("could not unmarshal response body: %s", err.Error())
+		return nil, fmt.Errorf("%w: %w", ErrUnmarshalRespBody, err)
 	}
 
 	redirectURL := fmt.Sprintf(
