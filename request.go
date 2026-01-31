@@ -12,6 +12,9 @@ import (
 var (
 	// ErrMarshalReqBody specifies when a request body could not be marshalled.
 	ErrMarshalReqBody = errors.New("could not marshal request body")
+
+	// ErrSendRequest specifies when a request could not be sent.
+	ErrSendRequest = errors.New("could not send request")
 )
 
 // RequestBody specifies a request body.
@@ -41,7 +44,7 @@ func (c *Client) request(
 	)
 
 	if err != nil {
-		return nil, nil, fmt.Errorf("could not send request: %s", err.Error())
+		return nil, nil, fmt.Errorf("%w: %w", ErrSendRequest, err)
 	}
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.APIKey))
