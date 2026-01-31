@@ -18,6 +18,9 @@ var (
 
 	// ErrRequestFailed specifies when a request fails.
 	ErrRequestFailed = errors.New("request failed")
+
+	// ErrRequestFailedWithStatusCode specifies when a request fails with a status code.
+	ErrRequestFailedWithStatusCode = errors.New("request failed with status code")
 )
 
 // RequestBody specifies a request body.
@@ -67,7 +70,7 @@ func (c *Client) request(
 		err = json.Unmarshal(respBodyJSON, &respBody)
 
 		if err != nil {
-			return nil, nil, fmt.Errorf("request failed with status code %d", resp.StatusCode)
+			return nil, nil, fmt.Errorf("%w: %d", ErrRequestFailedWithStatusCode, resp.StatusCode)
 		}
 
 		return nil, nil, fmt.Errorf(
