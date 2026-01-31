@@ -10,6 +10,9 @@ import (
 var (
 	// ErrMarshalDateJSON specifies when a Date cannot be marshalled to JSON.
 	ErrMarshalDateJSON = errors.New("cannot marshal Date JSON")
+
+	// ErrParseDate specifies when a date could not be parsed.
+	ErrParseDate = errors.New("could not parse date")
 )
 
 // Amount represents a single price amount with a currency.
@@ -364,7 +367,7 @@ func (d *Date) UnmarshalJSON(dateBytes []byte) error {
 	date, err := time.Parse(`"2006-01-02"`, string(dateBytes))
 
 	if err != nil {
-		return fmt.Errorf("could not parse date: %s", err.Error())
+		return fmt.Errorf("%w: %w", ErrParseDate, err)
 	}
 
 	d.Time = date
