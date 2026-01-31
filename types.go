@@ -16,6 +16,9 @@ var (
 
 	// ErrParseDate specifies when a date could not be parsed.
 	ErrParseDate = errors.New("could not parse date")
+
+	// ErrParseDateTime specifies when a datetime could not be parsed.
+	ErrParseDateTime = errors.New("could not parse datetime")
 )
 
 // Amount represents a single price amount with a currency.
@@ -406,7 +409,7 @@ func (d *Datetime) UnmarshalJSON(datetimeBytes []byte) error {
 	)
 
 	if err != nil {
-		return fmt.Errorf("could not parse datetime: %s", err.Error())
+		return fmt.Errorf("%w: %w", ErrParseDateTime, err)
 	}
 
 	d.Time = datetime
