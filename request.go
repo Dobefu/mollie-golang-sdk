@@ -15,6 +15,9 @@ var (
 
 	// ErrSendRequest specifies when a request could not be sent.
 	ErrSendRequest = errors.New("could not send request")
+
+	// ErrRequestFailed specifies when a request fails.
+	ErrRequestFailed = errors.New("request failed")
 )
 
 // RequestBody specifies a request body.
@@ -53,7 +56,7 @@ func (c *Client) request(
 	defer func() { _ = resp.Body.Close() }()
 
 	if err != nil {
-		return nil, nil, fmt.Errorf("request failed: %s", err.Error())
+		return nil, nil, fmt.Errorf("%w: %w", ErrRequestFailed, err)
 	}
 
 	respBodyJSON, err := io.ReadAll(resp.Body)
