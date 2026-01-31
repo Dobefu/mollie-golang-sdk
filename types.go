@@ -2,8 +2,14 @@ package mollie
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
+)
+
+var (
+	// ErrMarshalDateJSON specifies when a Date cannot be marshalled to JSON.
+	ErrMarshalDateJSON = errors.New("cannot marshal Date JSON")
 )
 
 // Amount represents a single price amount with a currency.
@@ -347,7 +353,7 @@ func (d Date) MarshalJSON() ([]byte, error) {
 	dateJSON, err := json.Marshal(d.Format("2006-01-02"))
 
 	if err != nil {
-		return nil, fmt.Errorf("cannot marshal Date JSON: %s", err.Error())
+		return nil, fmt.Errorf("%w: %w", ErrMarshalDateJSON, err)
 	}
 
 	return dateJSON, nil
