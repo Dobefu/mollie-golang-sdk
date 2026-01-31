@@ -9,6 +9,9 @@ import (
 var (
 	// ErrUnmarshalRespBody specifies when the response body could not be unmarshalled.
 	ErrUnmarshalRespBody = errors.New("could not unmarshal response body")
+
+	// ErrUpdatePayment specifies when a payment could not be updated.
+	ErrUpdatePayment = errors.New("could not update payment")
 )
 
 // CreatePaymentBody represents a single CreatePayment body.
@@ -53,7 +56,7 @@ func (c *Client) CreatePayment(body CreatePaymentBody) (*Payment, error) {
 	})
 
 	if err != nil {
-		return nil, fmt.Errorf("could not update payment: %s", err.Error())
+		return nil, fmt.Errorf("%w: %w", ErrUpdatePayment, err)
 	}
 
 	return respBody, nil
