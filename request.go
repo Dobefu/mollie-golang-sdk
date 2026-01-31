@@ -3,9 +3,15 @@ package mollie
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
+)
+
+var (
+	// ErrMarshalReqBody specifies when a request body could not be marshalled.
+	ErrMarshalReqBody = errors.New("could not marshal request body")
 )
 
 // RequestBody specifies a request body.
@@ -22,7 +28,7 @@ func (c *Client) request(
 		jsonBody, err := json.Marshal(body)
 
 		if err != nil {
-			return nil, nil, fmt.Errorf("could marshal request body: %s", err.Error())
+			return nil, nil, fmt.Errorf("%w: %w", ErrMarshalReqBody, err)
 		}
 
 		bodyBuffer = bytes.NewBuffer(jsonBody)
