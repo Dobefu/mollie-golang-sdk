@@ -13,14 +13,17 @@ var (
 	// ErrMarshalReqBody specifies when a request body could not be marshalled.
 	ErrMarshalReqBody = errors.New("could not marshal request body")
 
-	// ErrSendRequest specifies when a request could not be sent.
-	ErrSendRequest = errors.New("could not send request")
+	// ErrSendReq specifies when a request could not be sent.
+	ErrSendReq = errors.New("could not send request")
 
-	// ErrRequestFailed specifies when a request fails.
-	ErrRequestFailed = errors.New("request failed")
+	// ErrReqFailed specifies when a request fails.
+	ErrReqFailed = errors.New("request failed")
 
-	// ErrRequestFailedWithStatusCode specifies when a request fails with a status code.
-	ErrRequestFailedWithStatusCode = errors.New("request failed with status code")
+	// ErrReqFailedWithStatusCode specifies when a request fails with a status code.
+	ErrReqFailedWithStatusCode = errors.New("request failed with status code")
+
+	// ErrReadRespBody specifies when a response body could not be read.
+	ErrReadRespBody = errors.New("could not read response body")
 )
 
 // RequestBody specifies a request body.
@@ -50,7 +53,7 @@ func (c *Client) request(
 	)
 
 	if err != nil {
-		return nil, nil, fmt.Errorf("%w: %w", ErrSendRequest, err)
+		return nil, nil, fmt.Errorf("%w: %w", ErrSendReq, err)
 	}
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.APIKey))
@@ -59,7 +62,7 @@ func (c *Client) request(
 	defer func() { _ = resp.Body.Close() }()
 
 	if err != nil {
-		return nil, nil, fmt.Errorf("%w: %w", ErrRequestFailed, err)
+		return nil, nil, fmt.Errorf("%w: %w", ErrReqFailed, err)
 	}
 
 	respBodyJSON, err := io.ReadAll(resp.Body)
@@ -70,18 +73,23 @@ func (c *Client) request(
 		err = json.Unmarshal(respBodyJSON, &respBody)
 
 		if err != nil {
-			return nil, nil, fmt.Errorf("%w: %d", ErrRequestFailedWithStatusCode, resp.StatusCode)
+			return nil, nil, fmt.Errorf(
+				"%w: %d",
+				ErrReqFailedWithStatusCode,
+				resp.StatusCode,
+			)
 		}
 
 		return nil, nil, fmt.Errorf(
-			"request failed with status code %d: %s",
+			"%w: %d: %s",
+			ErrReqFailedWithStatusCode,
 			resp.StatusCode,
 			respBody.Detail,
 		)
 	}
 
 	if err != nil {
-		return nil, nil, fmt.Errorf("could read response body: %s", err.Error())
+		return nil, nil, fmt.Errorf("%w: %w", ErrReadRespBody, err)
 	}
 
 	return resp, respBodyJSON, nil
