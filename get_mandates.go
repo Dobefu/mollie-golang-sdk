@@ -23,7 +23,7 @@ func (c *Client) GetMandates(customerID string) (*Mandates, error) {
 	err = json.Unmarshal(respBodyJSON, &respBody)
 
 	if err != nil {
-		return nil, fmt.Errorf("could not unmarshal response body: %s", err.Error())
+		return nil, fmt.Errorf("%w: %w", ErrUnmarshalRespBody, err)
 	}
 
 	return &respBody, nil
