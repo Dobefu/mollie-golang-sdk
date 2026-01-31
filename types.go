@@ -8,8 +8,11 @@ import (
 )
 
 var (
-	// ErrMarshalDateJSON specifies when a Date cannot be marshalled to JSON.
+	// ErrMarshalDateJSON specifies when a Date instance cannot be marshalled to JSON.
 	ErrMarshalDateJSON = errors.New("cannot marshal Date JSON")
+
+	// ErrMarshalDateTimeJSON specifies when a DateTime instance cannot be marshalled to JSON.
+	ErrMarshalDateTimeJSON = errors.New("cannot marshal DateTime JSON")
 
 	// ErrParseDate specifies when a date could not be parsed.
 	ErrParseDate = errors.New("could not parse date")
@@ -389,7 +392,7 @@ func (d Datetime) MarshalJSON() ([]byte, error) {
 	dateJSON, err := json.Marshal(time.RFC3339)
 
 	if err != nil {
-		return nil, fmt.Errorf("cannot marshal DateTime JSON: %s", err.Error())
+		return nil, fmt.Errorf("%w: %w", ErrMarshalDateTimeJSON, err)
 	}
 
 	return dateJSON, nil
